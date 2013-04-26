@@ -1,0 +1,78 @@
+<h2>Green Glass</h2>
+
+<accordion close-others="oneAtATime">
+  <accordion-group heading="Filter and sort">
+    <div class="well">
+      <h4>Zoom</h4>
+      <button type="button" class="btn btn-inverse"
+      ng-click="zoomout" >Smaller</button>
+      <button type="button" class="btn btn-inverse"
+      ng-click="zoomin()" >Bigger</button>
+    </div>
+    
+    
+    <div class="well">
+      <h4>Gallery</h4>
+      <button type="button" class="btn btn-inverse"
+      ng-model="cart.left" btn-checkbox>Terrariums only</button>
+    </div>
+    
+    <div class="well">
+      <h4>Availibility</h4> 
+      <button type="button" class="btn btn-inverse" ng-model="buy.left" btn-checkbox>Now</button>
+      <button type="button" class="btn btn-inverse" ng-model="buy.middle" btn-checkbox>Order</button>
+      <button type="button" class="btn btn-inverse" ng-model="buy.right" btn-checkbox>Sold</button>
+    </div>
+
+    <div class="well">
+      <h4>Size</h4>
+      <button type="button" class="btn btn-inverse" ng-model="size.left" btn-checkbox>Small</button>
+      <button type="button" class="btn btn-inverse" ng-model="size.middle" btn-checkbox>Med</button>
+      <button type="button" class="btn btn-inverse" ng-model="size.right" btn-checkbox>Large</button>
+    </div>
+
+
+    <div class="well">
+      <h4>Price</h4>
+      <button type="button" class="btn btn-inverse" ng-model="price.left" btn-checkbox>&lt $50</button>
+      <button type="button" class="btn btn-inverse" ng-model="price.middle" btn-checkbox>$50 - $100</button>
+      <button type="button" class="btn btn-inverse" ng-model="price.right" btn-checkbox>&gt $100</button>
+    </div>
+
+
+    <div class="well">
+      <h4>Shape</h4>
+      <button type="button" class="btn btn-inverse" ng-model="shape.left" btn-checkbox>Square</button>
+      <button type="button" class="btn btn-inverse" ng-model="shape.middle" btn-checkbox>Round</button>
+      <button type="button" class="btn btn-inverse" ng-model="shape.right" btn-checkbox>Rectangle</button>
+    </div>
+
+
+    <div class="well">
+      <h4>Type</h4>
+      <button type="button" class="btn btn-inverse" ng-model="type.left" btn-checkbox>Standing</button>
+      <button type="button" class="btn btn-inverse" ng-model="type.middle" btn-checkbox>Hanging</button>
+    </div>
+    
+    <div class="well">
+      <h4>Cart</h4>
+      <button type="button" class="btn btn-inverse"
+      ng-model="cart.left" btn-checkbox>Cart only</button>
+    </div>
+    
+    
+  </accordion-group>
+  <accordion-group heading="Cart">
+  </accordion-group>
+  <accordion-group heading="Contact">
+    <div style="color:white;">
+      About, Faq, Services, Care Instructions,
+      Blog separate
+      Share buttons left bottom
+    </div>
+  </accordion-group>
+</accordion>
+
+
+
+<button type="button" class="btn btn-primary" ng-click="saveItems()">Save</button>

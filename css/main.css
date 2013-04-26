@@ -1,0 +1,197 @@
+body {
+    /* background: url(../images/bg/brushed_alu.png); */
+    /* background: url(../images/bg/egg_shell.png); */
+    background: url(../images/bg/darkdenim3.png);
+    /* background: url(../images/bg/vertical_cloth.png); */
+    /* background: url(../images/bg/dark_wall.png); */
+}
+
+
+#imageDiv div {
+    padding:3px;
+    /* margin:10px; */
+}
+
+.item {
+    /* height:150px; */
+    /* width:200px; */
+    /* border: solid 1px black; */
+}
+
+h2 {
+    font-size:30px;
+    color:white;
+}
+
+.isotope-item {
+  z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}
+
+/**** Isotope CSS3 transitions ****/
+
+.isotope,
+.isotope .isotope-item {
+  -webkit-transition-duration: 0.8s;
+     -moz-transition-duration: 0.8s;
+      -ms-transition-duration: 0.8s;
+       -o-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.isotope {
+  -webkit-transition-property: height, width;
+     -moz-transition-property: height, width;
+      -ms-transition-property: height, width;
+       -o-transition-property: height, width;
+          transition-property: height, width;
+}
+
+.isotope .isotope-item {
+  -webkit-transition-property: -webkit-transform, opacity;
+     -moz-transition-property:    -moz-transform, opacity;
+      -ms-transition-property:     -ms-transform, opacity;
+       -o-transition-property:      -o-transform, opacity;
+          transition-property:         transform, opacity;
+}
+
+/**** disabling Isotope CSS3 transitions ****/
+
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+  -webkit-transition-duration: 0s;
+     -moz-transition-duration: 0s;
+      -ms-transition-duration: 0s;
+       -o-transition-duration: 0s;
+          transition-duration: 0s;
+}
+
+/* tooltip */
+/* #tooltip { */
+/*     background: black; */
+/*     color:white; */
+/*     width:100px; */
+/*     display:none; */
+/*     position:absolute; */
+/*     top:20px; */
+/*     left:100px; */
+/* } */
+
+/* #tooltip.active { */
+/*     display:block; */
+/* } */
+ 
+.item div {
+    color:white;
+    display:none;
+    /* border:solid 1px white; */
+}
+
+/* .item div.mouseover{ */
+/*     display:block; */
+/* } */
+
+/* #isotope-- img.mouseover { */
+/*     display:none ; */
+/* } */
+
+/* #isotope-- div.mousover { */
+/*     display:block; */
+    
+/* } */
+ 
+
+#isotope-- .mouseover img {
+    display:none;
+}
+
+#isotope-- .mouseover .descr {
+    display:block;
+}
+
+#isotope-- .descr {
+    text-align:center;
+    vertical-align:center;
+}
+
+
+#sidebar-- .btn {
+    padding-top:2px;
+    padding-left:5px;
+    padding-right:5px;
+    font-size:13px;
+    margin-top:2px;
+}
+
+#sidebar-- .well {
+    color:lightgray;
+    background: url(../images/bg/darkdenim3.png);
+    padding-top:0px;
+    padding-bottom:0px;
+    padding-left:8px;
+    padding-right:8px;
+    width:auto;
+    border: none;
+    margin-bottom:0px;
+}
+
+.container-fluid {
+    padding-left:0;
+    padding-left:3px;
+}
+
+#isotope-- {
+    margin-left:10px;
+}
+
+#sidebar-- h4 {
+    margin-bottom:2px;
+}
+
+.accordion-group , .accordion-inner {
+    border:none;
+    padding-top:0px;
+}
+
+.accordion-body {
+    margin-top: -10px;
+}
+
+.modal-body select{
+    width:100px;
+}
+
+#size {
+    margin-left:24px;
+}
+
+#shape {
+    margin-left:11px;
+}
+
+#type {
+    margin-left:20px;
+}
+
+#price {
+    width: 85px;
+    margin-left:15px;
+}
+
+#buy {
+    margin-left:28px;
+}
+
+body>div.modal {
+    width:460px;
+}
+
+.modal .well {
+    margin-left:50px;
+    margin-top:20px;
+}

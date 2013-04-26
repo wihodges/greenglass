@@ -1,0 +1,21 @@
+{
+    "name": "greenglass",
+    "version": "0.1.0",
+    "author": "Michiel van Oosten",
+    "description": "A website for my wife..",
+    "repository": {
+	"type": "git",
+	"url": "git://github.com/michieljoris/greenglass.git"
+    },
+    "scripts": {
+	"start": "node ./server/server.js"
+    },
+    "dependencies": {
+	"bb-server": "*"
+    },
+    "bugs": {
+	"url": "https://github.com/michieljoris/greenglass/issues"
+    },
+    "analyze": false,
+    "preferGlobal": "true"
+}

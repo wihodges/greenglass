@@ -1,0 +1,129 @@
+<div class="container-fluid" ng-controller='mainCntl'>
+  <div class="row-fluid">
+    <div id="sidebar--" class="span2"><h2>Green Glass</h2>
+
+<accordion close-others="oneAtATime">
+  <accordion-group heading="Filter and sort">
+    <div class="well">
+      <h4>Zoom</h4>
+      <button type="button" class="btn btn-inverse"
+      ng-click="zoomout" >Smaller</button>
+      <button type="button" class="btn btn-inverse"
+      ng-click="zoomin()" >Bigger</button>
+    </div>
+    
+    
+    <div class="well">
+      <h4>Gallery</h4>
+      <button type="button" class="btn btn-inverse"
+      ng-model="cart.left" btn-checkbox>Terrariums only</button>
+    </div>
+    
+    <div class="well">
+      <h4>Availibility</h4> 
+      <button type="button" class="btn btn-inverse" ng-model="buy.left" btn-checkbox>Now</button>
+      <button type="button" class="btn btn-inverse" ng-model="buy.middle" btn-checkbox>Order</button>
+      <button type="button" class="btn btn-inverse" ng-model="buy.right" btn-checkbox>Sold</button>
+    </div>
+
+    <div class="well">
+      <h4>Size</h4>
+      <button type="button" class="btn btn-inverse" ng-model="size.left" btn-checkbox>Small</button>
+      <button type="button" class="btn btn-inverse" ng-model="size.middle" btn-checkbox>Med</button>
+      <button type="button" class="btn btn-inverse" ng-model="size.right" btn-checkbox>Large</button>
+    </div>
+
+
+    <div class="well">
+      <h4>Price</h4>
+      <button type="button" class="btn btn-inverse" ng-model="price.left" btn-checkbox>&lt $50</button>
+      <button type="button" class="btn btn-inverse" ng-model="price.middle" btn-checkbox>$50 - $100</button>
+      <button type="button" class="btn btn-inverse" ng-model="price.right" btn-checkbox>&gt $100</button>
+    </div>
+
+
+    <div class="well">
+      <h4>Shape</h4>
+      <button type="button" class="btn btn-inverse" ng-model="shape.left" btn-checkbox>Square</button>
+      <button type="button" class="btn btn-inverse" ng-model="shape.middle" btn-checkbox>Round</button>
+      <button type="button" class="btn btn-inverse" ng-model="shape.right" btn-checkbox>Rectangle</button>
+    </div>
+
+
+    <div class="well">
+      <h4>Type</h4>
+      <button type="button" class="btn btn-inverse" ng-model="type.left" btn-checkbox>Standing</button>
+      <button type="button" class="btn btn-inverse" ng-model="type.middle" btn-checkbox>Hanging</button>
+    </div>
+    
+    <div class="well">
+      <h4>Cart</h4>
+      <button type="button" class="btn btn-inverse"
+      ng-model="cart.left" btn-checkbox>Cart only</button>
+    </div>
+    
+    
+  </accordion-group>
+  <accordion-group heading="Cart">
+  </accordion-group>
+  <accordion-group heading="Contact">
+    <div style="color:white;">
+      About, Faq, Services, Care Instructions,
+      Blog separate
+      Share buttons left bottom
+    </div>
+  </accordion-group>
+</accordion>
+
+
+
+<button type="button" class="btn btn-primary" ng-click="saveItems()">Save</button>
+</div>
+    <div id="isotope--"  class="span10"><div compile="itemsHtml" id="imageDiv"> 
+</div> 
+
+<div modal="shouldBeOpen" close="close()" options="opts">
+  <div class="modal-header">
+    <h4>Properties of this terrarium:</h4>
+  </div >
+  <div class="container">
+    <div class="row">
+      <div class="well span2">
+	<img width="150" height="auto;" ng-src="images/{{item.name}}" >
+	{{item.name}}<br/>
+      </div>
+      <div class="modal-body span3">
+	<form class="navbar-form pull-left">
+	  Price: <input type="text" id="price" name="price"
+	  ng-model="item.price" /><br/>
+	  Size:<select  id="size" ng-model="item.size" >
+	    <option value="small">Small</option>
+	    <option value="medium">Medium</option>
+	    <option value="large">Large</option>
+	  </select><br/>
+	  Buy:<select  id="buy" ng-model="item.buy">
+	    <option value="now">Now</option>
+	    <option value="order">Order</option>
+	    <option value="sold">Sold</option>
+	  </select><br/>
+	  Shape:<select id="shape" ng-model="item.shape">
+	    <option value="square">Square</option>
+	    <option value="round">Round</option>
+	    <option value="rectangle">Rectangle</option>
+	  </select><br/>
+	  Type:<select id="type"  ng-model="item.type">
+	    <option value="standing">Standing</option>
+	    <option value="hanging">Hanging</option>
+	  </select><br/>
+	</form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="" ng-click="close()">Close</button>
+  </div>
+</div>
+</div> 
+  </div>
+  
+</div>

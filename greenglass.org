@@ -1,0 +1,42 @@
+* good to know
+** forever  
+forever start  ./bb-server ~/www/greenglass -i -b -p 6002
+in bb-server directory
+forever start  ~/bb-server/bb-server -i -b -p 6002
+in website root
+** moz-reload-on-save-mode
+mode to turn on to reload firefox on save 
+
+** resizing images:
+Install imagemagick then
+mogrify -resize x450 *.jpg
+to resize all images in dir
+and:
+mogrify -quality 80 *.jpg
+to compress
+
+
+* HOWTO:
+  
+  
+* Features:
+** Upload photos in bulk
+** Manage photolist and edit metadata.
+** Edit content and add/edit blog articles
+** Store filter/sort setup in cookie
+** Clicking box brings up lightbox like http://facesofnyfw.com/
+** Lightbox is slideshow, plus shows metadata and buy button
+
+
+* Pages/Boxes
+About, Faq, Services, Care Instructions,
+
+Blog separate
+Share buttons left bottom
+
+* Sort/filter on:
+Type (hanging/standing),Shape, Size (small, medium, large), 
+Price (<$50, <$80, all), 
+Buy (now, order, sold)
+
+
