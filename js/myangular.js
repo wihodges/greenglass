@@ -168,6 +168,13 @@ function getJson($scope, $http, path) {
     
     }
 
+function attachDataToImages(images, data) {
+    Object.keys(data).forEach(function(d) {
+        if (images[d]) images[d] = data[d];
+    }); 
+    return images;
+}
+
 var images = {};
 myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
     console.log('in main');
@@ -193,16 +200,21 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
         return deferred.promise;
     };
     
-    var getJson = function(imagesOnServer) {
+    var getImageData = function(imagesOnServer) {
+        
+        console.log('in getImageData', imagesOnServer);
         
         var deferred = $q.defer();
         $http({method: 'GET', url: '/terrariums.json'}).
             success(function(data, status, headers, config) {
+                console.log('Image data in getImageData', data);
                //merge imagesOnServer and data 
                 //and resolve the result
+                deferred.resolve(attachDataToImages(imagesOnServer, data));
             
             }).
             error(function(data, status, headers, config) {
+                console.log('Failed to get data on images in getImageData');
                 deferred.resolve(imagesOnServer);
             });
         
@@ -210,12 +222,42 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
     };
 
     function setIsotope(items) {
+        console.log('in isotope', items);
+        var $container = $('#imageDiv');
+        $container.isotope({
+            itemSelector: '.item'
+        });
+        var itemsHtml = ''; 
+        Object.keys(items).forEach(function(imgName) {
+            itemsHtml += makeItem(items[imgName], 200);
+        });
+        $scope.itemsHtml = itemsHtml;
+            
+        setTimeout(function () {
+            $('#imageDiv').isotope('reloadItems');
+            $('#imageDiv').isotope({ filter: '*' }, function( $items ) {
+                var id = this.attr('id'),
+                len = $items.length;
+                console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
+                // $('img').hover(imageHover);
+                // $('.item').find('div').hover(descHover);
+            });
+        }, 1000);
+            
+        $('#imageDiv').isotope({
+            getSortData : {
+                price : function ( $elem ) {
+                    return parseInt($elem.attr('data-price'), 10);
+                }
+            }
+        });
+
+        // $('img').click(imageClicked);
         images = items;
-        console.log(items);
     }
-    
+    //
     getDir('/images').
-        then(getJson).
+        then(getImageData).
         then( setIsotope
               ,function(data, status) {
                   console.log('Failed', status);
