@@ -17,94 +17,153 @@
     <script src="js/angular-ui-ieshiv.js"></script>
     <![endif]-->						    
 <script src="http://localhost:9090/skewer"></script>
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css"><link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css"><link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css"><link rel="stylesheet" type="text/css" href="css/angular-ui.css"><link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css"><link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css"><link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css"><link rel="stylesheet" type="text/css" href="css/angular-ui.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/jquery.fancybox.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-buttons.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-thumbs.css"><link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
   <body id="ng:app" ng:app="myApp" >
-    <div id="wrapper--"><div class="container-fluid" ng-controller='mainCntl'>
-  <div class="row-fluid">
-    <div id="sidebar--" class="span2"><h2>Green Glass</h2>
-
-<accordion close-others="oneAtATime">
-  <accordion-group heading="Filter and sort">
-    <div class="well">
-      <h4>Zoom</h4>
-      <button type="button" class="btn btn-inverse"
-      ng-click="zoomout" >Smaller</button>
-      <button type="button" class="btn btn-inverse"
-      ng-click="zoomin()" >Bigger</button>
-    </div>
+    <div id="wrapper--">
+<div class="container-fluid" ng-controller='mainCntl'>
+ <div class="row-fluid"> 
+    <div class="leftBar span2 ">
+      <h4>Green Glass</h4>
+      <div id="linkbar--" ng-mouseenter="enterLinkbar()"><div id="rightBlock">
+  
+  <ul>
+    <li ng-show="cart.length>0"class="cart">
+	<div class="well" >
+	  <h5>Cart</h5>
+	  <ul >
+	    <li ng-repeat="item in cart">{{$index+1}} {{item.id}}:
+	      ${{item.price}} <button type="button" class="close" ng-click="removeFromCart(item)">×</button></li>
+	  </ul>
+	  Total: ${{getCartTotal()}}
+	  <button class"btn btn-primary">Checkout</button>
+	  <button class"btn btn-inverse">Filter</button>
+	</div>
+      
+    </li>
     
-    
-    <div class="well">
-      <h4>Gallery</h4>
-      <button type="button" class="btn btn-inverse"
-      ng-model="cart.left" btn-checkbox>Terrariums only</button>
-    </div>
-    
-    <div class="well">
-      <h4>Availibility</h4> 
-      <button type="button" class="btn btn-inverse" ng-model="buy.left" btn-checkbox>Now</button>
-      <button type="button" class="btn btn-inverse" ng-model="buy.middle" btn-checkbox>Order</button>
-      <button type="button" class="btn btn-inverse" ng-model="buy.right" btn-checkbox>Sold</button>
-    </div>
-
-    <div class="well">
-      <h4>Size</h4>
-      <button type="button" class="btn btn-inverse" ng-model="size.left" btn-checkbox>Small</button>
-      <button type="button" class="btn btn-inverse" ng-model="size.middle" btn-checkbox>Med</button>
-      <button type="button" class="btn btn-inverse" ng-model="size.right" btn-checkbox>Large</button>
-    </div>
-
-
-    <div class="well">
-      <h4>Price</h4>
-      <button type="button" class="btn btn-inverse" ng-model="price.left" btn-checkbox>&lt $50</button>
-      <button type="button" class="btn btn-inverse" ng-model="price.middle" btn-checkbox>$50 - $100</button>
-      <button type="button" class="btn btn-inverse" ng-model="price.right" btn-checkbox>&gt $100</button>
-    </div>
-
-
-    <div class="well">
-      <h4>Shape</h4>
-      <button type="button" class="btn btn-inverse" ng-model="shape.left" btn-checkbox>Square</button>
-      <button type="button" class="btn btn-inverse" ng-model="shape.middle" btn-checkbox>Round</button>
-      <button type="button" class="btn btn-inverse" ng-model="shape.right" btn-checkbox>Rectangle</button>
-    </div>
-
-
-    <div class="well">
-      <h4>Type</h4>
-      <button type="button" class="btn btn-inverse" ng-model="type.left" btn-checkbox>Standing</button>
-      <button type="button" class="btn btn-inverse" ng-model="type.middle" btn-checkbox>Hanging</button>
-    </div>
-    
-    <div class="well">
-      <h4>Cart</h4>
-      <button type="button" class="btn btn-inverse"
-      ng-model="cart.left" btn-checkbox>Cart only</button>
-    </div>
-    
-    
-  </accordion-group>
-  <accordion-group heading="Cart">
-  </accordion-group>
-  <accordion-group heading="Contact">
-    <div style="color:white;">
-      About, Faq, Services, Care Instructions,
-      Blog separate
-      Share buttons left bottom
-    </div>
-  </accordion-group>
-</accordion>
-
-
-
-<button type="button" class="btn btn-primary" ng-click="saveItems()">Save</button>
+    <!-- <li> -->
+    <!-- 		<a class="ajax" data-fancybox-type="iframe" href="/index.html">Iframe</a> -->
+    <!-- </li> -->
+    <li>
+      <a class="ajax fancybox.ajax" href="/about.html">About</a>
+    </li>
+    <li>
+      <a class="ajax fancybox.ajax" href="/faq.md">Faq</a>
+    </li>
+    <li>
+      <a class="ajax fancybox.ajax" href="/care.md">Care</a>
+    </li>
+    <li>
+      <a class="ajax fancybox.ajax" href="/services.md">Services</a>
+    </li>
+    <li>
+      <a class="ajax fancybox.ajax" href="/contact.html">Contact</a>
+    </li>
+  </ul> 
 </div>
+</div> 
+      
+      <div id="sidebar--" ng-mouseenter="enterSidebar()" ng-mouseleave="mouseoverControls=''"  ><!-- <div class="title"> <h3>Green Glass</h3> -->
+<!--   <h3>Terrariums -->
+<!--   </h3> -->
+<!-- </div> -->
+
+
+<div class="controls" ng-class="mouseoverControls">
+  <div class="well">
+    <div class="controlHeader">Zoom</div>
+    <button type="button" class="btn btn-inverse"
+	    ng-click="zoomout()" >Smaller</button>
+    <button type="button" class="btn btn-inverse"
+	    ng-click="zoomin()" >Bigger</button>
+  </div>
+
+  <div class="well">
+    
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('buy')" tooltip="Click to sort on buy" tooltip-placement="right" tooltip-animation="true">Availibility </a>
+      {{sortOrder['buy']}}</div>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('now')" ng-model="filter.now" btn-checkbox>Now</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('order')" ng-model="filter.order" btn-checkbox>Order</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('sold')" ng-model="filter.sold" btn-checkbox>Sold</button>
+  </div>
+
+  <div class="well">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('size')" tooltip="Click to sort on size" tooltip-placement="right" tooltip-animation="true">Size </a>
+      {{sortOrder['size']}}</div>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('small')" ng-model="filter.small" btn-checkbox>Small</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('medium')" ng-model="filter.medium" btn-checkbox>Med</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('large')" ng-model="filter.large" btn-checkbox>Large</button>
+  </div>
+
+
+  <div class="well">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('price')" tooltip="Click to sort on
+						      price" tooltip-placement="right" tooltip-animation="true">Price </a>
+      {{sortOrder['price']}}</div>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('under50')" ng-model="filter.under50" btn-checkbox>&lt $50</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('between50and100')" ng-model="filter.between50and100" btn-checkbox>$50 - $100</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('over100')" ng-model="filter.over100" btn-checkbox>&gt $100</button>
+  </div>
+
+  <div class="well">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('shape')" tooltip="Click to sort on shape" tooltip-placement="right" tooltip-animation="true">Shape </a>
+      {{sortOrder['shape']}}</div>
+    <button type="button" class="btn btn-inverse" ng-model="filter.square" ng-click="executeFilter('square')"  btn-checkbox>Square</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('round')" ng-model="filter.round" btn-checkbox>Round</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('rectangle')" ng-model="filter.rectangle" btn-checkbox>Rectangle</button>
+  </div>
+
+
+  <div class="well">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('type')" tooltip="Click to sort on
+						      type" tooltip-placement="right" tooltip-animation="true">Type </a>
+      {{sortOrder['type']}}</div>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('standing')" ng-model="filter.standing" btn-checkbox>Standing</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('hanging')" ng-model="filter.hanging" btn-checkbox>Hanging</button>
+  </div>
+  
+  <div ng-show="mode == 'edit'" class="well">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('published')" tooltip="Click to sort on
+						      online status" tooltip-placement="right" tooltip-animation="true">Published </a>
+      {{sortOrder['published']}}</div>
+    <button published="button" class="btn btn-inverse" ng-click="executeFilter('yes')" ng-model="filter.yes" btn-checkbox>Yes</button>
+    <button published="button" class="btn btn-inverse" ng-click="executeFilter('no')" ng-model="filter.no" btn-checkbox>No</button>
+  </div>
+  
+  
+  <div ng-show="mode == 'edit'" class="well">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('id')" tooltip="Click to sort on
+						      id" tooltip-placement="right" tooltip-animation="true">ID </a>
+      {{sortOrder['id']}}</div>
+  </div>
+
+
+  <button type="button" class="btn btn-primary" ng-click="saveItems()">Save</button>
+
+</div>
+
+
+
+
+
+</div> 
+    </div>
+ </div>
+  
+  <div class="row-fluid">
+    <div class="dummyLeftBar span2">Hello</div>
     <div id="isotope--"  class="span10"><div compile="itemsHtml" id="imageDiv"> 
 </div> 
 
-<div modal="shouldBeOpen" close="close()" options="opts">
+<div style="display:none;" modal="shouldBeOpen" close="close()" options="opts">
   <div class="modal-header">
     <h4>Properties of this terrarium:</h4>
   </div >
@@ -137,6 +196,12 @@
 	    <option value="standing">Standing</option>
 	    <option value="hanging">Hanging</option>
 	  </select><br/>
+	  Published:<select id="published"  ng-model="item.published">
+	    <option value="yes">Yes</option>
+	    <option value="no">No</option>
+	  </select><br/>
+	  ID: <input type="text" id="id" name="id"
+	  ng-model="item.id" /><br/>
 	</form>
       </div>
     </div>
@@ -145,11 +210,20 @@
     <button class="" ng-click="close()">Close</button>
   </div>
 </div>
+
+  <div  class="galleriadiv" style="display:none;" modal="viewShouldBeOpen" close="closeGalleria()" options="opts">
+    <div id="galleria"></div>
+    <div class="view-footer">
+      <button class="" ng-click="closeGalleria()">Close</button>
+    </div>
+</div>
 </div> 
+    
+    
   </div>
   
 </div>
-<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/myangular.js"></script><script type="text/javascript" src="js/myjs.js"></script>
+<script>var mode="view"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/myangular.js"></script><script type="text/javascript" src="js/myjs.js"></script>
 </div> 
   </body>
 </html>	

@@ -1,7 +1,7 @@
 <div compile="itemsHtml" id="imageDiv"> 
 </div> 
 
-<div modal="shouldBeOpen" close="close()" options="opts">
+<div style="display:none;" modal="shouldBeOpen" close="close()" options="opts">
   <div class="modal-header">
     <h4>Properties of this terrarium:</h4>
   </div >
@@ -34,6 +34,12 @@
 	    <option value="standing">Standing</option>
 	    <option value="hanging">Hanging</option>
 	  </select><br/>
+	  Published:<select id="published"  ng-model="item.published">
+	    <option value="yes">Yes</option>
+	    <option value="no">No</option>
+	  </select><br/>
+	  ID: <input type="text" id="id" name="id"
+	  ng-model="item.id" /><br/>
 	</form>
       </div>
     </div>
@@ -41,4 +47,11 @@
   <div class="modal-footer">
     <button class="" ng-click="close()">Close</button>
   </div>
+</div>
+
+  <div  class="galleriadiv" style="display:none;" modal="viewShouldBeOpen" close="closeGalleria()" options="opts">
+    <div id="galleria"></div>
+    <div class="view-footer">
+      <button class="" ng-click="closeGalleria()">Close</button>
+    </div>
 </div>

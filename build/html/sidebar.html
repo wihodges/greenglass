@@ -1,78 +1,90 @@
-<h2>Green Glass</h2>
+<!-- <div class="title"> <h3>Green Glass</h3> -->
+<!--   <h3>Terrariums -->
+<!--   </h3> -->
+<!-- </div> -->
 
-<accordion close-others="oneAtATime">
-  <accordion-group heading="Filter and sort">
-    <div class="well">
-      <h4>Zoom</h4>
-      <button type="button" class="btn btn-inverse"
-      ng-click="zoomout" >Smaller</button>
-      <button type="button" class="btn btn-inverse"
-      ng-click="zoomin()" >Bigger</button>
-    </div>
+
+<div class="controls" ng-class="mouseoverControls">
+  <div class="well">
+    <div class="controlHeader">Zoom</div>
+    <button type="button" class="btn btn-inverse"
+	    ng-click="zoomout()" >Smaller</button>
+    <button type="button" class="btn btn-inverse"
+	    ng-click="zoomin()" >Bigger</button>
+  </div>
+
+  <div class="well">
     
-    
-    <div class="well">
-      <h4>Gallery</h4>
-      <button type="button" class="btn btn-inverse"
-      ng-model="cart.left" btn-checkbox>Terrariums only</button>
-    </div>
-    
-    <div class="well">
-      <h4>Availibility</h4> 
-      <button type="button" class="btn btn-inverse" ng-model="buy.left" btn-checkbox>Now</button>
-      <button type="button" class="btn btn-inverse" ng-model="buy.middle" btn-checkbox>Order</button>
-      <button type="button" class="btn btn-inverse" ng-model="buy.right" btn-checkbox>Sold</button>
-    </div>
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('buy')" tooltip="Click to sort on buy" tooltip-placement="right" tooltip-animation="true">Availibility </a>
+      {{sortOrder['buy']}}</div>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('now')" ng-model="filter.now" btn-checkbox>Now</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('order')" ng-model="filter.order" btn-checkbox>Order</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('sold')" ng-model="filter.sold" btn-checkbox>Sold</button>
+  </div>
 
-    <div class="well">
-      <h4>Size</h4>
-      <button type="button" class="btn btn-inverse" ng-model="size.left" btn-checkbox>Small</button>
-      <button type="button" class="btn btn-inverse" ng-model="size.middle" btn-checkbox>Med</button>
-      <button type="button" class="btn btn-inverse" ng-model="size.right" btn-checkbox>Large</button>
-    </div>
+  <div class="well">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('size')" tooltip="Click to sort on size" tooltip-placement="right" tooltip-animation="true">Size </a>
+      {{sortOrder['size']}}</div>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('small')" ng-model="filter.small" btn-checkbox>Small</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('medium')" ng-model="filter.medium" btn-checkbox>Med</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('large')" ng-model="filter.large" btn-checkbox>Large</button>
+  </div>
 
 
-    <div class="well">
-      <h4>Price</h4>
-      <button type="button" class="btn btn-inverse" ng-model="price.left" btn-checkbox>&lt $50</button>
-      <button type="button" class="btn btn-inverse" ng-model="price.middle" btn-checkbox>$50 - $100</button>
-      <button type="button" class="btn btn-inverse" ng-model="price.right" btn-checkbox>&gt $100</button>
-    </div>
+  <div class="well">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('price')" tooltip="Click to sort on
+						      price" tooltip-placement="right" tooltip-animation="true">Price </a>
+      {{sortOrder['price']}}</div>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('under50')" ng-model="filter.under50" btn-checkbox>&lt $50</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('between50and100')" ng-model="filter.between50and100" btn-checkbox>$50 - $100</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('over100')" ng-model="filter.over100" btn-checkbox>&gt $100</button>
+  </div>
+
+  <div class="well">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('shape')" tooltip="Click to sort on shape" tooltip-placement="right" tooltip-animation="true">Shape </a>
+      {{sortOrder['shape']}}</div>
+    <button type="button" class="btn btn-inverse" ng-model="filter.square" ng-click="executeFilter('square')"  btn-checkbox>Square</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('round')" ng-model="filter.round" btn-checkbox>Round</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('rectangle')" ng-model="filter.rectangle" btn-checkbox>Rectangle</button>
+  </div>
 
 
-    <div class="well">
-      <h4>Shape</h4>
-      <button type="button" class="btn btn-inverse" ng-model="shape.left" btn-checkbox>Square</button>
-      <button type="button" class="btn btn-inverse" ng-model="shape.middle" btn-checkbox>Round</button>
-      <button type="button" class="btn btn-inverse" ng-model="shape.right" btn-checkbox>Rectangle</button>
-    </div>
+  <div class="well">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('type')" tooltip="Click to sort on
+						      type" tooltip-placement="right" tooltip-animation="true">Type </a>
+      {{sortOrder['type']}}</div>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('standing')" ng-model="filter.standing" btn-checkbox>Standing</button>
+    <button type="button" class="btn btn-inverse" ng-click="executeFilter('hanging')" ng-model="filter.hanging" btn-checkbox>Hanging</button>
+  </div>
+  
+  <div ng-show="mode == 'edit'" class="well">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('published')" tooltip="Click to sort on
+						      online status" tooltip-placement="right" tooltip-animation="true">Published </a>
+      {{sortOrder['published']}}</div>
+    <button published="button" class="btn btn-inverse" ng-click="executeFilter('yes')" ng-model="filter.yes" btn-checkbox>Yes</button>
+    <button published="button" class="btn btn-inverse" ng-click="executeFilter('no')" ng-model="filter.no" btn-checkbox>No</button>
+  </div>
+  
+  
+  <div ng-show="mode == 'edit'" class="well">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('id')" tooltip="Click to sort on
+						      id" tooltip-placement="right" tooltip-animation="true">ID </a>
+      {{sortOrder['id']}}</div>
+  </div>
 
 
-    <div class="well">
-      <h4>Type</h4>
-      <button type="button" class="btn btn-inverse" ng-model="type.left" btn-checkbox>Standing</button>
-      <button type="button" class="btn btn-inverse" ng-model="type.middle" btn-checkbox>Hanging</button>
-    </div>
-    
-    <div class="well">
-      <h4>Cart</h4>
-      <button type="button" class="btn btn-inverse"
-      ng-model="cart.left" btn-checkbox>Cart only</button>
-    </div>
-    
-    
-  </accordion-group>
-  <accordion-group heading="Cart">
-  </accordion-group>
-  <accordion-group heading="Contact">
-    <div style="color:white;">
-      About, Faq, Services, Care Instructions,
-      Blog separate
-      Share buttons left bottom
-    </div>
-  </accordion-group>
-</accordion>
+  <button type="button" class="btn btn-primary" ng-click="saveItems()">Save</button>
+
+</div>
 
 
 
-<button type="button" class="btn btn-primary" ng-click="saveItems()">Save</button>
+
+

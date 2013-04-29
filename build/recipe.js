@@ -44,6 +44,8 @@ var exports = {
         ids: {
             title: '<title>Greenglass terrariumns</title>'
             ,skewer:'<script src="http://localhost:9090/skewer"></script>'
+            ,editMode:'<script>var mode="edit"</script>'
+            ,viewMode:'<script>var mode="view"</script>'
         }
         ,metaBlock : {
             id: 'meta',
@@ -59,6 +61,10 @@ var exports = {
                 ,'bootstrap-responsive'
                 ,'jquery-ui-1.10.2.custom'
                 ,'angular-ui'
+                // ,'prettyPhoto'
+                ,'fancybox/source/jquery.fancybox'
+                ,'fancybox/source/helpers/jquery.fancybox-buttons'
+                ,'fancybox/source/helpers/jquery.fancybox-thumbs'
                 ,'main'
             ]
             ,path: 'css/'
@@ -81,7 +87,14 @@ var exports = {
                     ,'ui-bootstrap-tpls-0.2.0'
                     ,'modernizr'
                     ,'jquery.isotope.min.js'
+                    // ,'galleria/galleria-1.2.9.min'
+                    // ,'jquery.prettyPhoto'
                     // ,'tinymce/js/tinymce/jquery.tinymce.min'
+                    ,'fancybox/lib/jquery.mousewheel-3.0.6.pack'
+                    ,'fancybox/source/jquery.fancybox.pack'
+                    ,'fancybox/source/helpers/jquery.fancybox-buttons'
+                    ,'fancybox/source/helpers/jquery.fancybox-media'
+                    ,'fancybox/source/helpers/jquery.fancybox-thumbs'
                     ,'getpos'
                     ,'myangular'
                     ,'myjs'
@@ -117,6 +130,7 @@ var exports = {
               ,mapping: {
                   sidebar: 'html/sidebar'
                   ,isotope: 'html/isotope'
+                  ,linkbar: 'html/links'
               }
             }
             //Main layout
@@ -132,11 +146,35 @@ var exports = {
                 //concatenated before inserted at the tag id element
                 
                 ,mapping: {
-                    head: ['title', 'meta', 'html/ieshim',  'skewer', 'headJsBlock', 'myLinkBlock'
+                    head: ['title', 'meta', 'html/ieshim',  'skewer', 'headJsBlock', 'myLinkBlock' 
                            // ,'_linkBlock'
                           ],
                     wrapper: [
                         'body'
+                        ,'viewMode'
+                        ,'myJsBlock'
+                        // ,'_scriptBlock'
+                    ]
+                }
+            }
+            ,{// id: 'page' 
+                pathOut: ''
+                ,out: 'edit.html' //optional, relative to root
+                ,src: 'html/basicPage.html'
+                //Maps tag ids to partial ids. Tag ids have to be
+                //postfixed with two dashes in the template. Partials
+                //with an extension will be loaded from the partials
+                //folder for this template. Markdown files will be
+                //converted to html. Partials in an array will be
+                //concatenated before inserted at the tag id element
+                
+                ,mapping: {
+                    head: ['title', 'meta', 'html/ieshim',  'skewer', 'headJsBlock', 'myLinkBlock' 
+                           // ,'_linkBlock'
+                          ],
+                    wrapper: [
+                        'body'
+                        ,'editMode'
                         ,'myJsBlock'
                         // ,'_scriptBlock'
                     ]

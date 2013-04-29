@@ -1,4 +1,8 @@
 * good to know
+** rename files in bulk
+   To remove whitespace:
+   rename "s/ *//g" * 
+   http://www.cyberciti.biz/tips/renaming-multiple-files-at-a-shell-prompt.html
 ** forever  
 forever start  ./bb-server ~/www/greenglass -i -b -p 6002
 in bb-server directory

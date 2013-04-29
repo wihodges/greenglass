@@ -11,7 +11,8 @@
 	"start": "node ./server/server.js"
     },
     "dependencies": {
-	"bb-server": "*"
+	"bb-server": "*",
+	"html-builder": "*"
     },
     "bugs": {
 	"url": "https://github.com/michieljoris/greenglass/issues"
