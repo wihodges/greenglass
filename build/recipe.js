@@ -22,10 +22,10 @@ var exports = {
     ,prettyPrintHtml: false
     // ,tagIdPostfix: '__' //can be overridden per template
     ,paths: {
-        root: '/home/michieljoris/www/greenglass/'
+        root: process.cwd() 
         //relative to this root:
         ,partials: 'build/'  //can be overridden per template
-        ,out:'built' 
+        ,out:'www/built' 
         ,js: 'js'
     }
     // ,routes : [
@@ -127,6 +127,7 @@ var exports = {
               ,id: 'body'
               ,tagIdPostfix: '--' //can be overridden per template
               ,out: 'guideTemplate.html'
+              ,pathOut: 'www/'
               ,mapping: {
                   sidebar: 'html/sidebar'
                   ,isotope: 'html/isotope'
@@ -135,7 +136,7 @@ var exports = {
             }
             //Main layout
             ,{// id: 'page' 
-                pathOut: ''
+                pathOut: 'www/'
                 ,out: 'index.html' //optional, relative to root
                 ,src: 'html/basicPage.html'
                 //Maps tag ids to partial ids. Tag ids have to be
@@ -158,7 +159,7 @@ var exports = {
                 }
             }
             ,{// id: 'page' 
-                pathOut: ''
+                pathOut: 'www/'
                 ,out: 'edit.html' //optional, relative to root
                 ,src: 'html/basicPage.html'
                 //Maps tag ids to partial ids. Tag ids have to be

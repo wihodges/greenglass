@@ -12,7 +12,9 @@
     },
     "dependencies": {
 	"bb-server": "*",
-	"html-builder": "*"
+	"html-builder": "*",
+        "nodemailer": "*",
+	"dbox": "*"
     },
     "bugs": {
 	"url": "https://github.com/michieljoris/greenglass/issues"
