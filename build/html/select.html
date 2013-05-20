@@ -1,0 +1,114 @@
+<div id="selectContainer" class="selectContainer controls"
+     ng-class="mouseoverControls">
+  <div class="selector">
+    <button class="btn" ng-click="selectClicked()">Close</button>
+  </div>
+  
+  <div  class="selector">
+    
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('buy')" tooltip="Click to sort on buy" tooltip-placement="right" tooltip-animation="true">Available</a>
+      {{sortOrder['buy']}}</div>
+    <input id="sn" type="checkbox"   ng-click="executeFilter('now')" ng-model="filter.now" >
+    <label  for="sn"><span></span>Buy Now</label>
+    <input id="so" type="checkbox"   -- ng-click="executeFilter('order')" ng-model="filter.order" >
+    <label for="so"><span></span>On order</label>
+    <input id="ss" type="checkbox" ng-click="executeFilter('sold')" ng-model="filter.sold" >
+    <label for="ss"><span></span>Show sold</label>
+  </div>
+  
+  
+  <div id="priceWell" class="selector">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('price')" tooltip="Click to sort on
+						      price" tooltip-placement="right" tooltip-animation="true">Price </a>
+      {{sortOrder['price']}}</div>
+    <input id="p1" type="checkbox"  ng-click="executeFilter('under50')" ng-model="filter.under50" >
+    <label for="p1"><span></span>Under $50</label>
+    <input id="p2" type="checkbox"  ng-click="executeFilter('between50and100')" ng-model="filter.between50and100" >
+    <label for="p2"><span></span>$50 - $100</label>
+    <input id="p3" type="checkbox"  ng-click="executeFilter('over100')" ng-model="filter.over100" >
+    <label for="p3"><span></span>Over $100</label>
+  </div>
+  
+  <div  class="selector">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('size')" tooltip="Click to sort on size" tooltip-placement="right" tooltip-animation="true">Size </a>
+      {{sortOrder['size']}}</div>
+    <input id="s1" type="checkbox"  ng-click="executeFilter('small')" ng-model="filter.small" >
+    <label for="s1"><span></span>Small</label>
+    <input id="s2" type="checkbox"  ng-click="executeFilter('medium')" ng-model="filter.medium" >
+    <label for="s2"><span></span>Med</label>
+    <input id="s3" type="checkbox"  ng-click="executeFilter('large')" ng-model="filter.large" >
+    <label for="s3"><span></span>Large</label>
+  </div>
+
+
+
+  <div  class="selector">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('shape')" tooltip="Click to sort on shape" tooltip-placement="right" tooltip-animation="true">Shape </a>
+      {{sortOrder['shape']}}</div>
+    <input id="v1" type="checkbox"  ng-model="filter.square" ng-click="executeFilter('square')"  >
+    <label for="v1"><span></span>Square</label>
+    <input id="v2" type="checkbox" ng-click="executeFilter('round')" ng-model="filter.round">
+    <label for="v2"><span></span>Round</label>
+    <input id="v3" type="checkbox"  ng-click="executeFilter('rectangle')" ng-model="filter.rectangle" >
+    <label for="v3"><span></span>Rectangle</label>
+  </div>
+
+
+  <div  class="selector">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('type')" tooltip="Click to sort on
+						     type" tooltip-placement="right" tooltip-animation="true">Type </a>
+      {{sortOrder['type']}}</div>
+    <input id="t1" type="checkbox"  ng-click="executeFilter('standing')" ng-model="filter.standing" >
+    <label for="t1"><span></span>Standing</label>
+    <input id="t2" type="checkbox"  ng-click="executeFilter('hanging')" ng-model="filter.hanging" >
+    <label for="t2"><span></span>Hanging</label>
+  </div>
+  
+  
+
+  <div ng-show="mode == 'edit'"  class="selector">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('published')" tooltip="Click to sort on
+							  online status" tooltip-placement="right" tooltip-animation="true">Published </a>
+      {{sortOrder['published']}}</div>
+    <input id="o1" type="checkbox"  ng-click="executeFilter('yes')" ng-model="filter.yes" >
+    <label for="o1"><span></span>Online</label>
+    <input id="o2" type="checkbox"  ng-click="executeFilter('no')" ng-model="filter.no" >
+    <label for="o2"><span></span>Not online</label>
+    
+  </div>
+
+
+  <div ng-show="mode == 'edit'"  class="selector">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('id')" tooltip="Click to sort on
+						   id" tooltip-placement="right" tooltip-animation="true">Images</a>
+      {{sortOrder['id']}}</div>
+    
+    <input id="g1" type="checkbox"  ng-model="filter.grouped" ng-click="executeFilter('grouped')"  >
+    <label for="g1"><span></span>Grouped</label>
+    
+  </div>
+  
+  
+  <div class="selector">Zoom
+    <div id='zoom'></div>
+    
+    <input id="rb1" type="radio"  name="rr" ng-model="wide" ng-click="setLayout('wide')"  >
+    <label id="rb1label" for="rb1"><span></span>Wide</label>
+    <input id="rb2" type="radio"  name="rr" ng-click="setLayout('dense')" ng-model="dense">
+    <label for="rb2"><span></span>Dense</label>
+    <p>
+  </div>
+  
+  
+
+</div>
+
+
+
