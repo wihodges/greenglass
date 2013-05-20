@@ -15,6 +15,13 @@
       
     </li>
     
+    <li>
+      <a class="" href="#"ng-click="startSlideshow()">Slideshow?</a>
+    </li>
+    <li>
+      <a class="" href="#"> <p>  </a>
+    </li>
+    
     <!-- <li> -->
     <!-- 		<a class="ajax" data-fancybox-type="iframe" href="/index.html">Iframe</a> -->
     <!-- </li> -->
@@ -33,5 +40,23 @@
     <li>
       <a class="ajax fancybox.ajax" href="/contact.html">Contact</a>
     </li>
+    <li>
+      <a class="" href="#"> <p>  </a>
+    </li>
+    <li>
+      <a ng-show="!isCollapsed" class="" href="#"ng-click="selectClicked()">Select</a>
+    </li>
+    <li>
+      <a ng-show="filtered" class=""
+      href="#"ng-click="allClicked()">Show al</a>
+    </li>
+    <li>
+      <a class="" href="#"> <p>  </a>
+    </li>
+    <li>
+      <a style="color:red;" ng-show="addingImages" class=""
+      href="#" ng-click="addingImages=false">Adding..</a>
+    </li>
+    
   </ul> 
 </div>

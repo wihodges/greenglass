@@ -61,6 +61,7 @@ var exports = {
                 ,'bootstrap-responsive'
                 ,'jquery-ui-1.10.2.custom'
                 ,'angular-ui'
+                ,'checkboxes'
                 // ,'prettyPhoto'
                 ,'fancybox/source/jquery.fancybox'
                 ,'fancybox/source/helpers/jquery.fancybox-buttons'
@@ -115,22 +116,22 @@ var exports = {
             //     },
         ]
         ,template: [
-            // { src: 'views/guide.html' 
-            //   ,tagIdPostfix: '--' //can be overridden per template
-            //   ,out: 'guideView.html'
-            //   ,mapping: {
-            //       menu: 'html/docmenu',
-            //       doc: 'markdown/doc.md'
-            //   }
-            // }
-            { src: 'html/body' 
+            { src: 'html/isotope' 
+              ,tagIdPostfix: '--' //can be overridden per template
+              ,id: 'isotope'
+              // ,out: 'guideView.html'
+              ,mapping: {
+                  select: 'html/select'
+              }
+            }
+            ,{ src: 'html/body' 
               ,id: 'body'
               ,tagIdPostfix: '--' //can be overridden per template
               ,out: 'guideTemplate.html'
               ,pathOut: 'www/'
               ,mapping: {
-                  sidebar: 'html/sidebar'
-                  ,isotope: 'html/isotope'
+                  // sidebar: 'html/sidebar'
+                  isotope: 'isotope'
                   ,linkbar: 'html/links'
               }
             }

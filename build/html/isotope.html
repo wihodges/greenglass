@@ -1,57 +1,115 @@
+<div id="select--" ng-show="isCollapsed" class="well">
+</div>
+
 <div compile="itemsHtml" id="imageDiv"> 
 </div> 
 
 <div style="display:none;" modal="shouldBeOpen" close="close()" options="opts">
   <div class="modal-header">
-    <h4>Properties of this terrarium:</h4>
+    <h4>
+	<img width="50" height="auto;" 
+	     ng-click="addImageToItem(item.name)"
+	     ng-src="images/{{item.name}}" >
+	Properties of this terrarium:
+	</h4>
+    
+    <button class="btn pull-right btn-success" ng-click="closeEdit()">Save</button>
   </div >
   <div class="container">
     <div class="row">
       <div class="well span2">
-	<img width="150" height="auto;" ng-src="images/{{item.name}}" >
-	{{item.name}}<br/>
+	<img width="300" height="auto;" ng-src="images/{{item.mainImage}}" >
+	{{item.mainImage}}<br/>
+	
       </div>
       <div class="modal-body span3">
-	<form class="navbar-form pull-left">
-	  Price: <input type="text" id="price" name="price"
-	  ng-model="item.price" /><br/>
-	  Size:<select  id="size" ng-model="item.size" >
-	    <option value="small">Small</option>
-	    <option value="medium">Medium</option>
-	    <option value="large">Large</option>
-	  </select><br/>
-	  Buy:<select  id="buy" ng-model="item.buy">
-	    <option value="now">Now</option>
-	    <option value="order">Order</option>
-	    <option value="sold">Sold</option>
-	  </select><br/>
-	  Shape:<select id="shape" ng-model="item.shape">
-	    <option value="square">Square</option>
-	    <option value="round">Round</option>
-	    <option value="rectangle">Rectangle</option>
-	  </select><br/>
-	  Type:<select id="type"  ng-model="item.type">
-	    <option value="standing">Standing</option>
-	    <option value="hanging">Hanging</option>
-	  </select><br/>
-	  Published:<select id="published"  ng-model="item.published">
-	    <option value="yes">Yes</option>
-	    <option value="no">No</option>
-	  </select><br/>
-	  ID: <input type="text" id="id" name="id"
-	  ng-model="item.id" /><br/>
+	<form class="navbar-form  form-horizontal">
+	  <div class="control-group">
+	    <label class="control-label" for="id">ID</label>
+	    <div class="controls">
+	      <input type="text" id="id" name="id" ng-model="item.id">
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="price">Price</label>
+	    <div class="controls">
+	      <input type="text" id="price" name="price" ng-model="item.price">
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="size">Size</label>
+	    <div class="controls">
+	      <select  id="size" ng-model="item.size" >
+		<option value="small">Small</option>
+		<option value="medium">Medium</option>
+		<option value="large">Large</option>
+	      </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="buy">Buy</label>
+	    <div class="controls">
+	      <select  id="buy" ng-model="item.buy" >
+		<option value="now">Now</option>
+		<option value="order">Order</option>
+		<option value="sold">Sold</option>
+	      </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="shape">Shape</label>
+	    <div class="controls">
+	      <select  id="shape" ng-model="item.shape" >
+		<option value="square">Square</option>
+		<option value="round">Round</option>
+		<option value="rectangle">Rectangle</option>
+	      </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="type">Type</label>
+	    <div class="controls">
+	      <select  id="type" ng-model="item.type" >
+		<option value="standing">Standing</option>
+		<option value="hanging">Hanging</option>
+	      </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="published">Published</label>
+	    <div class="controls">
+	      <select  id="published" ng-model="item.published" >
+		<option value="yes">Yes</option>
+		<option value="no">No</option>
+	      </select>
+	    </div>
+	  </div>
+	  
+	  
 	</form>
       </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button class="" ng-click="close()">Close</button>
+    <img ng-repeat="image in item.images" ng-src="images/{{image}}"
+	 width="50px;" style="padding-right:2px;"
+	 ng-click="item.mainImage=image">
+    <ul class="removeaddButtons pull-right">
+      <li> 
+	<button id="moreImagesButton" class="btn btn-block  btn-primary"
+		ng-click="addImageToItem()">+</button>
+      </li> 
+      <li> 
+	<button id="removeImageButton" class="btn btn-block btn-danger"
+		ng-click="removeImageFromItem(item)">-</button>
+      </li> 
+    </ul> 
   </div>
 </div>
 
-  <div  class="galleriadiv" style="display:none;" modal="viewShouldBeOpen" close="closeGalleria()" options="opts">
-    <div id="galleria"></div>
-    <div class="view-footer">
-      <button class="" ng-click="closeGalleria()">Close</button>
-    </div>
+<div  class="galleriadiv" style="display:none;" modal="viewShouldBeOpen" close="closeGalleria()" options="opts">
+  <div id="galleria"></div>
+  <div class="view-footer">
+    <button class="" ng-click="closeGalleria()">Close</button>
+  </div>
 </div>

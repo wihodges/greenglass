@@ -1,17 +1,33 @@
+@font-face {
+    font-family: "Love Ya Like A Sister";
+    font-style: normal;
+    font-weight: 400;
+    src: local("Love Ya Like A Sister Regular"), local("LoveYaLikeASister-Regular"), url("LzkxWS-af0Br2Sk_YgSJY5HSI-O7NEBdNbD5SV3GSEY.woff") format("woff");
+}
+
 body {
+    font-family: 'Love Ya Like A Sister', cursive;
+    
     /* background: url(../images/bg/brushed_alu.png); */
     /* background: url(../images/bg/egg_shell.png); */
-    background: url(../images/bg/darkdenim3.png);
+    background: url(./bg/darkdenim3.png);
     /* background: url(../images/bg/vertical_cloth.png); */
     /* background: url(../images/bg/dark_wall.png); */
     /* margin-right:8px; */
     /* padding-left:5px; */
 }
+#linkbar-- a {
+    color:white;
+}
+#linkbar-- a:hover {
+    color:lightgreen;
+}
 
 #sidebar-- {
     /* margin-right:20px; */
     /* margin-right:-20px; */
-    height:800px;
+    /* height:170px; */
+    
 }
 .dummyLeftBar {
  margin-right:-10px;   
@@ -108,8 +124,8 @@ h2 {
 /* } */
  
 .item div {
-    color:white;
-    display:none;
+    /* color:white; */
+    /* display:none; */
     /* border:solid 1px white; */
 }
 
@@ -127,10 +143,10 @@ h2 {
 /* } */
  
 
-#isotope-- .mouseover img {
-    display:none;
-    /* opacity:0; */
-}
+/* #Isotope-- .mouseover img { */
+/*     display:block; */
+/*     /\* opacity:0; *\/ */
+/* } */
 
 #isotope-- .mouseover .descr {
     display:block;
@@ -139,8 +155,25 @@ h2 {
 #isotope-- .descr {
     text-align:center;
     vertical-align:center;
+    position:relative;
+    display:none;
+    
 }
 
+#descrContainer button {
+    margin-right:10px;
+}
+
+#descrContainer {
+    vertical-align:center;
+    position: absolute;
+    bottom: 0px;
+    text-align:left;
+}
+
+#descrContainer {
+    margin-bottom: 10px;
+   } 
 
 #sidebar-- .btn {
     padding-top:2px;
@@ -151,9 +184,10 @@ h2 {
     margin-top:2px;
 }
 
+
 #sidebar-- .well {
     color:lightgray;
-    background: url(../images/bg/darkdenim3.png);
+    background: url(./bg/darkdenim3.png);
     padding-top:10px;
     padding-bottom:0px;
     padding-left:8px;
@@ -162,6 +196,12 @@ h2 {
     border: none;
     /* border-color:gray; */
     margin-bottom:0px;
+}
+
+
+#priceWell.well {
+    padding-bottom:10px;
+    
 }
 
 .container-fluid {
@@ -174,10 +214,13 @@ h2 {
     /* padding-left:20px */
 }
 
-#sidebar-- h4 {
+.container-fluid h2 {
     margin-bottom:2px;
-    font-size:13px;
-    width:80px;
+    /* font-size:11px; */
+    /* width:80px; */
+    margin-left:20px;
+    color:lightgoldenrodyellow;
+    font-family: 'Love Ya Like A Sister', cursive;
 }
 
 .controlHeader .tooltip {
@@ -197,31 +240,31 @@ h2 {
     width:100px;
 }
 
-#size {
-    margin-left:24px;
-}
+/* #size { */
+/*     margin-left:24px; */
+/* } */
 
-#shape {
-    margin-left:11px;
-}
+/* #shape { */
+/*     margin-left:11px; */
+/* } */
 
-#type {
-    margin-left:20px;
-}
+/* #type { */
+/*     margin-left:20px; */
+/* } */
 
-#price {
-    width: 85px;
-    margin-left:15px;
-}
+#price { 
+    width: 85px; 
+    /* margin-left:15px;  */
+} 
 
-#id {
-    width: 85px;
-    margin-left:15px;
-}
+#id { 
+    width: 85px; 
+    /* margin-left:15px;  */
+} 
 
-#buy {
-    margin-left:28px;
-}
+/* #buy { */
+/*     margin-left:28px; */
+/* } */
 
 body>div.modal {
     width:460px;
@@ -233,22 +276,24 @@ body>div.modal {
 }
 
 #isotope-- {
-    border: solid #666666 1px;
+    /* border: solid #666666 1px; */
     padding: 6px;
     margin-top:10px;
+    padding-left:145px;
 }
 
 #linkbar-- {
     margin-top:10px;
     margin-left:15px;
-    font-size:12px;
+    font-size:16px;
+    overflow:
 }
 
 
 
 #linkbar-- ul {
     margin-left:0px;
-    font-size:13px;
+    /* font-size:13px; */
     
 }
 
@@ -258,7 +303,7 @@ body>div.modal {
 
 .controls {
     /* display:none; */
-    opacity:0;
+    opacity:1;
 }
 
 .controls.mouseover {
@@ -283,7 +328,7 @@ body>div.modal {
 }
 
 #sidebar-- a {
-    color:white;
+    color:gray;
 }
 
 #sidebar-- span {
@@ -307,6 +352,8 @@ body>div.modal {
 }
 .leftBar h4 {
     color:white;
+    margin-right:-40px;
+    font-size:14px;
 }
 
 #galleria{ width: 700px; height: 400px; background: #000 }
@@ -343,6 +390,7 @@ body>div.modal {
 
 .cart {
     /* color:white; */
+    width:120px;
     padding-left:7px;
 }
 
@@ -356,4 +404,92 @@ body>div.modal {
 
 .cart .well {
     padding-top:5px;
+}
+
+input[type='checkbox'] {
+    margin-left:10px;
+    margin-right:3px;
+}
+
+/* #select-- { */
+/*     display:none; */
+/*   -webkit-transition-duration: 0.8s; */
+/*      -moz-transition-duration: 0.8s; */
+/*       -ms-transition-duration: 0.8s; */
+/*        -o-transition-duration: 0.8s; */
+/*           transition-duration: 0.8s; */
+	  
+	  
+/*   -webkit-transition-property: display, width;  */
+/*      -moz-transition-property: height, width;  */
+/*       -ms-transition-property: height, width;  */
+/*        -o-transition-property: height, width;  */
+/*           transition-property: display, width;  */
+/* } */
+
+.selector{
+    width:110px;
+    height:auto;
+}
+
+#selectContainer {
+    min-height:95px;
+}
+
+
+img {
+    border-radius: 10px;
+    -o-border-radius: 10px 10px 10px 10px;
+    -ms-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+}
+
+#rb1label {
+    padding-top:5px;
+}
+
+.modal-header button {
+    margin-top:-50px;
+}
+
+.modal-header h4 {
+    margin-bottom:0px;
+}
+
+.modal-footer {
+    text-align:left;
+}
+
+#moreImagesButton {
+    margin-bottom:10px;
+    width:12x;
+}
+
+#removeImageButton {
+    /* margin-bottom:10px; */
+    /* width:12px; */
+}
+
+.removeaddButtons {
+    list-style:none;
+    width:30px;
+}
+
+
+.modal-body {
+    padding-left:0px;
+}
+
+.modal-body form {
+    margin-left:-100px;
+}
+
+.form-horizontal .control-group {
+    margin-bottom:0px;
+}
+
+.fullsize {
+    margin-bottom:0px;
+    margin-top:8px;
 }

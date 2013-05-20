@@ -23,7 +23,7 @@ var options = {
     ,"dir": true
     ,"index": false
     ,"silent": false
-    // ,"port": 7090
+    ,"port": 6005
     ,postHandlers: {
         "/greenglass" : save
         // "/sendmail" : testMail

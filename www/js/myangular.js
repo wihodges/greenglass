@@ -39,10 +39,11 @@ function makeItem(item, size) {
         (item.size ? item.size + ' ': '') +
         (item.shape ? item.shape + ' ': '') +
         (item.buy ? item.buy + ' ': '') +
-        (item.published ? item.published + ' ': 'no') +
+        (item.published ? item.published + ' ': 'no ') +
+        (item.groupedWith ? 'grouped' + ' ': '') +
         (item.type ? item.type + ' ': '');
     
-    if (item.price <= 50) classAttr += "below50";
+    if (item.price <= 50) classAttr += "under50";
     if (item.price > 50 && item.price <= 100) classAttr += "between50and100";
     if (item.price > 100) classAttr += "over100";
     
@@ -53,34 +54,39 @@ function makeItem(item, size) {
     
     
     var clickEvent= 'ng-click="imageClicked($event)"';
-    var editClick= 'ng-click="editImage(' + imageName +  ')"';
-    var viewClick= 'ng-click="viewImage(' + imageName +  ')"';
+    var editClick= ' ng-click="editImage(' + imageName +  ')"';
+    var viewClick= ' ng-click="viewImage(' + imageName +  ')"';
     var buyClick= 'ng-click="buyItem(' + imageName +  ')"';
     var removeFromCartClick= 'ng-click="removeFromCartByName(' + imageName +  ')"';
     var enterImage= 'ng-mouseover="enterImage($event)"';
     var leaveDescr= 'ng-mouseleave="leaveDescr($event)"';
-    var description = "<div class='descr'" + leaveDescr + 
+    // var descrStyle = ' style="position:relative"';
+    // console.log(background);
+    var description = "<div class='descr'" + leaveDescr +// descrStyle +
+    (mode === 'edit' ? editClick : viewClick) +
         ">" +
+        '<div id="descrContainer" class="well">' +
         (item.size ? "Size: " + '{{getItem("' + item.name + '").size}}' + '<br>': '') +
-        (item.buy ? "Buy: " + '{{getItem("' + item.name + '").buy}}'  + '<br>': '') +
+        // (item.buy ? "Buy: " + '{{getItem("' + item.name + '").buy}}'  + '<br>': '') +
         (item.price ? "Price: $" + '{{getItem("' + item.name + '").price}}' + '<br>': '') +
-        (item.shape ? "Shape: " + '{{getItem("' + item.name + '").shape}}' + '<br>': '') +
-        (item.typ ? "Type: " + '{{getItem("' + item.name + '").type}}' + '<br>': '') +
+        // (item.shape ? "Shape: " + '{{getItem("' + item.name + '").shape}}' + '<br>': '') +
+        // (item.typ ? "Type: " + '{{getItem("' + item.name + '").type}}' + '<br>': '') +
         (mode === 'edit' ?
          "Published: " + '{{getItem("' + item.name + '").published}}' + '<br>': '') +
         (mode === 'edit' ?
          "ID: " + '{{getItem("' + item.name + '").id}}' + '<br>': '') +
         
-        "<button class='btn btn-inverse'" + viewClick + ">View</button>" +
-        (mode === 'edit' ?
-         "<button class='btn btn-inverse'" + editClick + " >Edit</button>" : '') +
+        // "<button class='btn btn-inverse'" + viewClick + ">View</button>" +
+        // (mode === 'edit' ?
+        //  "<button class='btn btn-inverse'" + editClick + " >Edit</button>" : '') +
         (item.buy !== 'sold' ?
          "<button ng-show=" + '"!getItem(' + "'" + item.name  + "'" + ').inCart"' +
-         " class='btn btn-inverse'" + buyClick + ">Buy</button>": '') +
+         " class='btn btn-inverse'" + buyClick + ">"+ (item.buy === 'now' ? 'Buy Now' : 'On order') +"</button>": '') +
         (item.buy !== 'sold' ?
          "<button ng-show=" + '"getItem(' + "'" + item.name  + "'" + ').inCart"' +
          " class='btn btn-inverse'" + removeFromCartClick + ">Cancel</button>": '') +
     
+        "</div>" +
         "</div>";
     
     
@@ -89,7 +95,7 @@ function makeItem(item, size) {
         '">' +
         '<img  ' +  clickEvent + enterImage + 
         ' alt="" src="images/' + item.name + 
-        '" width="' + size + '" height=auto;>' +
+        '" width="' + size + 'px;" height=auto;>' +
         description + 
         '</div>';
     
@@ -137,20 +143,26 @@ function descHover(event) {
 }
 
 function imageHover(event) {
+    // return;
     // console.log(event);
-    var url = event.target.src;
-    var img = url.slice(url.lastIndexOf('/') + 1);
+    // var url = event.target.src;
+    // console.log(url);
+    // var img = url.slice(url.lastIndexOf('/') + 1);
     // console.log(img, images[img]);
     var target = event.target;
     var height =$(target).height();
     var width = $(target).width();
     var descr = $($(target).next());
+    
     descr.height(height);
     descr.width(width);
+    window.test=descr;
+    descr.css("margin-top", "-" + height + "px");
     var item = $(event.target.parentNode);
     $(".item").removeClass("mouseover");
+    // descr.css("display", "block")
     item.addClass("mouseover");
-    return images[img];
+    // return images[img];
     // console.log("enter!!");
 }
 
@@ -203,8 +215,10 @@ function imageHover(event) {
 
 function attachDataToImages(images, data) {
     Object.keys(data).forEach(function(d) {
-        if (images[d]) images[d] = data[d];
-    }); 
+        if (images[d]) {
+            images[d] = data[d];
+            if (!images[d].images) images[d].images = [images[d].name];
+        }    }); 
     return images;
 }
 
@@ -224,6 +238,8 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
                 imageNames.forEach(function(imgName) {
                     imagesOnServer[imgName] = {
                         name: imgName
+                        ,images: [imgName]
+                        ,mainImage: imgName
                     };
                 });
                 deferred.resolve(imagesOnServer);
@@ -238,12 +254,12 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
     
     var getImageData = function(imagesOnServer) {
         
-        console.log('in getImageData', imagesOnServer);
+        console.log('in imagesOnServer', imagesOnServer);
         
         var deferred = $q.defer();
-        $http({method: 'GET', url: '/terrariums.json'}).
+        $http({method: 'GET', url: 'terrariums.json'}).
             success(function(data, status, headers, config) {
-                console.log('Image data in getImageData', data);
+                console.log('Image data', data);
                 //merge imagesOnServer and data 
                 //and resolve the result
                 deferred.resolve(attachDataToImages(imagesOnServer, data));
@@ -256,10 +272,36 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
         
         return deferred.promise;
     };
+    function setSelectIsotope() {
+        console.log('in select isotope');
+        var $container = $('#selectContainer');
+        $container.isotope({
+            itemSelector: '.selector'
+        });
+        setTimeout(function () {
+            $('#selectContainer').isotope('reloadItems');
+            $('#selectContainer').isotope({ filter: "*" }, function( $items ) {
+                var id = this.attr('id'),
+                    len = $items.length;
+                console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
+                // $('img').hover(imageHover);
+                // $('.item').find('div').hover(descHover);
+            });
+        },100); 
+    }
+    
+    // function groupById(items) {
+    //     var grouped = {};
+    //     Object.keys(items).forEach(function(item) {
+            
+    //     });
+        
+    // }
 
     function setIsotope(items) {
-        console.log('in isotope', items);
-        var $container = $('#imageDiv');
+        
+        console.log('Showing isotope images:', items);
+            var $container = $('#imageDiv');
         $container.isotope({
             itemSelector: '.item'
         });
@@ -271,13 +313,14 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
             
         setTimeout(function () {
             $('#imageDiv').isotope('reloadItems');
-            $('#imageDiv').isotope({ filter: makeFilterString() }, function( $items ) {
-                var id = this.attr('id'),
-                    len = $items.length;
-                console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
-                // $('img').hover(imageHover);
-                // $('.item').find('div').hover(descHover);
-            });
+            executeFilter(defaultFilter);
+            // $('#imageDiv').isotope({ filter: makeFilterString() }, function( $items ) {
+            //     var id = this.attr('id'),
+            //     len = $items.length;
+            //     console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
+            //     // $('img').hover(imageHover);
+            //     // $('.item').find('div').hover(descHover);
+            // });
         }, 1000);
         
         function getAttr(e, array) {
@@ -348,60 +391,89 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
     };
     $scope.enterImage = imageHover;
     $scope.leaveDescr = descHover;
-
-    $scope.filter = {
-        now:true, order:true, sold:true,
-        small:true, medium:true, large:true,
-        under50:true, between50and100:true, over100:true,
-        square:true, round:true, rectangle:true,
-        standing:true, hanging:true,
-        yes:true, no:false
+    
+    var defaultFilter = {
+        now:false, order:false, sold:false,
+        small:false, medium:false, large:false,
+        under50:false, between50and100:false, over100:false,
+        square:false, round:false, rectangle:false,
+        standing:false, hanging:false,
+        yes:true, no:true
+        ,grouped:false
     };
-    function orKeys(keys) {
+
+    $scope.filter = (function() {
+        var filter = {};
+        Object.keys(defaultFilter).forEach(function(k) {
+            filter[k] = defaultFilter[k];
+        }); 
+        return filter;
+    })();
+    
+    function orKeys(filter, keys) {
         var b = false;
         keys.forEach(function(k) {
-            b |= $scope.filter[k]; 
+            b |= filter[k]; 
         });
-        console.log('checking ', keys, b);
-        return b; 
+        if (!b) {
+            keys.forEach(function(k) {
+                filter[k] = true;
+            });
+        }
+        // console.log('checking ', keys, b);
+        // return b; 
     }
     
-    var makeFilterString = function() {
+    var makeFilterString = function(filter) {
         var filterString = '.item';
-        Object.keys($scope.filter).forEach(function(f) {
+            // console.log(filter);
+        Object.keys(filter).forEach(function(f) {
             // console.log(f + ':' + $scope.filter[f]);
-            if (!$scope.filter[f]) filterString += ':not(.' + f + ')';
+            if (!filter[f]) filterString += ':not(.' + f + ')';
         });
         return filterString + ':not(.undefined)';
     };
     
-    var executeFilter = function (v) {
-        console.log($scope.filter);
-        if (!(orKeys(['now', 'order', 'sold']) && 
-              orKeys(['small', 'medium', 'large']) &&
-              orKeys(['under50', 'between50and100', 'over100']) &&
-              orKeys(['square', 'round', 'rectangle']) &&
-              orKeys(['yes', 'no' ]) &&
-              orKeys(['hanging', 'standing'])
-             )) {
-            $scope.filter[v] = true;
-            console.log(v);
-            return;
-        }
+    var executeFilter = function (aFilter) {
+        console.log('in executefilter!!!!! aFilter:', aFilter);
+        var filter = {};
+        Object.keys(aFilter).forEach(function(k) {
+            filter[k]=aFilter[k];
+        });
+        console.log('copy:', filter);
         
-        var filterString = makeFilterString();
+        orKeys(filter, ['now', 'order', 'sold']);  
+        orKeys(filter, ['small', 'medium', 'large']); 
+        orKeys(filter, ['under50', 'between50and100', 'over100']); 
+        orKeys(filter, ['square', 'round', 'rectangle']); 
+        orKeys(filter, ['yes', 'no' ]); 
+        orKeys(filter, ['hanging', 'standing']);
+        //      )) {
+        //     $scope.filter[v] = true;
+        //     console.log(v);
+        //     return;
+        // }
+        
+        var filterString = makeFilterString(filter);
         console.log(filterString);
         $('#imageDiv').isotope({ filter: filterString});
         
     };
     
+    $scope.filtered = 0;
     $scope.$watch('filter',
                   function(newValue, oldValue) {
+                      
                       console.log('changed!!!', newValue, oldValue);
                       var keys = Object.keys(newValue);
                       for (var i=0; i<keys.length; i++) {
                           if (newValue[keys[i]] !== oldValue[keys[i]])
-                          { executeFilter(keys[i]);
+                          {
+                              if (newValue[keys[i]] !== defaultFilter[keys[i]]) $scope.filtered++;
+                              else $scope.filtered--;
+                              console.log($scope.filtered);
+                              
+                              executeFilter(newValue);
                             break;
                           }
                       }
@@ -412,28 +484,59 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
     
     $scope.oneAtATime = true;
     
+    
     $scope.editImage = function (imageName) {
+        if (descrButtonClicked) {
+            descrButtonClicked = false;
+            return;
+        }
+        console.log('in editimage');
+        if ($scope.addingImages) {
+            if ($scope.item.images.indexOf(imageName) === -1) {
+                images[imageName].groupedWith = $scope.item.name;
+                $scope.item.images.push(imageName);
+                
+            }
+            else {
+                $scope.addAlert('Already added!!', 'error', 3000);
+                return;
+            }
+        }
+        else {
+            var groupedWith = images[imageName].groupedWith;
+            // if (groupedWith) {
+            //     $scope.item = images[groupedWith];
+            // }
+            // else $scope.item = images[imageName];   
+            $scope.item = images[groupedWith || imageName];
+        }
+        $scope.addingImages = false;
         $scope.shouldBeOpen = true;
-        $scope.item = images[imageName];
+        
     };
     
     $scope.cart = [];
+    var descrButtonClicked = false;
     $scope.buyItem = function (imageName) {
+        
+        console.log('in buy item');
         var item = images[imageName];
         if (item.inCart) {
-            $scope.addAlert('Terrarium already in cart!', 'error');
+            $scope.addAlert('Terrarium already in cart!', 'error', 3000);
             return;
         }
         $scope.cart.push(item); 
         item.inCart = true;
-        $scope.addAlert('Terrarium added to cart!', 'success');
+        $scope.addAlert('Terrarium added to cart!', 'success', 3000);
         console.log('Cart: ', $scope.cart);
+        descrButtonClicked = true;
+        
     };
     
     $scope.getCartTotal = function() {
         var total = 0;
         $scope.cart.forEach(function(c) {
-            console.log(c.price);
+            // console.log(c.price);
             var n = parseInt(c.price, 10);
             if (typeof n === 'number') 
                 total += n;
@@ -442,6 +545,8 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
     };
     
     $scope.removeFromCartByName = function(imageName) {
+        
+        descrButtonClicked = true;
         $scope.removeFromCart(images[imageName]);
     };
     
@@ -450,17 +555,40 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
         item.inCart=false;
         var newCart = [];
         $scope.cart.forEach(function(c) {
-            if (c !== item) newCart.push(c);
+                if (c !== item) newCart.push(c);
         }); 
         $scope.cart = newCart;
     };
     
-    $scope.close = function () {
+    $scope.closeEdit = function () {
+        console.log('closing');
         $scope.shouldBeOpen = false;
+        $scope.addingImages = false ;
         $scope.saveItems();
     };
     
+    $scope.close = function () {
+        console.log('close');
+        $scope.shouldBeOpen = false;
+        // $scope.addingImages = false ;
+        // $scope.saveItems();
+    };
+    
+    $scope.viewItemImage = function(imageName) {
+        
+        imageName = imageName.slice(imageName.indexOf('/') + 1);
+        $scope.viewImage(imageName);
+        
+    };
+    
     $scope.viewImage = function (imageName) {
+        
+        if (descrButtonClicked) {
+            descrButtonClicked = false;
+            return;
+        }
+        
+        
         // $.fancybox([
 	//     {
         //         href : 'fullsize/frommamaipad020'
@@ -468,15 +596,30 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
 	//     {href : 'fullsize/frommamaipad021' , title : 'Title'}
             
         // ]);
-        
+        var imgBox = [];
+        images[imageName].images.forEach(function(img) {
+            img = images[img];
+            imgBox.push({
+                href : 'fullsize/' + img.name
+                ,title : "<div class='fullsize well'>" +
+                    //Size:" +
+                    // images[imageName].size +
+                    " Price: $" + 
+                    images[imageName].price +
+                '<button class="btn btn-info pull-right" ng-click="selectClicked()">Buy ' +
+                    images[imageName].buy +
+                    '</button>' +
+                '<script src="paypal-button-minicart.min.js?merchant=NHGFSTS6QERCE" data-button="cart" data-name="xcvxczv" data-quantity="1" data-amount="5" ></script>' +
+                
+                "</div>" 
+
+            });
+            
+        });
     
-        $.fancybox.open([
-            {
-                    
-                href : 'fullsize/' + imageName
-                // ,title : 'manual 1st title'
-            }
-        ], {
+        $.fancybox.open(
+            imgBox
+        , {
             // nextEffect : 'none',
             // prevEffect : 'none',
             // padding    : 0,
@@ -536,6 +679,7 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
     $scope.zoomin = function() {
         if (zoom > 400) return;
         zoom += 30;
+        // console.log('zoom =', zoom);
         $(".item img").attr("width",zoom);
         $("#imageDiv").isotope("reLayout");
     };
@@ -585,7 +729,7 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
     };
     
     $scope.enterSidebar = function() {
-        console.log('enter sidebar');
+        // console.log('enter sidebar');
         $scope.mouseoverControls='mouseover';
         $(".item").removeClass("mouseover");
         // descHover();
@@ -610,21 +754,24 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
         // { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
     ];
 
-    $scope.addAlert = function(msg, type) {
+    $scope.addAlert = function(msg, type, timeout) { //type = error, success or info or nothing
         var alert = {msg: msg, type: type};
         $scope.alerts.push(alert);
         // console.log(index);
         
-        setTimeout(function() {
+        if (!timeout) {
+            
+        }
+        else setTimeout(function() {
             var alerts = [];
-            // console.log('closing alert ', index);
+            console.log('closing alert ');
             $scope.alerts.forEach(function(a) {
                 if (a !== alert) alerts.push(a);
             });
             $scope.alerts = alerts;
             $scope.$apply();
             // $scope.alerts.splice(index, 1);
-        },3000);
+        },timeout);
     };
 
     $scope.closeAlert = function(index) {
@@ -645,11 +792,112 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
     
     getDir('/images').
         then(getImageData).
-        then( setIsotope
+        then(setIsotope
               ,function(data, status) {
                   console.log('Failed', status);
                   alert('Failed to retrieve an image list!!.');
               });
+    
+    $(function() {
+        var select = $( "#zoom" );
+        var slider = $( "<div id='slider'></div>" ).insertAfter( select ).slider({
+            min: 1,
+            max: 100,
+            range: "min",
+            value: 40,
+            slide: function( event, ui ) {
+                var width = (ui.value*4 + 40);
+                // select[ 0 ].selectedIndex = ui.value - 1;
+                $(".item img").attr("width",40 + ui.value * 4);
+                $("#imageDiv").isotope("reLayout");
+            }
+        });
+        // $( "#minbeds" ).change(function() {
+        //     slider.slider( "value", this.selectedIndex + 1 );
+        // });
+    });
+    
+    $scope.setLayout = function(density) {
+        console.log($scope.dense);
+        if (density === 'wide')
+            $('#imageDiv').isotope({
+                layoutMode: 'cellsByRow',
+                cellsByRow: {
+                    columnWidth: 288,
+                    rowHeight:288
+                }
+            }); 
+        else $('#imageDiv').isotope({
+            layoutMode: 'masonry',
+            masonry: {
+                // columnWidth: 288,
+                // rowHeight:288
+            }
+  
+        });
+    };
+    
+    $scope.isCollapsed = false;
+    $scope.moreless=function() {
+        if ($scope.isCollapsed) return 'Less';
+        return 'More';
+    };
+    $scope.selectClicked = function() {
+        console.log('in selectclicked');
+        $scope.isCollapsed = !$scope.isCollapsed;
+        setTimeout(function() {
+            if ($scope.isCollapsed)   {
+                $("#selectContainer").isotope("reLayout");
+                // executeFilter($scope.filter);
+                // $('#imageDiv').isotope('reloadItems');
+            }
+            else {
+                console.log('closing select', defaultFilter);
+                // executeFilter(defaultFilter);
+                // $('#imageDiv').isotope('reloadItems');
+                
+            }
+        },1);
+        
+    };
+    
+    setSelectIsotope();
+    
+    
+    $scope.allClicked = function() {
+        $scope.filter = (function() {
+            var filter = {};
+            Object.keys(defaultFilter).forEach(function(k) {
+                filter[k] = defaultFilter[k];
+            }); 
+            return filter;
+        })();
+        $scope.filtered = 1; //one watch will be executed
+        executeFilter($scope.filter);
+        $('#imageDiv').isotope('reloadItems');
+        
+    };
+    
+    // $scope.test = ['images/2012-12-11 at 07.28.35.jpg', 'images/2012-12-11 at 07.28.35.jpg'];
+    $scope.addImageToItem = function(imageName) {
+        if (imageName) {
+            if ($scope.item.images.indexOf(imageName) === -1)
+                $scope.item.images.push(imageName);
+            return;
+        }
+        $scope.shouldBeOpen = false;
+        $scope.addingImages = true;
+        // $scope.addAlert("Click an image to add..", 'info', 10000);
+        };
+    $scope.removeImageFromItem = function(item) {
+        if (item.images.length <= 1) return;
+        
+        images[item.mainImage].groupedWith = null;
+        console.log(item.images, item.mainImage);
+        var loc = item.images.indexOf(item.mainImage);
+        item.images = item.images.slice(0, loc ).concat(item.images.slice(loc+1));
+        item.mainImage = item.images[0];
+        };
     
 });
 

@@ -10,7 +10,7 @@ exports.handlePost = function(req, res) {
             var data = JSON.parse(chunk);
             // console.log(data);
             var fs = require('fs');
-            fs.writeFile("./terrariums.json", JSON.stringify(data), function(err) {
+            fs.writeFile("./www/terrariums.json", JSON.stringify(data), function(err) {
                 if(err) {
                     console.log(err);
                 } else {
