@@ -27,22 +27,24 @@
     <!-- </li> -->
     
     <!-- <li> -->
-    <!-- 		<a class="ajax" data-fancybox-type="iframe" href="/index.html">Iframe</a> -->
+    <!-- 		<a class="ajax" data-fancybox-type="iframe"
+    href="/index.html">Iframe</a> -->
+    
     <!-- </li> -->
     <li>
-      <a class="ajax fancybox.ajax" href="/about.html">About</a>
+      <a class="ajax fancybox.ajax" href="/md/about.md">About</a>
     </li>
     <li>
-      <a class="ajax fancybox.ajax" href="/faq.md">Faq</a>
+      <a class="ajax fancybox.ajax" href="md/faq.md">Faq</a>
     </li>
     <li>
-      <a class="ajax fancybox.ajax" href="/care.md">Care</a>
+      <a class="ajax fancybox.ajax" href="md/care.md">Care</a>
     </li>
     <li>
-      <a class="ajax fancybox.ajax" href="/services.md">Services</a>
+      <a class="ajax fancybox.ajax" href="md/services.md">Services</a>
     </li>
     <li>
-      <a class="ajax fancybox.ajax" href="/contact.html">Contact</a>
+      <a class="ajax fancybox.ajax" href="md/contact.md">Contact</a>
     </li>
     <li>
       <a class="" href="#"> <p></p>  </a>
@@ -51,7 +53,7 @@
       <a ng-show="!isCollapsed" class="" href="#" ng-click="selectClicked()">Selection</a>
     </li>
     <li>
-      <a ng-show="filtered" class=""
+      <a ng-show="false" class=""
       href="#" ng-click="allClicked()">Show all</a>
     </li>
     <li>
@@ -79,7 +81,7 @@
   <div  class="selector">
     
     <div class="controlHeader">
-      <a href="#" ng-click="sortBy('buy')" tooltip="Click to sort on buy" tooltip-placement="right" tooltip-animation="true">Available</a>
+      <a href="#" ng-click="sortBy('buy')" tooltipnw="Click to sort on buy" tooltipnw-placement="right" tooltipnw-animation="true">Available</a>
       {{sortOrder['buy']}}</div>
     <input id="sn" type="checkbox"   ng-click="executeFilter('now')" ng-model="filter.now" >
     <label  for="sn"><span></span>Buy Now</label>
@@ -92,8 +94,8 @@
   
   <div id="priceWell" class="selector">
     <div class="controlHeader">
-      <a href="#" ng-click="sortBy('price')" tooltip="Click to sort on
-						      price" tooltip-placement="right" tooltip-animation="true">Price </a>
+      <a href="#" ng-click="sortBy('price')" tooltipnw="Click to sort on
+						      price" tooltipnw-placement="right" tooltipnw-animation="true">Price </a>
       {{sortOrder['price']}}</div>
     <input id="p1" type="checkbox"  ng-click="executeFilter('under50')" ng-model="filter.under50" >
     <label for="p1"><span></span>Under $50</label>
@@ -105,7 +107,7 @@
   
   <div  class="selector">
     <div class="controlHeader">
-      <a href="#" ng-click="sortBy('size')" tooltip="Click to sort on size" tooltip-placement="right" tooltip-animation="true">Size </a>
+      <a href="#" ng-click="sortBy('size')" tooltipnw="Click to sort on size" tooltipnw-placement="right" tooltipnw-animation="true">Size </a>
       {{sortOrder['size']}}</div>
     <input id="s1" type="checkbox"  ng-click="executeFilter('small')" ng-model="filter.small" >
     <label for="s1"><span></span>Small</label>
@@ -119,7 +121,7 @@
 
   <div  class="selector">
     <div class="controlHeader">
-      <a href="#" ng-click="sortBy('shape')" tooltip="Click to sort on shape" tooltip-placement="right" tooltip-animation="true">Shape </a>
+      <a href="#" ng-click="sortBy('shape')" tooltipnw="Click to sort on shape" tooltipnw-placement="right" tooltipnw-animation="true">Shape </a>
       {{sortOrder['shape']}}</div>
     <input id="v1" type="checkbox"  ng-model="filter.square" ng-click="executeFilter('square')"  >
     <label for="v1"><span></span>Square</label>
@@ -132,8 +134,8 @@
 
   <div  class="selector">
     <div class="controlHeader">
-      <a href="#" ng-click="sortBy('type')" tooltip="Click to sort on
-						     type" tooltip-placement="right" tooltip-animation="true">Type </a>
+      <a href="#" ng-click="sortBy('type')" tooltipnw="Click to sort on
+						     type" tooltipnw-placement="right" tooltipnw-animation="true">Type </a>
       {{sortOrder['type']}}</div>
     <input id="t1" type="checkbox"  ng-click="executeFilter('standing')" ng-model="filter.standing" >
     <label for="t1"><span></span>Standing</label>
@@ -145,25 +147,29 @@
 
   <div ng-show="mode == 'edit'"  class="selector">
     <div class="controlHeader">
-      <a href="#" ng-click="sortBy('published')" tooltip="Click to sort on
-							  online status" tooltip-placement="right" tooltip-animation="true">Published </a>
+      <a href="#" ng-click="sortBy('published')" tooltipnw="Click to sort on
+							  online status" tooltipnw-placement="right" tooltipnw-animation="true">Published </a>
       {{sortOrder['published']}}</div>
     <input id="o1" type="checkbox"  ng-click="executeFilter('yes')" ng-model="filter.yes" >
     <label for="o1"><span></span>Online</label>
     <input id="o2" type="checkbox"  ng-click="executeFilter('no')" ng-model="filter.no" >
     <label for="o2"><span></span>Not online</label>
+    <input id="o3" type="checkbox"  ng-click="executeFilter('archived')" ng-model="filter.archived" >
+    <label for="o3"><span></span>Archived</label>
     
   </div>
 
 
   <div ng-show="mode == 'edit'"  class="selector">
     <div class="controlHeader">
-      <a href="#" ng-click="sortBy('id')" tooltip="Click to sort on
-						   id" tooltip-placement="right" tooltip-animation="true">Images</a>
+      <a href="#" ng-click="sortBy('id')" tooltipnw="Click to sort on
+						   id" tooltipnw-placement="right" tooltipnw-animation="true">Images</a>
       {{sortOrder['id']}}</div>
     
     <input id="g1" type="checkbox"  ng-model="filter.grouped" ng-click="executeFilter('grouped')"  >
-    <label for="g1"><span></span>Grouped</label>
+    <label for="g1"><span></span>Ungroup!</label>
+    <input id="g2" type="checkbox"  ng-model="deleteMode"   >
+    <label for="g2"><span></span>Delete mode</label>
     
   </div>
   
@@ -198,7 +204,8 @@
 	Properties of this terrarium:
 	</h4>
     
-    <button class="btn pull-right btn-success" ng-click="closeEdit()">Save</button>
+    <button ng-show="!deleteMode" class="btn pull-right btn-success" ng-click="closeEdit(item.name)">Close</button>
+    <button ng-show="deleteMode" class="btn pull-right btn-danger" ng-click="deleteImg(item.name)">Delete</button>
   </div >
   <div class="container">
     <div class="row">
@@ -266,6 +273,7 @@
 	      <select  id="published" ng-model="item.published" >
 		<option value="yes">Yes</option>
 		<option value="no">No</option>
+		<option value="archived">Archived</option>
 	      </select>
 	    </div>
 	  </div>

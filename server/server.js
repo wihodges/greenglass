@@ -5,12 +5,13 @@ var dev = process.env.BB_SERVER_DEV;
 if (dev) console.log('\n------Server running with development settings------\n');
 
 var server = require('bb-server')
-    // testMail = require("./testSendMail"),
-    ,save = require("./save")
+// testMail = require("./testSendMail"),
+,save = require("./save")
 
-    ,sync = require("./sync.js")
-    ,dropbox_authorize = require("./dropbox_authorize.js")
-    ,dropbox_connect = require("./dropbox_connect.js")
+,sync = require("./sync.js")
+,dropbox_authorize = require("./dropbox_authorize.js")
+,dropbox_connect = require("./dropbox_connect.js")
+,deleteImg = require("./deleteImg")
 ;
 
  
@@ -29,6 +30,7 @@ var options = {
     ,postHandlers: {
         "/greenglass" : save
         // "/sendmail" : testMail
+        ,"/delete": deleteImg
         }
     ,getHandlers: {
         "/sync": sync,

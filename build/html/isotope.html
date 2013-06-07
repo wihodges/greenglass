@@ -13,7 +13,8 @@
 	Properties of this terrarium:
 	</h4>
     
-    <button class="btn pull-right btn-success" ng-click="closeEdit()">Save</button>
+    <button ng-show="!deleteMode" class="btn pull-right btn-success" ng-click="closeEdit(item.name)">Close</button>
+    <button ng-show="deleteMode" class="btn pull-right btn-danger" ng-click="deleteImg(item.name)">Delete</button>
   </div >
   <div class="container">
     <div class="row">
@@ -81,6 +82,7 @@
 	      <select  id="published" ng-model="item.published" >
 		<option value="yes">Yes</option>
 		<option value="no">No</option>
+		<option value="archived">Archived</option>
 	      </select>
 	    </div>
 	  </div>

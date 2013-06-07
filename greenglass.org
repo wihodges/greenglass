@@ -2,7 +2,7 @@
  hook up with paypal , send emails to Julie and Client
 * checkout filter
   show only ones in cart, checkbox with label 'In cart' or 'show'
-* update item filter and sort classes live, and then resort and refilter
+  write innerHtml for desc, update the classes and
 * fill links with data and route them as well
 * put item info in lightbox image, including buy button.
   angular is not active in the title html string 
@@ -10,5 +10,11 @@
 * wide/dense setting
  not finished yet, cellsbyRow needs a columnWidth bigger that image width 
   
-
 * prefetch images and give hourglass and progress meter even?
+* sign in with persona
+* add blog
+  
+* update item filter and sort classes live, and then resort and refilter
+
+* upload files from dropbox
+  

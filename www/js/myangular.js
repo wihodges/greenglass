@@ -51,6 +51,7 @@ function makeItem(item, size) {
     var datas = ''; 
     datas += 'data-price=' + item.price + ' ';
     datas += 'data-id=' + item.id + ' ';
+    datas += 'id=' + item.elId + ' ';
     
     
     var clickEvent= 'ng-click="imageClicked($event)"';
@@ -221,7 +222,9 @@ function attachDataToImages(images, data) {
             if (images[d]) {
                 images[d] = data[d];
                 if (!images[d].images) images[d].images = [images[d].name];
-            }    }); 
+                if (!images[d].published) images[d].published = 'no';
+            }
+         }); 
     return images;
 }
 
@@ -309,7 +312,9 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
             itemSelector: '.item'
         });
         var itemsHtml = ''; 
+        var i = 0;
         Object.keys(items).forEach(function(imgName) {
+            items[imgName].elId = 'img' + i++;
             itemsHtml += makeItem(items[imgName], zoom);
         });
         $scope.itemsHtml = itemsHtml;
@@ -364,7 +369,7 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
                 }
                 ,published : function ( $elem ) {
                     // console.log($elem, getAttr($elem, ["yes", "no"]));
-                    return getAttr($elem, ["yes", "no"]);
+                    return getAttr($elem, ["yes", "no", "archived"]);
                 }
             }
         });
@@ -401,7 +406,7 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
         under50:false, between50and100:false, over100:false,
         square:false, round:false, rectangle:false,
         standing:false, hanging:false,
-        yes:true, no:true
+        yes:true, no:false, archived:false
         ,grouped:false
     };
 
@@ -449,8 +454,9 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
         orKeys(filter, ['small', 'medium', 'large']); 
         orKeys(filter, ['under50', 'between50and100', 'over100']); 
         orKeys(filter, ['square', 'round', 'rectangle']); 
-        orKeys(filter, ['yes', 'no' ]); 
+        orKeys(filter, ['yes', 'no', 'archived' ]); 
         orKeys(filter, ['hanging', 'standing']);
+        // orKeys(filter, ['deleted']);
         //      )) {
         //     $scope.filter[v] = true;
         //     console.log(v);
@@ -575,11 +581,49 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
         $scope.cart = newCart;
     };
     
-    $scope.closeEdit = function () {
+    $scope.closeEdit = function (itemName) {
         console.log('closing');
         $scope.shouldBeOpen = false;
         $scope.addingImages = false ;
         $scope.saveItems();
+        // $("#img4 #descrContainer").html('bla');
+        // var el = $('#' + item.name);
+        // removeClasses(el, ['size', 'shape', 'buy', 'published', 'groupedWith', 'type']);
+        //     (item.size ? item.size + ' ': '') +
+        //     (item.shape ? item.shape + ' ': '') +
+        //     (item.buy ? item.buy + ' ': '') +
+        //     (item.published ? item.published + ' ': 'no ') +
+        //     (item.groupedWith ? 'grouped' + ' ': '') +
+        //     (item.type ? item.type + ' ': '');
+    
+        // if (item.price <= 50) classAttr += "under50";
+        // if (item.price > 50 && item.price <= 100) classAttr += "between50and100";
+        // if (item.price > 100) classAttr += "over100";
+    
+    
+        // var datas = ''; 
+        // datas += 'data-price=' + item.price + ' ';
+        // datas += 'data-id=' + item.id + ' ';
+    };
+    
+    $scope.deleteImg = function(name) {
+        console.log('Deleting ' + name);
+        $http({method: 'POST', url: '/delete', data:{name: name}}).
+            success(function(data, status, headers, config) {
+                $scope.shouldBeOpen = false;
+                $scope.addingImages = false ;
+                console.log(status, data);
+                console.log('#'+images[name].elId, $(images[name].elId));
+                $('#' + images[name].elId).addClass('deleted');
+                delete images[name];
+            }).
+            error(function(data, status, headers, config) {
+                alert('Failed to delete ' + name);
+                $scope.shouldBeOpen = false;
+                $scope.addingImages = false ;
+                console.log('Failed', status, data, headers, config);
+                console.log('Failed to post data.');
+            });
     };
     
     $scope.close = function () {
@@ -904,6 +948,7 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
             }
             else {
                 console.log('closing select', defaultFilter);
+                $scope.allClicked();
                 // executeFilter(defaultFilter);
                 // $('#imageDiv').isotope('reloadItems');
                 
