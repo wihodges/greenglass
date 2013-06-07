@@ -1,6 +1,6 @@
 <!doctype html>
 <html xmlns:ng="http://angularjs.org" lang="en">
-  <head id="head--"><title>Greenglass terrariumns</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'>
+  <head id="head--"><title>green glass terrariums</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'>
 <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -19,18 +19,18 @@
 <script src="http://localhost:9090/skewer"></script>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css"><link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css"><link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css"><link rel="stylesheet" type="text/css" href="css/angular-ui.css"><link rel="stylesheet" type="text/css" href="css/checkboxes.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/jquery.fancybox.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-buttons.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-thumbs.css"><link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
-  <body id="ng:app" ng:app="myApp" >
+  <body id="ng:app" ng:app="myApp" ng-cloak>
     <div id="wrapper--">
 <div class="container-fluid" ng-controller='mainCntl'>
   <alert class=".fade .in" ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
   <div class="row-fluid"> 
-    <h2>Green Glass Terrariums</h2>
+    <h2>green glass terrariums</h2>
   </div> 
     <div class="leftBar  ">
       <div id="linkbar--" ng-mouseenter="enterLinkbar()"><div id="rightBlock">
   
   <ul>
-    <li ng-show="cart.length>0"class="cart">
+    <li ng-show="cart.length>0" class="cart">
 	<div class="well" >
 	  <h5>Cart</h5>
 	  <ul >
@@ -38,18 +38,15 @@
 	      ${{item.price}} <button type="button" class="close" ng-click="removeFromCart(item)">×</button></li>
 	  </ul>
 	  Total: ${{getCartTotal()}}
-	  <button class"btn btn-primary">Checkout</button>
-	  <button class"btn btn-inverse">Filter</button>
+	  <button class="btn btn-primary">Checkout</button>
+	  <button class="btn btn-inverse">Filter</button>
 	</div>
       
     </li>
     
-    <li>
-      <a class="" href="#"ng-click="startSlideshow()">Slideshow?</a>
-    </li>
-    <li>
-      <a class="" href="#"> <p>  </a>
-    </li>
+    <!-- <li> -->
+    <!--   <a class="" href="#" ng-click="startSlideshow()">Slideshow?</a> -->
+    <!-- </li> -->
     
     <!-- <li> -->
     <!-- 		<a class="ajax" data-fancybox-type="iframe" href="/index.html">Iframe</a> -->
@@ -70,22 +67,24 @@
       <a class="ajax fancybox.ajax" href="/contact.html">Contact</a>
     </li>
     <li>
-      <a class="" href="#"> <p>  </a>
+      <a class="" href="#"> <p></p>  </a>
     </li>
     <li>
-      <a ng-show="!isCollapsed" class="" href="#"ng-click="selectClicked()">Select</a>
+      <a ng-show="!isCollapsed" class="" href="#" ng-click="selectClicked()">Selection</a>
     </li>
     <li>
       <a ng-show="filtered" class=""
-      href="#"ng-click="allClicked()">Show al</a>
+      href="#" ng-click="allClicked()">Show all</a>
     </li>
     <li>
-      <a class="" href="#"> <p>  </a>
+      <a class="" href="#"> <p></p>  </a>
     </li>
     <li>
       <a style="color:red;" ng-show="addingImages" class=""
-      href="#" ng-click="addingImages=false">Adding..</a>
+	 href="#" ng-click="addingImages=false">Adding..</a>
     </li>
+    
+    
     
   </ul> 
 </div>
@@ -329,5 +328,34 @@
 </div>
 <script>var mode="view"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/myangular.js"></script><script type="text/javascript" src="js/myjs.js"></script>
 </div> 
+    <script src="js/minicart.js"></script>
+    <script>
+      
+      PAYPAL.apps.MiniCart.render({
+      
+			events: {
+				onAddToCart: function (data) {
+					// If the product is already in the cart then cancel the addToCart method
+					if (this.getProductAtOffset(data.offset)) {
+						return false;
+					}
+				}
+      
+       ,afterAddToCart: function () {
+      console.log(this.products);
+
+            }
+			},
+      
+		strings: {
+			button: 'Checkout',
+			subtotal: 'Total: ',
+			discount: 'Discount: ',
+			shipping: 'Pickup only',
+			processing: 'Processing...'
+		},
+		});
+    </script>
   </body>
 </html>	
+

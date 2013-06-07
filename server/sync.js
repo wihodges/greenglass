@@ -7,7 +7,7 @@ var fs = require('fs');
 var dbox  = require("dbox");
 var dropboxApp = require("./dropboxApp");
 var utils = require('util');
-var gm = require('gm');
+// var gm = require('gm');
 var processImages = require('./processImages');
 
 var client;
@@ -60,7 +60,7 @@ function getMetaData( path, callback) {
 }
 
 function buildMetaData(path, done) {
-    debug("Inspecting " + path);
+    debug("Inspecting Dropbox" + path);
     getMetaData(path, function(metaData) {
         // debug('metadata received', metaData);
         if (metaData && metaData.contents) {
@@ -81,8 +81,6 @@ function buildMetaData(path, done) {
                     }
                 });
             }
-            
-            
         } 
         else done();
     });
@@ -95,7 +93,7 @@ function getModTime(path) {
         var stats = fs.statSync(process.cwd() + path);
         return stats.mtime.getTime();
     } catch(e) {
-        debug(e);
+        // debug(e);
         return 0;
     }
 }
@@ -122,8 +120,9 @@ function processMap() {
     var dropboxToServer = [];
     var serverToDropbox = [];
     var fileMap = makeFileMap();
-    debug('filemap:\n', fileMap);
+    // debug('p:\n', fileMap);
     // console.log(allMetaData['/'].contents);
+    var nonexistant = 0;
     Object.keys(fileMap).forEach(function(k) {
         var pair = { dropbox: k,
                      server: fileMap[k] };
@@ -156,7 +155,9 @@ function processMap() {
         // });
         var serverTime = getModTime(pair.server);
         if (serverTime === 0 ) {
-            debug("Warning: Couldn't get modtime for file on server!!! " + pair.server);
+            // debug("Warning: Couldn't get modtime for file on server!!! " + pair.server);
+            nonexistant++;
+            // debug("" + pair.server);
             }
         // debug('server:', serverTime);
         var dropboxTime = Date.parse(metaData.modified);
@@ -164,15 +165,24 @@ function processMap() {
         else dropboxToServer.push(pair);
     }); 
     if (serverToDropbox.length > 0) {
-        debug("Warning. The following files have been modified on the server: \n" , serverToDropbox);
+        debug("Warning: " + serverToDropbox.length + " have been modified on the destination server.");
     }
+    if (nonexistant > 0) {
+        debug('Found ' + nonexistant + ' new files in Dropbox');;
+    }
+    
+    debug("Finished inspecting dropbox. Found " + Object.keys(fileMap).length + ' files.');
+    if (dropboxToServer.length === 0) debug('All of these are already on the server.');
+    else debug("Of which " + dropboxToServer + " are not yet on the server");
     return dropboxToServer;
 }
 
 function copyFilesFromDropbox(files, done) {
     var counter = files.length;
+    var nFiles = counter;
+    var copied = 0;
     if (counter === 0) {
-        done();
+        done(nFiles, copied);
         return;
     }
     files.forEach(function(f) {
@@ -180,26 +190,28 @@ function copyFilesFromDropbox(files, done) {
             if (status !== 200) {
                 debug("Error: couldn't pull file from dropbox: " + f.dropbox);
                 counter--;
-                if (counter === 0) done();
+                if (counter === 0) done(nFiles, copied);
                 return;
             }
             // debug(reply, metadata);
             if (!reply) {
                 debug(f.dropbox + 'has no contents it seems. Not saving');
                 counter--;
-                if (counter === 0) done();
+                if (counter === 0) done(nFiles, copied);
                 return;
             }
             fs.writeFile(process.cwd() + f.server, reply, function(err) {
                 if(err) {
                     debug("Couldn't save file to server " + f.server + ' ' ,err);
                     counter--;
-                    if (counter === 0) done();
+                    if (counter === 0) done(nFiles, copied);
                     // res.end("Couldn't store request_token...");
                 } else {
-                    debug("Saved dropbox file " + f.dropbox + ' to ' + f.server);
+                    // debug("Saved dropbox file " + f.dropbox + ' to ' + f.server);
+                    copied++;
                     counter--;
-                    if (counter === 0) done();
+                    
+                    if (counter === 0) done(nFiles, copied);
                 }
             });                    
         
@@ -231,41 +243,52 @@ function writePrettyDebug(res) {
             res.write("</br>");
         });
     });   
-    res.end('Done');
+    // res.end('Done');
 }
 
 function makeServerImages(files, done) {
     if (!files) return;
     debug("Creating thumbnails:");
-    processImages.process('dropbox/', files, 'thumbnails/', '400', 50, function(aLog) {
-        log = log.concat(aLog);
+    processImages.process('dropbox/', files, 'thumbnails/', '400', 50, log, function(aLog) {
+        // log = log.concat(aLog);
         debug("Creating fullsized images:");
-        processImages.process('dropbox/',files, 'fullsize/', '1600', 50, function(aLog) {
-            log = log.concat(aLog);
+        processImages.process('dropbox/',files, 'fullsize/', '1600', 50, log, function(aLog) {
+            // log = log.concat(aLog);
             done();
         });
     });
 }
 
+
+
 function sync(done) {
     buildMetaData('/', function() {
-        debug("Finished inspecting dropbox");
         var dropboxToServer = processMap();
-        debug('To be copied from dropbox to server: \n', dropboxToServer);
-        copyFilesFromDropbox(dropboxToServer, function() {
-            if (compress) 
-                makeServerImages(fs.readdirSync(process.cwd() + '/dropbox'), done);
-            else if (dropboxToServer.length > 0) {
-                var files = [];
-                dropboxToServer.forEach(function(pair) {
-                    files.push(pair.dropbox);
-                });
-                makeServerImages(files, done);
-            }
-            else {  debug("No changes to dropbox files, so not compressing images");
-                    done([]);
-                 }
-        });
+        if (dropboxToServer.length > 0)
+            debug('About to try to copy from dropbox to server: ' + dropboxToServer.length + ' files.');
+        copyFilesFromDropbox(dropboxToServer,
+                             function (nFiles, copied) {
+                                 if (copied>0)
+                                     debug('Copied ' + copied + ' of ' + nFiles + ' files from Dropbox to server.');
+                                 if (compress)  {
+                                     debug('Compressing and resizing all images on the server');
+                                     makeServerImages(fs.readdirSync(process.cwd() + '/dropbox'), done);
+                                 } 
+                                 else {
+                                     if (dropboxToServer.length > 0)
+                                     {
+                                         debug('Compressing and resizing new images on the server');
+                                             var files = [];
+                                         dropboxToServer.forEach(function(pair) {
+                                             files.push(pair.dropbox);
+                                         });
+                                         makeServerImages(files, done);
+                                     }
+                                     else {  debug("No changes to files on server, so not resizing and compressing images");
+                                             done([]);
+                                          }
+                                 } 
+                             });
     });
 }
 
@@ -273,12 +296,19 @@ function sync(done) {
 
 var intervalID;
 exports.handleGet = function(req, res) {
-    log = [];
     res.writeHead(200, {
         'Content-Type': 'text/html'
 	// 'last-modified': GMTdate
     });
-    debug('Sync report:');
+    if ( busy ) {
+        res.write("Busy syncing right now. But this is the status sofar:");
+        res.write("Refresh to see updates");
+        writePrettyDebug(res);   
+        res.end('Still busy..');
+        return;
+    }
+    log = [];
+    // debug('Sync report:');
     // debug("Query: " , req.url.query);
     if (busy) {
         res.end("Busy syncing right now. Try again in a minute");
@@ -314,7 +344,9 @@ exports.handleGet = function(req, res) {
     
     sync(function() {
         busy = false;
+        console.log('Done');
         // debug('Done');
         writePrettyDebug(res);
+        res.end('Done');
     });
 };

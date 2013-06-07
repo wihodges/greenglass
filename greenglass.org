@@ -10,3 +10,5 @@
 * wide/dense setting
  not finished yet, cellsbyRow needs a columnWidth bigger that image width 
   
+
+* prefetch images and give hourglass and progress meter even?

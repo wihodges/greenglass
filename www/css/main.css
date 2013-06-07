@@ -493,3 +493,12 @@ img {
     margin-bottom:0px;
     margin-top:8px;
 }
+
+#PPMiniCart form{
+    z-index:200;
+}
+
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none;
+}

@@ -2,13 +2,13 @@
 <div class="container-fluid" ng-controller='mainCntl'>
   <alert class=".fade .in" ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
   <div class="row-fluid"> 
-    <h2>Green Glass Terrariums</h2>
+    <h2>green glass terrariums</h2>
   </div> 
     <div class="leftBar  ">
       <div id="linkbar--" ng-mouseenter="enterLinkbar()"><div id="rightBlock">
   
   <ul>
-    <li ng-show="cart.length>0"class="cart">
+    <li ng-show="cart.length>0" class="cart">
 	<div class="well" >
 	  <h5>Cart</h5>
 	  <ul >
@@ -16,18 +16,15 @@
 	      ${{item.price}} <button type="button" class="close" ng-click="removeFromCart(item)">×</button></li>
 	  </ul>
 	  Total: ${{getCartTotal()}}
-	  <button class"btn btn-primary">Checkout</button>
-	  <button class"btn btn-inverse">Filter</button>
+	  <button class="btn btn-primary">Checkout</button>
+	  <button class="btn btn-inverse">Filter</button>
 	</div>
       
     </li>
     
-    <li>
-      <a class="" href="#"ng-click="startSlideshow()">Slideshow?</a>
-    </li>
-    <li>
-      <a class="" href="#"> <p>  </a>
-    </li>
+    <!-- <li> -->
+    <!--   <a class="" href="#" ng-click="startSlideshow()">Slideshow?</a> -->
+    <!-- </li> -->
     
     <!-- <li> -->
     <!-- 		<a class="ajax" data-fancybox-type="iframe" href="/index.html">Iframe</a> -->
@@ -48,22 +45,24 @@
       <a class="ajax fancybox.ajax" href="/contact.html">Contact</a>
     </li>
     <li>
-      <a class="" href="#"> <p>  </a>
+      <a class="" href="#"> <p></p>  </a>
     </li>
     <li>
-      <a ng-show="!isCollapsed" class="" href="#"ng-click="selectClicked()">Select</a>
+      <a ng-show="!isCollapsed" class="" href="#" ng-click="selectClicked()">Selection</a>
     </li>
     <li>
       <a ng-show="filtered" class=""
-      href="#"ng-click="allClicked()">Show al</a>
+      href="#" ng-click="allClicked()">Show all</a>
     </li>
     <li>
-      <a class="" href="#"> <p>  </a>
+      <a class="" href="#"> <p></p>  </a>
     </li>
     <li>
       <a style="color:red;" ng-show="addingImages" class=""
-      href="#" ng-click="addingImages=false">Adding..</a>
+	 href="#" ng-click="addingImages=false">Adding..</a>
     </li>
+    
+    
     
   </ul> 
 </div>

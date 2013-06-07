@@ -1,4 +1,4 @@
-/*global mode:false angular:false $:false jQuery:false console:false*/
+/*global PAYPAL:false mode:false angular:false $:false  console:false*/
 /*jshint strict:false unused:true smarttabs:true eqeqeq:true immed: true undef:true*/
 /*jshint maxparams:7 maxcomplexity:7 maxlen:150 devel:true newcap:false*/ 
 
@@ -67,10 +67,10 @@ function makeItem(item, size) {
         ">" +
         '<div id="descrContainer" class="well">' +
         (item.size ? "Size: " + '{{getItem("' + item.name + '").size}}' + '<br>': '') +
-        // (item.buy ? "Buy: " + '{{getItem("' + item.name + '").buy}}'  + '<br>': '') +
+        (item.buy ? "Buy: " + '{{getItem("' + item.name + '").buy}}'  + '<br>': '') +
         (item.price ? "Price: $" + '{{getItem("' + item.name + '").price}}' + '<br>': '') +
-        // (item.shape ? "Shape: " + '{{getItem("' + item.name + '").shape}}' + '<br>': '') +
-        // (item.typ ? "Type: " + '{{getItem("' + item.name + '").type}}' + '<br>': '') +
+        (item.shape ? "Shape: " + '{{getItem("' + item.name + '").shape}}' + '<br>': '') +
+        (item.typ ? "Type: " + '{{getItem("' + item.name + '").type}}' + '<br>': '') +
         (mode === 'edit' ?
          "Published: " + '{{getItem("' + item.name + '").published}}' + '<br>': '') +
         (mode === 'edit' ?
@@ -79,12 +79,12 @@ function makeItem(item, size) {
         // "<button class='btn btn-inverse'" + viewClick + ">View</button>" +
         // (mode === 'edit' ?
         //  "<button class='btn btn-inverse'" + editClick + " >Edit</button>" : '') +
-        (item.buy !== 'sold' ?
-         "<button ng-show=" + '"!getItem(' + "'" + item.name  + "'" + ').inCart"' +
-         " class='btn btn-inverse'" + buyClick + ">"+ (item.buy === 'now' ? 'Buy Now' : 'On order') +"</button>": '') +
-        (item.buy !== 'sold' ?
-         "<button ng-show=" + '"getItem(' + "'" + item.name  + "'" + ').inCart"' +
-         " class='btn btn-inverse'" + removeFromCartClick + ">Cancel</button>": '') +
+        // (item.buy !== 'sold' ?
+        //  "<button ng-show=" + '"!getItem(' + "'" + item.name  + "'" + ').inCart"' +
+        //  " class='btn btn-inverse'" + buyClick + ">"+ (item.buy === 'now' ? 'Buy Now' : 'On order') +"</button>": '') +
+        // (item.buy !== 'sold' ?
+        //  "<button ng-show=" + '"getItem(' + "'" + item.name  + "'" + ').inCart"' +
+        //  " class='btn btn-inverse'" + removeFromCartClick + ">Cancel</button>": '') +
     
         "</div>" +
         "</div>";
@@ -93,7 +93,7 @@ function makeItem(item, size) {
     
     return '<div '+ datas + 'class="' + classAttr +
         '">' +
-        '<img  ' +  clickEvent + enterImage + 
+        '<img  ' +  viewClick + enterImage + 
         ' alt="" src="images/' + item.name + 
         '" width="' + size + 'px;" height=auto;>' +
         description + 
@@ -102,6 +102,7 @@ function makeItem(item, size) {
 }
 
 function imageClicked(event) {
+    console.log('imageClicked');
     var url = event.target.src;
     var img = url.slice(url.lastIndexOf('/') + 1);
     console.log(img);
@@ -143,6 +144,7 @@ function descHover(event) {
 }
 
 function imageHover(event) {
+    if (mode !== 'edit') return;
     // return;
     // console.log(event);
     // var url = event.target.src;
@@ -214,11 +216,12 @@ function imageHover(event) {
 //     }
 
 function attachDataToImages(images, data) {
-    Object.keys(data).forEach(function(d) {
-        if (images[d]) {
-            images[d] = data[d];
-            if (!images[d].images) images[d].images = [images[d].name];
-        }    }); 
+    if (data)
+        Object.keys(data).forEach(function(d) {
+            if (images[d]) {
+                images[d] = data[d];
+                if (!images[d].images) images[d].images = [images[d].name];
+            }    }); 
     return images;
 }
 
@@ -384,8 +387,8 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
                 }); 
             }).
             error(function(data, status, headers, config) {
-                console.log('Failed', status);
-                alert('Failed to post data.');
+                console.log('Failed', status, data, headers, config);
+                console.log('Failed to post data.');
             });
         
     };
@@ -518,16 +521,28 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
     $scope.cart = [];
     var descrButtonClicked = false;
     $scope.buyItem = function (imageName) {
-        
         console.log('in buy item');
         var item = images[imageName];
+        var data ={"business":"michieljoris@gmail.com","item_name":'myitem',"amount":"45","currency_code":"AUD"};
+        console.log(data);
+            
+        PAYPAL.apps.MiniCart.addToCart(data);
+        setTimeout(function() {
+        PAYPAL.apps.MiniCart.show();
+            
+        },100);
+        
+        return;
+        
+        console.log('in buy item');
+        // var item = images[imageName];
         if (item.inCart) {
             $scope.addAlert('Terrarium already in cart!', 'error', 3000);
             return;
         }
         $scope.cart.push(item); 
         item.inCart = true;
-        $scope.addAlert('Terrarium added to cart!', 'success', 3000);
+        // $scope.addAlert('Terrarium added to cart!', 'success', 3000);
         console.log('Cart: ', $scope.cart);
         descrButtonClicked = true;
         
@@ -596,6 +611,15 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
 	//     {href : 'fullsize/frommamaipad021' , title : 'Title'}
             
         // ]);
+        
+        var addToCartButton = '<button id="cartButton" class="btn btn-info pull-right" onClick="addToCart(\'' + imageName +'\')"> ' +
+            "Add to cart" +
+            '</button>';
+        
+        var removeFromCartButton =
+            '<button id="cartButton" class="btn btn-info pull-right" onClick="removeFromCart(\'' + imageName +'\')"> ' +
+            "Remove from cart" +
+            '</button>';
         var imgBox = [];
         images[imageName].images.forEach(function(img) {
             img = images[img];
@@ -606,36 +630,63 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
                     // images[imageName].size +
                     " Price: $" + 
                     images[imageName].price +
-                '<button class="btn btn-info pull-right" ng-click="selectClicked()">Buy ' +
-                    images[imageName].buy +
-                    '</button>' +
-                '<script src="paypal-button-minicart.min.js?merchant=NHGFSTS6QERCE" data-button="cart" data-name="xcvxczv" data-quantity="1" data-amount="5" ></script>' +
+                    (images[imageName].inCart ? removeFromCartButton : addToCartButton) +
                 
                 "</div>" 
 
             });
             
         });
+        window.addToCart = function(imageName) {
+            
+            var item = images[imageName];
+            // if (item.inCart) {
+            //     return;
+            // }
+            item.inCart = true;
+            
+            console.log('we\'ve added to the cart!!!' + imageName);
+            var data ={"business":"michieljoris@gmail.com","item_name":'bla',"amount":item.price || "123","currency_code":"AUD"};
+            console.log(data);
+            
+            PAYPAL.apps.MiniCart.addToCart(data);
+            var button =$('#cartButton');
+            button.html('Remove from cart');
+        };
+        
+       window.removeFromCart = function(imageName) {
+           console.log('removing from cart: ' + imageName);
+            var item = images[imageName];
+           
+            item.inCart = false;
+           
+            var button =$('#cartButton');
+            button.html('Add to cart');
+       };
+        
     
         $.fancybox.open(
             imgBox
-        , {
-            // nextEffect : 'none',
-            // prevEffect : 'none',
-            // padding    : 0,
-            helpers    : {
-                title : {
-                    type: 'under'  
-                },
-                thumbs : {
-                    width  : 75,
-                    height : 50,
-                    source : function( item ) {
-                        return item.href.replace('fullsize', 'images');
+            , {
+                nextEffect : 'fade',
+                prevEffect : 'fade',
+                openEffect : 'elastic',
+                closeEffect : 'elastic',
+                // padding    : 0,
+                helpers    : {
+                    title : {
+                        type: 'under'  
+                    },
+                    thumbs : {
+                        width  : 75,
+                        height : 50,
+                        source : function( item ) {
+                            return item.href.replace('fullsize', 'images');
+                        }
                     }
                 }
-            }
-        });
+            });
+        
     
         // $scope.viewShouldBeOpen = true;
         // $scope.item = images[imageName];

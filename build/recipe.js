@@ -42,7 +42,7 @@ var exports = {
     //to generate a string to save to the file defined in 'out'.
     ,partials: {
         ids: {
-            title: '<title>Greenglass terrariumns</title>'
+            title: '<title>green glass terrariums</title>'
             ,skewer:'<script src="http://localhost:9090/skewer"></script>'
             ,editMode:'<script>var mode="edit"</script>'
             ,viewMode:'<script>var mode="view"</script>'

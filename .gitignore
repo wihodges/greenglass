@@ -3,6 +3,7 @@ www/images/*
 www/fullsize/*
 thumbnails/*
 fullsize/*
+dropbox/*
 !node_modules/node-static
 npm-debug.log 
 greenglass_images

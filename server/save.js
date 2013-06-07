@@ -4,28 +4,50 @@
 
 exports.handlePost = function(req, res) {
     console.log("greenglass is handling post!!");
+    
+    var data = '';
     req.on('data', function(chunk) {
+        console.log("Greenglass received data!! And the chunk is:", chunk);
+        data+=chunk;
+    });
+    
+    req.on('error', function(e) {
+        console.log('error on req!!!');
+        res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+        res.write(JSON.stringify({ success:false, error:e }));
+        res.end();
+    });
+    
+    req.on('end', function() {
+        
         try {
-            console.log("Greenglass received data!!");
-            var data = JSON.parse(chunk);
-            // console.log(data);
+            data = JSON.parse(data);
+            console.log('data received is:', data);
             var fs = require('fs');
+            console.log('about to write file');
             fs.writeFile("./www/terrariums.json", JSON.stringify(data), function(err) {
                 if(err) {
-                    console.log(err);
+                    console.log('ERROR!!!', err);
+                    res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+                    res.write(JSON.stringify({ success:false, error:err }));
+                    res.end();
                 } else {
                     console.log("The file was saved!");
+                    
+                    res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+                    res.write(JSON.stringify({ success:true, error:false }));
+                    res.end();
                 }
             }); 
             // res.write(JSON.stringify(data));
         } catch(e) {
-            res.write('Failure');
+            console.log('Failure to parse json');
+            
+            res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+            res.write(JSON.stringify({ success:false, error:e }));
+            res.end();
         }
-    });
-    req.on('end', function() {
         // empty 200 OK response for now
-        res.writeHead(200, "OK", {'Content-Type': 'text/html'});
-        res.end();
     });
     
 }; 
