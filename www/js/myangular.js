@@ -49,8 +49,8 @@ function makeItem(item, size) {
     
     
     var datas = ''; 
-    datas += 'data-price=' + item.price + ' ';
-    datas += 'data-id=' + item.id + ' ';
+    datas += 'data-id="{{getItem(\'' + item.name + '\').id}}" ';
+    datas += 'data-price="{{getItem(\'' + item.name + '\').price}}" ';
     datas += 'id=' + item.elId + ' ';
     
     
@@ -67,11 +67,17 @@ function makeItem(item, size) {
     (mode === 'edit' ? editClick : viewClick) +
         ">" +
         '<div id="descrContainer" class="well">' +
-        (item.size ? "Size: " + '{{getItem("' + item.name + '").size}}' + '<br>': '') +
-        (item.buy ? "Buy: " + '{{getItem("' + item.name + '").buy}}'  + '<br>': '') +
-        (item.price ? "Price: $" + '{{getItem("' + item.name + '").price}}' + '<br>': '') +
-        (item.shape ? "Shape: " + '{{getItem("' + item.name + '").shape}}' + '<br>': '') +
-        (item.typ ? "Type: " + '{{getItem("' + item.name + '").type}}' + '<br>': '') +
+        // (item.size ? "Size: " + '{{getItem("' + item.name + '").size}}' + '<br>': '') +
+        // (item.buy ? "Buy: " + '{{getItem("' + item.name + '").buy}}'  + '<br>': '') +
+        // (item.price ? "Price: $" + '{{getItem("' + item.name + '").price}}' + '<br>': '') +
+        // (item.shape ? "Shape: " + '{{getItem("' + item.name + '").shape}}' + '<br>': '') +
+        // (item.typ ? "Type: " + '{{getItem("' + item.name + '").type}}' + '<br>': '') +
+        
+        (true ? "Size: " + '{{getItem(\'' + item.name + '\').size}}' + '<br>': '') +
+        (true ? "Buy: " + '{{getItem("' + item.name + '").buy}}'  + '<br>': '') +
+        (true ? "Price: $" + '{{getItem("' + item.name + '").price}}' + '<br>': '') +
+        (true .shape ? "Shape: " + '{{getItem("' + item.name + '").shape}}' + '<br>': '') +
+        (true ? "Type: " + '{{getItem("' + item.name + '").type}}' + '<br>': '') +
         (mode === 'edit' ?
          "Published: " + '{{getItem("' + item.name + '").published}}' + '<br>': '') +
         (mode === 'edit' ?
@@ -92,7 +98,9 @@ function makeItem(item, size) {
     
     
     
-    return '<div '+ datas + 'class="' + classAttr +
+    return '<div '+ datas +
+        // 'class="' + classAttr +
+        'ng-class="getItemClasses(\'' + item.name + '\')"' + 
         '">' +
         '<img  ' +  viewClick + enterImage + 
         ' alt="" src="images/' + item.name + 
@@ -581,29 +589,53 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
         $scope.cart = newCart;
     };
     
+    $scope.getItemClasses = function(itemName) {
+        var item = images[itemName];
+        var classes = 'item ' +
+            (item.size ? item.size + ' ': '') +
+            (item.shape ? item.shape + ' ': '') +
+            (item.buy ? item.buy + ' ': '') +
+            (item.published ? item.published + ' ': 'no ') +
+            (item.groupedWith ? 'grouped' + ' ': '') +
+            (item.type ? item.type + ' ': '');
+    
+        if (item.price <= 50) classes += "under50";
+        if (item.price > 50 && item.price <= 100) classes += "between50and100";
+        if (item.price > 100) classes += "over100";
+        
+        return classes;
+        // var datas = ''; 
+        // datas += 'data-price=' + item.price + ' ';
+        // datas += 'data-id=' + item.id + ' ';
+        
+        
+    };
+    $scope.okthen = true;
+    
     $scope.closeEdit = function (itemName) {
         console.log('closing');
         $scope.shouldBeOpen = false;
         $scope.addingImages = false ;
         $scope.saveItems();
-        // $("#img4 #descrContainer").html('bla');
+        // setIsotope(images);
+        executeFilter($scope.filter);
+        // var item = images[itemName];
+        // console.log('images', images, item);
+        // var descr = '<div id="descrContainer" class="well">' +
+        //     (item.size ? "Size: " + '{{getItem("' + item.name + '").size}}' + '<br>': '') +
+        //     (item.buy ? "Buy: " + '{{getItem("' + item.name + '").buy}}'  + '<br>': '') +
+        //     (item.price ? "Price: $" + '{{getItem("' + item.name + '").price}}' + '<br>': '') +
+        //     (item.shape ? "Shape: " + '{{getItem("' + item.name + '").shape}}' + '<br>': '') +
+        //     (item.type ? "Type: " + '{{getItem("' + item.name + '").type}}' + '<br>': '') +
+        //     (mode === 'edit' ?
+        //      "Published: " + '{{getItem("' + item.name + '").published}}' + '<br>': '') +
+        //     (mode === 'edit' ?
+        //      "ID: " + '{{getItem("' + item.name + '").id}}' + '<br>': '') +
+        //     "</div>";
+        // $("#" + item.elId + " #descrContainer").html(descr);
+        
         // var el = $('#' + item.name);
         // removeClasses(el, ['size', 'shape', 'buy', 'published', 'groupedWith', 'type']);
-        //     (item.size ? item.size + ' ': '') +
-        //     (item.shape ? item.shape + ' ': '') +
-        //     (item.buy ? item.buy + ' ': '') +
-        //     (item.published ? item.published + ' ': 'no ') +
-        //     (item.groupedWith ? 'grouped' + ' ': '') +
-        //     (item.type ? item.type + ' ': '');
-    
-        // if (item.price <= 50) classAttr += "under50";
-        // if (item.price > 50 && item.price <= 100) classAttr += "between50and100";
-        // if (item.price > 100) classAttr += "over100";
-    
-    
-        // var datas = ''; 
-        // datas += 'data-price=' + item.price + ' ';
-        // datas += 'data-id=' + item.id + ' ';
     };
     
     $scope.deleteImg = function(name) {
