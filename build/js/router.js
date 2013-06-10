@@ -7,9 +7,7 @@ angular.module('ngView', [], function($routeProvider, $locationProvider) {
     var baseDir = '/built/';
     var mapping =
         [
-            ["gallery", "/built/view-gallery.html", "GalleryCntl"]
-,["blog", "/built/view-blog.html", "BlogCntl"]
-
+            inserthere
             // ['home', '/built/view-home.html', HomeCntl],
             // ['aboutus', '/build/markdown/aboutus.md'],
             // ['pd', '/built/view-pd.html'],

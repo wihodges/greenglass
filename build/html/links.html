@@ -14,6 +14,24 @@
 	</div>
       
     </li>
+    <li class="title1">
+    <span class="title">green glass</span>
+    </li>
+    <li class="title2">
+    <span class="title">terrariums</span>
+    </li>
+    <li>
+      <a ng-show="isCollapsed" class="" href="#" ng-click="selectClicked($event)">Select</a>
+    </li>
+    <li>
+      <A ng-hide="isCollapsed" class=""
+      href="#" ng-click="allClicked($event)">Show all</a>
+    </li>
+    
+    <li>
+      <a class="" href="#"> <p></p>  </a>
+    </li>
+    
     
     <!-- <li> -->
     <!--   <a class="" href="#" ng-click="startSlideshow()">Slideshow?</a> -->
@@ -43,19 +61,15 @@
       <a class="" href="#"> <p></p>  </a>
     </li>
     <li>
-      <a ng-show="!isCollapsed" class="" href="#" ng-click="selectClicked()">Selection</a>
-    </li>
-    <li>
-      <a ng-show="false" class=""
-      href="#" ng-click="allClicked()">Show all</a>
-    </li>
-    <li>
       <a class="" href="#"> <p></p>  </a>
     </li>
     <li>
       <a style="color:red;" ng-show="addingImages" class=""
 	 href="#" ng-click="addingImages=false">Adding..</a>
     </li>
+    
+    <a ng-hide="blogMode" href="#!/blog" class=" link" ng-click="blogMode=true">Blog</a>
+    <a ng-show="blogMode" href="#!/gallery" class=" link" ng-click="blogMode=false">Gallery</a>
     
     
     

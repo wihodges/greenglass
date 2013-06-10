@@ -2,37 +2,6 @@
 /*jshint strict:false unused:true smarttabs:true eqeqeq:true immed: true undef:true*/
 /*jshint maxparams:7 maxcomplexity:7 maxlen:150 devel:true newcap:false*/ 
 
-// var mode = 'edit';
-// var mode = 'edit';
-var myApp= angular.module('myApp', ['ui', 'ui.bootstrap'])
-    .directive('compile', function($compile) {
-        // directive factory creates a link function
-        return function(scope, element, attrs) {
-            scope.$watch(
-                function(scope) {
-                    // watch the 'compile' expression for changes
-                    return scope.$eval(attrs.compile);
-                },
-                function(value) {
-                    // when the 'compile' expression changes
-                    // assign it into the current DOM
-                    element.html(value);
- 
-                    // compile the new DOM and link it to the current
-                    // scope.
-                    // NOTE: we only compile .childNodes so that
-                    // we don't get into infinite loop compiling ourselves
-                    $compile(element.contents())(scope);
-                }
-            );
-        };
-
-    });
-
-function AlertDemoCtrl($scope) {
-}
-
-
 function makeItem(item, size) {
     var imageName = "'" + item.name + "'";
     var classAttr = "item " +
@@ -237,11 +206,13 @@ function attachDataToImages(images, data) {
 }
 
 var images = {};
-myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
+myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $http) {
+    var defaultFilter = IsoFilter.defaultFilter;
+    var executeFilter = IsoFilter.executeFilter;
     // $("a[rel^='prettyPhoto']").prettyPhoto();
     var zoom = 200;
     $scope.mode = mode;
-    console.log('in main');
+    console.log('in Gallery controller');
     var getDir = function(path) {
         var deferred = $q.defer();
         console.log('Getting path:' + path);
@@ -408,15 +379,6 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
     $scope.enterImage = imageHover;
     $scope.leaveDescr = descHover;
     
-    var defaultFilter = {
-        now:false, order:false, sold:false,
-        small:false, medium:false, large:false,
-        under50:false, between50and100:false, over100:false,
-        square:false, round:false, rectangle:false,
-        standing:false, hanging:false,
-        yes:true, no:false, archived:false
-        ,grouped:false
-    };
 
     $scope.filter = (function() {
         var filter = {};
@@ -426,56 +388,8 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
         return filter;
     })();
     
-    function orKeys(filter, keys) {
-        var b = false;
-        keys.forEach(function(k) {
-            b |= filter[k]; 
-        });
-        if (!b) {
-            keys.forEach(function(k) {
-                filter[k] = true;
-            });
-        }
-        // console.log('checking ', keys, b);
-        // return b; 
-    }
     
-    var makeFilterString = function(filter) {
-        var filterString = '.item';
-            // console.log(filter);
-        Object.keys(filter).forEach(function(f) {
-            // console.log(f + ':' + $scope.filter[f]);
-            if (!filter[f]) filterString += ':not(.' + f + ')';
-        });
-        return filterString + ':not(.undefined)';
-    };
     
-    var executeFilter = function (aFilter) {
-        console.log('in executefilter!!!!! aFilter:', aFilter);
-        var filter = {};
-        Object.keys(aFilter).forEach(function(k) {
-            filter[k]=aFilter[k];
-        });
-        console.log('copy:', filter);
-        
-        orKeys(filter, ['now', 'order', 'sold']);  
-        orKeys(filter, ['small', 'medium', 'large']); 
-        orKeys(filter, ['under50', 'between50and100', 'over100']); 
-        orKeys(filter, ['square', 'round', 'rectangle']); 
-        orKeys(filter, ['yes', 'no', 'archived' ]); 
-        orKeys(filter, ['hanging', 'standing']);
-        // orKeys(filter, ['deleted']);
-        //      )) {
-        //     $scope.filter[v] = true;
-        //     console.log(v);
-        //     return;
-        // }
-        
-        var filterString = makeFilterString(filter);
-        console.log(filterString);
-        $('#imageDiv').isotope({ filter: filterString});
-        
-    };
     
     $scope.filtered = 0;
     $scope.$watch('filter',
@@ -856,7 +770,7 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
     };
     
     $scope.enterSidebar = function() {
-        // console.log('enter sidebar');
+        console.log('enter sidebar');
         $scope.mouseoverControls='mouseover';
         $(".item").removeClass("mouseover");
         // descHover();
@@ -964,47 +878,14 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
         });
     };
     
-    $scope.isCollapsed = false;
+    // $scope.isCollapsed = true;
     $scope.moreless=function() {
         if ($scope.isCollapsed) return 'Less';
         return 'More';
     };
-    $scope.selectClicked = function() {
-        console.log('in selectclicked');
-        $scope.isCollapsed = !$scope.isCollapsed;
-        setTimeout(function() {
-            if ($scope.isCollapsed)   {
-                $("#selectContainer").isotope("reLayout");
-                // executeFilter($scope.filter);
-                // $('#imageDiv').isotope('reloadItems');
-            }
-            else {
-                console.log('closing select', defaultFilter);
-                $scope.allClicked();
-                // executeFilter(defaultFilter);
-                // $('#imageDiv').isotope('reloadItems');
-                
-            }
-        },1);
-        
-    };
     
     setSelectIsotope();
     
-    
-    $scope.allClicked = function() {
-        $scope.filter = (function() {
-            var filter = {};
-            Object.keys(defaultFilter).forEach(function(k) {
-                filter[k] = defaultFilter[k];
-            }); 
-            return filter;
-        })();
-        $scope.filtered = 1; //one watch will be executed
-        executeFilter($scope.filter);
-        $('#imageDiv').isotope('reloadItems');
-        
-    };
     
     // $scope.test = ['images/2012-12-11 at 07.28.35.jpg', 'images/2012-12-11 at 07.28.35.jpg'];
     $scope.addImageToItem = function(imageName) {
@@ -1026,7 +907,6 @@ myApp.controller("mainCntl", function mainCntl($q, $location, $scope, $http) {
         item.images = item.images.slice(0, loc ).concat(item.images.slice(loc+1));
         item.mainImage = item.images[0];
         };
-    
 });
 
 // angular.module('myModule', [], function($provide) {

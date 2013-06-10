@@ -15,6 +15,7 @@ var slides =  [
     // }
 ];
 
+
 var exports = {
     verbose: true
     ,monitor: true
@@ -26,12 +27,13 @@ var exports = {
         //relative to this root:
         ,partials: 'build/'  //can be overridden per template
         ,out:'www/built' 
-        ,js: 'js'
+        ,js: 'www/js'
     }
-    // ,routes : [
-    //     // ['guide', '/built/guideView.html'],
-    //     // ['template', '/built/guideTemplate.html', 'templateCntl']
-    // ]
+    ,routes : [
+        ['gallery', '/built/view-gallery.html', '\"GalleryCntl\"'],
+        ['blog', '/built/view-blog.html', '"BlogCntl"']
+        
+    ]
     
     //Every partial generates a string. How the partial is generated
     //depends on its type. Each type can define more than one partial
@@ -97,9 +99,12 @@ var exports = {
                     ,'fancybox/source/helpers/jquery.fancybox-media'
                     ,'fancybox/source/helpers/jquery.fancybox-thumbs'
                     ,'getpos'
-                    ,'myangular'
+                    ,'angularModule'
+                    ,"MainCntl"
+                    ,'BlogCntl'
+                    ,'GalleryCntl'
+                    ,'router'
                     ,'myjs'
-                    // ,'router'
                 ],
                 path: 'js/'
             }
@@ -124,15 +129,27 @@ var exports = {
                   select: 'html/select'
               }
             }
+            ,{ src: "views/view-gallery.html",
+               out:"view-gallery.html",
+               
+               mapping: {
+                   isotope: 'isotope'
+               }
+             }
+            ,{ src: "views/view-blog.html",
+               out:"view-blog.html",
+               mapping: {
+                  blog: 'html/blog'
+               }
+             }
             ,{ src: 'html/body' 
               ,id: 'body'
               ,tagIdPostfix: '--' //can be overridden per template
-              ,out: 'guideTemplate.html'
               ,pathOut: 'www/'
               ,mapping: {
                   // sidebar: 'html/sidebar'
-                  isotope: 'isotope'
-                  ,linkbar: 'html/links'
+                  // isotope: 'isotope'
+                 linkbar: 'html/links'
               }
             }
             //Main layout

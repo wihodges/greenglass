@@ -38,6 +38,7 @@ body {
 
 #imageDiv div {
     padding:3px;
+    margin-left:20px;
     /* margin:10px; */
 }
 
@@ -47,14 +48,14 @@ body {
     /* border: solid 1px black; */
 }
 
-.title {
-    color:white;
-    padding-left:8px;
-}
-.title h3 {
-    margin-bottom:0px;
-    margin-top:0px;
-}
+/* .title { */
+/*     color:white; */
+/*     padding-left:8px; */
+/* } */
+/* .title h3 { */
+/*     margin-bottom:0px; */
+/*     margin-top:0px; */
+/* } */
 h2 {
     font-size:30px;
     color:white;
@@ -282,6 +283,12 @@ body>div.modal {
     padding-left:145px;
 }
 
+#blog-- {
+    padding: 6px;
+    margin-top:10px;
+    padding-left:170px;
+}
+
 #linkbar-- {
     margin-top:10px;
     margin-left:15px;
@@ -349,6 +356,7 @@ body>div.modal {
 
 .leftBar {
     position:fixed;
+    /* padding-top:40px; */
 }
 .leftBar h4 {
     color:white;
@@ -505,15 +513,17 @@ img {
 
 .bottomBar {
     /* background:gray; */
+    background:url("http://localhost:6002/css/bg/darkdenim3.png")
     color:lightgray;
     opacity:0.4;
-    position:relative;
+    position:fixed;
     bottom:0px;
     font-size:12px;
     width:100%;
     height:20px;
     text-align:center;
     margin-top:-20px;
+    color:lightgray;
     
 }
 .bottomBar a {
@@ -525,4 +535,45 @@ img {
 
 .deleted {
     display:none;
+}
+
+.top-bar, .top-bar a, .title {
+    color:lightgoldenrodyellow;
+}
+
+.title {
+    font-size:25px;
+}
+
+.title1 {
+    padding-bottom: 5px;
+}
+
+.top-bar {
+    position:fixed;
+    top:0px;
+    padding-top:10px;
+    padding-left:5px;
+    z-index:200;
+    background:url("http://localhost:6002/css/bg/darkdenim3.png")
+}
+
+#blog-- {
+    color:white;
+}
+#isotope-- {
+    /* padding-top:40px; */
+}
+
+.title2 {
+    padding-bottom:5px;
+}
+
+#select-- {
+    margin-left:20px;
+}
+
+.leftbarSpace {
+    min-width:145px;
+    min-height:220px;
 }

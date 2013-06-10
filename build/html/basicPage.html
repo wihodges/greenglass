@@ -5,34 +5,34 @@
   <body id="ng:app" ng:app="myApp" ng-cloak>
     <div id="wrapper--"></div> 
 <div class="bottomBar">Developed by <a href="mailto:michieljoris@justemail.net">michieljoris</a></div>
-    <script src="js/minicart.js"></script>
-    <script>
+    <!-- <script src="js/minicart.js"></script> -->
+    <!-- <script> -->
       
-      PAYPAL.apps.MiniCart.render({
+    <!--   PAYPAL.apps.MiniCart.render({ -->
       
-			events: {
-				onAddToCart: function (data) {
-					// If the product is already in the cart then cancel the addToCart method
-					if (this.getProductAtOffset(data.offset)) {
-						return false;
-					}
-				}
+    <!-- 			events: { -->
+    <!-- 				onAddToCart: function (data) { -->
+    <!-- 					// If the product is already in the cart then cancel the addToCart method -->
+    <!-- 					if (this.getProductAtOffset(data.offset)) { -->
+    <!-- 						return false; -->
+    <!-- 					} -->
+    <!-- 				} -->
       
-       ,afterAddToCart: function () {
-      console.log(this.products);
+    <!--    ,afterAddToCart: function () { -->
+    <!--   console.log(this.products); -->
 
-            }
-			},
+    <!--         } -->
+    <!-- 			}, -->
       
-		strings: {
-			button: 'Checkout',
-			subtotal: 'Total: ',
-			discount: 'Discount: ',
-			shipping: 'Pickup only',
-			processing: 'Processing...'
-		},
-		});
-    </script>
+    <!-- 		strings: { -->
+    <!-- 			button: 'Checkout', -->
+    <!-- 			subtotal: 'Total: ', -->
+    <!-- 			discount: 'Discount: ', -->
+    <!-- 			shipping: 'Pickup only', -->
+    <!-- 			processing: 'Processing...' -->
+    <!-- 		}, -->
+    <!-- 		}); -->
+    <!-- </script> -->
   </body>
 </html>	
 

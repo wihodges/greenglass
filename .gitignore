@@ -6,3 +6,4 @@ fullsize/*
 dropbox/*
 !node_modules/node-static
 npm-debug.log 
+terrariums.json
