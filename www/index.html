@@ -46,15 +46,17 @@
     <span class="title">terrariums</span>
     </li>
     <li>
-      <a ng-show="isCollapsed" class="" href="#" ng-click="selectClicked($event)">Select</a>
+      <a ng-show="isCollapsed && !blogMode" class="" href="#" ng-click="selectClicked($event)">Select</a>
     </li>
     <li>
-      <A ng-hide="isCollapsed" class=""
-      href="#" ng-click="allClicked($event)">Show all</a>
+      <a ng-hide="isCollapsed || !blogMode" class="" href="#" ng-click="allClicked($event)">Show all</a>
+    </li>
+    <li>
+      <a  class="" href="#"> <p></p>  </a>
     </li>
     
-    <li>
-      <a class="" href="#"> <p></p>  </a>
+    <li ng-show="blogMode" style="min-height:20px;">
+      <a  class="" href="#"> <p></p>  </a>
     </li>
     
     
@@ -93,8 +95,8 @@
 	 href="#" ng-click="addingImages=false">Adding..</a>
     </li>
     
-    <a ng-hide="blogMode" href="#!/blog" class=" link" ng-click="blogMode=true">Blog</a>
-    <a ng-show="blogMode" href="#!/gallery" class=" link" ng-click="blogMode=false">Gallery</a>
+    <a ng-hide="blogMode" href="#!/blog" class=" link" ng-click="click('blog')" >Blog</a>
+    <a ng-show="blogMode" href="#!/gallery" class=" link" ng-click="click('gallery')">Gallery</a>
     
     
     
@@ -102,11 +104,257 @@
 </div>
 </div> 
     </div>
-    <div ng-view> </div>
+    
+    <div ng-hide="blogMode" class="row-fluid">
+      <div id="isotope--"  class="span10" ng-controller="GalleryCntl"><div id="select--" ng-hide="isCollapsed" class="well"><div id="selectContainer" class="selectContainer controls"
+     ng-class="mouseoverControls">
+  
+  <div  class="selector">
+    
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('buy')" tooltipnw="Click to sort on buy" tooltipnw-placement="right" tooltipnw-animation="true">Available</a>
+      {{sortOrder['buy']}}</div>
+    <input id="sn" type="checkbox"   ng-click="executeFilter('now')" ng-model="filter.now" >
+    <label  for="sn"><span></span>Buy Now</label>
+    <input id="so" type="checkbox"   -- ng-click="executeFilter('order')" ng-model="filter.order" >
+    <label for="so"><span></span>On order</label>
+    <input id="ss" type="checkbox" ng-click="executeFilter('sold')" ng-model="filter.sold" >
+    <label for="ss"><span></span>Show sold</label>
+  </div>
+  
+  
+  <div id="priceWell" class="selector">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('price')" tooltipnw="Click to sort on
+						      price" tooltipnw-placement="right" tooltipnw-animation="true">Price </a>
+      {{sortOrder['price']}}</div>
+    <input id="p1" type="checkbox"  ng-click="executeFilter('under50')" ng-model="filter.under50" >
+    <label for="p1"><span></span>Under $50</label>
+    <input id="p2" type="checkbox"  ng-click="executeFilter('between50and100')" ng-model="filter.between50and100" >
+    <label for="p2"><span></span>$50 - $100</label>
+    <input id="p3" type="checkbox"  ng-click="executeFilter('over100')" ng-model="filter.over100" >
+    <label for="p3"><span></span>Over $100</label>
+  </div>
+  
+  <div  class="selector">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('size')" tooltipnw="Click to sort on size" tooltipnw-placement="right" tooltipnw-animation="true">Size </a>
+      {{sortOrder['size']}}</div>
+    <input id="s1" type="checkbox"  ng-click="executeFilter('small')" ng-model="filter.small" >
+    <label for="s1"><span></span>Small</label>
+    <input id="s2" type="checkbox"  ng-click="executeFilter('medium')" ng-model="filter.medium" >
+    <label for="s2"><span></span>Med</label>
+    <input id="s3" type="checkbox"  ng-click="executeFilter('large')" ng-model="filter.large" >
+    <label for="s3"><span></span>Large</label>
+  </div>
+
+
+
+  <div  class="selector">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('shape')" tooltipnw="Click to sort on shape" tooltipnw-placement="right" tooltipnw-animation="true">Shape </a>
+      {{sortOrder['shape']}}</div>
+    <input id="v1" type="checkbox"  ng-model="filter.square" ng-click="executeFilter('square')"  >
+    <label for="v1"><span></span>Square</label>
+    <input id="v2" type="checkbox" ng-click="executeFilter('round')" ng-model="filter.round">
+    <label for="v2"><span></span>Round</label>
+    <input id="v3" type="checkbox"  ng-click="executeFilter('rectangle')" ng-model="filter.rectangle" >
+    <label for="v3"><span></span>Rectangle</label>
+  </div>
+
+
+  <div  class="selector">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('type')" tooltipnw="Click to sort on
+						     type" tooltipnw-placement="right" tooltipnw-animation="true">Type </a>
+      {{sortOrder['type']}}</div>
+    <input id="t1" type="checkbox"  ng-click="executeFilter('standing')" ng-model="filter.standing" >
+    <label for="t1"><span></span>Standing</label>
+    <input id="t2" type="checkbox"  ng-click="executeFilter('hanging')" ng-model="filter.hanging" >
+    <label for="t2"><span></span>Hanging</label>
+  </div>
+  
+  
+
+  <div ng-show="mode == 'edit'"  class="selector">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('published')" tooltipnw="Click to sort on
+							  online status" tooltipnw-placement="right" tooltipnw-animation="true">Published </a>
+      {{sortOrder['published']}}</div>
+    <input id="o1" type="checkbox"  ng-click="executeFilter('yes')" ng-model="filter.yes" >
+    <label for="o1"><span></span>Online</label>
+    <input id="o2" type="checkbox"  ng-click="executeFilter('no')" ng-model="filter.no" >
+    <label for="o2"><span></span>Not online</label>
+    <input id="o3" type="checkbox"  ng-click="executeFilter('archived')" ng-model="filter.archived" >
+    <label for="o3"><span></span>Archived</label>
+    
+  </div>
+
+
+  <div ng-show="mode == 'edit'"  class="selector">
+    <div class="controlHeader">
+      <a href="#" ng-click="sortBy('id')" tooltipnw="Click to sort on
+						   id" tooltipnw-placement="right" tooltipnw-animation="true">Images</a>
+      {{sortOrder['id']}}</div>
+    
+    <input id="g1" type="checkbox"  ng-model="filter.grouped" ng-click="executeFilter('grouped')"  >
+    <label for="g1"><span></span>Ungroup!</label>
+    <input id="g2" type="checkbox"  ng-model="deleteMode"   >
+    <label for="g2"><span></span>Delete mode</label>
+    
+  </div>
+  
+  
+  <div class="selector">Zoom
+    
+    <input id="rb1" type="radio"  name="rr" ng-model="wide" ng-click="setLayout('wide')"  >
+    <label id="rb1label" for="rb1"><span></span>Wide</label>
+    <input id="rb2" type="radio"  name="rr" ng-click="setLayout('dense')" ng-model="dense">
+    <label for="rb2"><span></span>Dense</label>
+    <p>
+  </div>
+  
+  
+
+</div>
+
+
+
+</div>
+
+<div compile="itemsHtml" id="imageDiv"> 
+</div> 
+
+<div style="display:none;" modal="shouldBeOpen" close="close()" options="opts">
+  <div class="modal-header">
+    <h4>
+	<img width="50" height="auto;" 
+	     ng-click="addImageToItem(item.name)"
+	     ng-src="images/{{item.name}}" >
+	Properties of this terrarium:
+	</h4>
+    
+    <button ng-show="!deleteMode" class="btn pull-right btn-success" ng-click="closeEdit(item.name)">Close</button>
+    <button ng-show="deleteMode" class="btn pull-right btn-danger" ng-click="deleteImg(item.name)">Delete</button>
+  </div >
+  <div class="container">
+    <div class="row">
+      <div class="well span2">
+	<img width="300" height="auto;" ng-src="images/{{item.mainImage}}" >
+	{{item.mainImage}}<br/>
+	
+      </div>
+      <div class="modal-body span3">
+	<form class="navbar-form  form-horizontal">
+	  <div class="control-group">
+	    <label class="control-label" for="id">ID</label>
+	    <div class="controls">
+	      <input type="text" id="id" name="id" ng-model="item.id">
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="price">Price</label>
+	    <div class="controls">
+	      <input type="text" id="price" name="price" ng-model="item.price">
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="size">Size</label>
+	    <div class="controls">
+	      <select  id="size" ng-model="item.size" >
+		<option value="small">Small</option>
+		<option value="medium">Medium</option>
+		<option value="large">Large</option>
+	      </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="buy">Buy</label>
+	    <div class="controls">
+	      <select  id="buy" ng-model="item.buy" >
+		<option value="now">Now</option>
+		<option value="order">Order</option>
+		<option value="sold">Sold</option>
+	      </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="shape">Shape</label>
+	    <div class="controls">
+	      <select  id="shape" ng-model="item.shape" >
+		<option value="square">Square</option>
+		<option value="round">Round</option>
+		<option value="rectangle">Rectangle</option>
+	      </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="type">Type</label>
+	    <div class="controls">
+	      <select  id="type" ng-model="item.type" >
+		<option value="standing">Standing</option>
+		<option value="hanging">Hanging</option>
+	      </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="published">Published</label>
+	    <div class="controls">
+	      <select  id="published" ng-model="item.published" >
+		<option value="yes">Yes</option>
+		<option value="no">No</option>
+		<option value="archived">Archived</option>
+	      </select>
+	    </div>
+	  </div>
+	  
+	  
+	</form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <img ng-repeat="image in item.images" ng-src="images/{{image}}"
+	 width="50px;" style="padding-right:2px;"
+	 ng-click="item.mainImage=image">
+    <ul class="removeaddButtons pull-right">
+      <li> 
+	<button id="moreImagesButton" class="btn btn-block  btn-primary"
+		ng-click="addImageToItem()">+</button>
+      </li> 
+      <li> 
+	<button id="removeImageButton" class="btn btn-block btn-danger"
+		ng-click="removeImageFromItem(item)">-</button>
+      </li> 
+    </ul> 
+  </div>
+</div>
+
+<div  class="galleriadiv" style="display:none;" modal="viewShouldBeOpen" close="closeGalleria()" options="opts">
+  <div id="galleria"></div>
+  <div class="view-footer">
+    <button class="" ng-click="closeGalleria()">Close</button>
+  </div>
+</div>
+</div> 
+    </div>
+    
+    <div ng-show="blogMode" class="row-fluid">
+      <div id="blog--"  class="span10" ng-controller="BlogCntl"><button ng-hide="editMode" class="btn btn-small btn-xprimary" ng-click="editText()">Edit</button>
+<button ng-show="editMode" class="btn btn-small btn-xprimary" ng-click="closeEditor()">Done</button>
+<button ng-show="editMode" class="btn btn-small btn-xprimary" ng-click="saveText()">Save</button>
+<button ng-show="editMode" class="btn btn-small btn-xprimary pull-right" ng-click="cancelEditor()">Cancel</button>
+<div ng-show="editMode"> 
+  <textarea  name="editor1">{{content}}</textarea>
+</div>
+<div ng-hide="editMode" ng-bind-html-unsafe="content"></div>
+</div> 
+    </div>
+    
   </div>
   
 </div>
-<script>var mode="view"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/angularModule.js"></script><script type="text/javascript" src="js/MainCntl.js"></script><script type="text/javascript" src="js/BlogCntl.js"></script><script type="text/javascript" src="js/GalleryCntl.js"></script><script type="text/javascript" src="js/router.js"></script><script type="text/javascript" src="js/myjs.js"></script>
+<script>var mode="view"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/ckeditor/ckeditor.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/angularModule.js"></script><script type="text/javascript" src="js/MainCntl.js"></script><script type="text/javascript" src="js/BlogCntl.js"></script><script type="text/javascript" src="js/GalleryCntl.js"></script><script type="text/javascript" src="js/router.js"></script>
 </div> 
 <div class="bottomBar">Developed by <a href="mailto:michieljoris@justemail.net">michieljoris</a></div>
     <!-- <script src="js/minicart.js"></script> -->

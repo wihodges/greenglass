@@ -3,7 +3,6 @@
 /*jshint maxparams:7 maxcomplexity:7 maxlen:150 devel:true newcap:false*/ 
 
 myApp.factory('IsoFilter', function() {
-    
     function orKeys(filter, keys) {
         var b = false;
         keys.forEach(function(k) {
@@ -80,14 +79,22 @@ myApp.factory('IsoFilter', function() {
   };
 });
 
-myApp.controller("MainCntl", function (IsoFilter, $location, $scope) {
+myApp.controller("MainCntl", function ($rootScope, IsoFilter, $location, $scope, $http) {
+    
+    $scope.info = "editable/care.html";
+    $rootScope.$on('$locationChangeSuccess', function(event){
+        console.log('location change');
+        setView();
+        var url = $location.url(),
+            params =$location.search();
+    });
+    
+    console.log('-------------',$location,  $location.$$url, $location.$$path, $location.$$hash, $location.$$search);
     $scope.isCollapsed=true;
     
-    $scope.blogMode=$location.$$path==='/blog';
-    console.log('-------------', $location);
     
     $scope.enterLinkbar = function() {
-        console.log('enter linkbar');
+        // console.log('enter linkbar');
         $scope.mouseoverControls='';
         $(".item").removeClass("mouseover");
         // descHover();
@@ -119,7 +126,7 @@ myApp.controller("MainCntl", function (IsoFilter, $location, $scope) {
         console.log('allClicked');
         $scope.isCollapsed = !$scope.isCollapsed;
         $scope.filter = (function() {
-            var filter = {};
+                var filter = {};
             Object.keys(IsoFilter.defaultFilter).forEach(function(k) {
                 filter[k] = IsoFilter.defaultFilter[k];
             }); 
@@ -129,6 +136,49 @@ myApp.controller("MainCntl", function (IsoFilter, $location, $scope) {
         IsoFilter.executeFilter($scope.filter);
         $('#imageDiv').isotope('reloadItems');
         
+    };
+    
+    function setView() {
+        var path = $scope.path = $location.$$path;
+        console.log('Path:', path, ' Hash:', $location.$$hash, ' Search:', $location.$$search);
+        $scope.blogMode= path ==='/blog';
+        switch (path) {
+          case '/gallery':
+            setTimeout(function() {
+                $("#imageDiv").isotope("reLayout");
+                $("#selectContainer").isotope("reLayout");
+            },1);
+            break;
+          case '/blog' :
+            break;
+          case '/info' :
+            
+            $scope.info = 'editable/' + $location.$$hash + '.html';
+            $http({method: 'GET', url: $scope.info}).
+                success(function(data, status, headers, config) {
+                    console.log('received data, setting content');
+                    $scope.content = data;
+                    // $scope.$apply();
+                    CKEDITOR.instances.editor2.setData( data, function() {
+                        this.checkDirty(); // true
+                    });
+                    // $scope.$apply();
+                    // this callback will be called asynchronously
+                    // when the response is available
+                }).
+                error(function(data, status, headers, config) {
+                    
+                    $scope.content = 'Failed to get the text!!!';
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                });
+            break;
+        default:  
+        }
+    }
+    
+    $scope.click = function(link) {
+        console.log(link);
     };
     
     

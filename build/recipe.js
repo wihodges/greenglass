@@ -48,6 +48,7 @@ var exports = {
             ,skewer:'<script src="http://localhost:9090/skewer"></script>'
             ,editMode:'<script>var mode="edit"</script>'
             ,viewMode:'<script>var mode="view"</script>'
+            ,uploadcare: "<script> UPLOADCARE_PUBLIC_KEY = '122d4d06f195611a02bc'; </script>"
         }
         ,metaBlock : {
             id: 'meta',
@@ -98,13 +99,15 @@ var exports = {
                     ,'fancybox/source/helpers/jquery.fancybox-buttons'
                     ,'fancybox/source/helpers/jquery.fancybox-media'
                     ,'fancybox/source/helpers/jquery.fancybox-thumbs'
+                    ,"ckeditor/ckeditor"
                     ,'getpos'
                     ,'angularModule'
                     ,"MainCntl"
                     ,'BlogCntl'
                     ,'GalleryCntl'
+                    ,'InfoCntl'
                     ,'router'
-                    ,'myjs'
+                    // ,'myjs'
                 ],
                 path: 'js/'
             }
@@ -129,53 +132,31 @@ var exports = {
                   select: 'html/select'
               }
             }
-            ,{ src: "views/view-gallery.html",
-               out:"view-gallery.html",
+            // ,{ src: "views/view-gallery.html",
+            //    out:"view-gallery.html",
                
-               mapping: {
-                   isotope: 'isotope'
-               }
-             }
-            ,{ src: "views/view-blog.html",
-               out:"view-blog.html",
-               mapping: {
-                  blog: 'html/blog'
-               }
-             }
+            //    mapping: {
+            //        isotope: 'isotope'
+            //    }
+            //  }
+            // ,{ src: "views/view-blog.html",
+            //    out:"view-blog.html",
+            //    mapping: {
+            //       blog: 'html/blog'
+            //    }
+            //  }
             ,{ src: 'html/body' 
               ,id: 'body'
               ,tagIdPostfix: '--' //can be overridden per template
               ,pathOut: 'www/'
-              ,mapping: {
-                  // sidebar: 'html/sidebar'
-                  // isotope: 'isotope'
-                 linkbar: 'html/links'
-              }
+               ,mapping: {
+                   // sidebar: 'html/sidebar'
+                   isotope: 'isotope'
+                   ,linkbar: 'html/links'
+                   ,blog: "html/blog"
+               }
             }
             //Main layout
-            ,{// id: 'page' 
-                pathOut: 'www/'
-                ,out: 'index.html' //optional, relative to root
-                ,src: 'html/basicPage.html'
-                //Maps tag ids to partial ids. Tag ids have to be
-                //postfixed with two dashes in the template. Partials
-                //with an extension will be loaded from the partials
-                //folder for this template. Markdown files will be
-                //converted to html. Partials in an array will be
-                //concatenated before inserted at the tag id element
-                
-                ,mapping: {
-                    head: ['title', 'meta', 'html/ieshim',  'skewer', 'headJsBlock', 'myLinkBlock' 
-                           // ,'_linkBlock'
-                          ],
-                    wrapper: [
-                        'body'
-                        ,'viewMode'
-                        ,'myJsBlock'
-                        // ,'_scriptBlock'
-                    ]
-                }
-            }
             ,{// id: 'page' 
                 pathOut: 'www/'
                 ,out: 'edit.html' //optional, relative to root
@@ -188,7 +169,7 @@ var exports = {
                 //concatenated before inserted at the tag id element
                 
                 ,mapping: {
-                    head: ['title', 'meta', 'html/ieshim',  'skewer', 'headJsBlock', 'myLinkBlock' 
+                    head: ['title', 'meta', 'html/ieshim',  'skewer', 'uploadcare', 'headJsBlock', 'myLinkBlock' 
                            // ,'_linkBlock'
                           ],
                     wrapper: [

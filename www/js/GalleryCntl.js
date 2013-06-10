@@ -770,14 +770,8 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
     };
     
     $scope.enterSidebar = function() {
-        console.log('enter sidebar');
+        // console.log('enter sidebar');
         $scope.mouseoverControls='mouseover';
-        $(".item").removeClass("mouseover");
-        // descHover();
-    };
-    $scope.enterLinkbar = function() {
-        console.log('enter linkbar');
-        $scope.mouseoverControls='';
         $(".item").removeClass("mouseover");
         // descHover();
     };

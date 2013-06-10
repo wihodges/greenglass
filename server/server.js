@@ -9,6 +9,7 @@ var server = require('bb-server')
 ,save = require("./save")
 
 ,sync = require("./sync.js")
+,saveFile = require("./saveFile.js")
 ,dropbox_authorize = require("./dropbox_authorize.js")
 ,dropbox_connect = require("./dropbox_connect.js")
 ,deleteImg = require("./deleteImg")
@@ -29,6 +30,7 @@ var options = {
     ,"port": 6002
     ,postHandlers: {
         "/greenglass" : save
+        ,"/save": saveFile
         // "/sendmail" : testMail
         ,"/delete": deleteImg
         }

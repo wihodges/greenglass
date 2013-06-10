@@ -283,10 +283,11 @@ body>div.modal {
     padding-left:145px;
 }
 
-#blog-- {
+#blog-- , #info {
     padding: 6px;
     margin-top:10px;
     padding-left:170px;
+    color:white;
 }
 
 #linkbar-- {
@@ -576,4 +577,8 @@ img {
 .leftbarSpace {
     min-width:145px;
     min-height:220px;
+}
+
+.editButtons {
+    /* padding-bottom:10px; */
 }

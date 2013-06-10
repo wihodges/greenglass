@@ -3,7 +3,37 @@
     <div class="leftBar  ">
       <div id="linkbar--" ng-mouseenter="enterLinkbar()"></div> 
     </div>
-    <div ng-view> </div>
+    
+    <div ng-show="path=='/gallery'" class="row-fluid">
+      <div id="isotope--"  class="span10" ng-controller="GalleryCntl"></div> 
+    </div>
+    
+    <div ng-show="path=='/blog'" class="row-fluid">
+      <div id="blog--"  class="span10" ng-controller="BlogCntl"></div> 
+    </div>
+    
+    <div id="info" class="" ng-show="path=='/info'" ng-controller="InfoCntl">
+      
+      <div class="row-fluid" > 
+	<div class="span10 editButtons">
+	  <button ng-hide="editMode" class="btn btn-small btn-xprimary" ng-click="editText()">Edit</button>
+	  <button ng-show="editMode" class="btn btn-small btn-xprimary"
+		  ng-click="closeEditor()">Done</button>
+	  <button ng-show="editMode" class="btn btn-small btn-xprimary"
+		  ng-click="saveText()">Save</button>
+	  <span ng-show="saveNotify">Saved!!</span>
+	  <button ng-show="editMode" class="btn btn-small btn-xprimary pull-right" ng-click="cancelEditor()">Cancel</button>
+	</div>
+      </div>
+      
+      <div class="row-fluid" ng-show="editMode"> 
+	<div class="span10">
+	<textarea  name="editor2"></textarea>
+	</div>
+      </div>
+      <div ng-hide="editMode" ng-bind-html-unsafe="content"></div>
+    </div>
+    
   </div>
   
 </div>

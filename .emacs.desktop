@@ -2,7 +2,7 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Fri Jun  7 21:14:03 2013
+;; Created Mon Jun 10 23:34:02 2013
 ;; Desktop file format version 206
 ;; Emacs version 24.2.1
 
@@ -11,51 +11,403 @@
 (setq tags-file-name nil)
 (setq tags-table-list nil)
 (setq search-ring nil)
-(setq regexp-search-ring '("compress" "\\_<fileMap\\_>" "Found" "\\_<fileMap\\_>" "fileMap" "filemap" "processMap" "Finished" "War" "Copied" "have be" "have bee A" "about to" "Warning" "p:" "\\_<processMap\\_>"))
-(setq register-alist '((117 . " ") (0) (113) (134217847) (101 file . "~/emacs/init.el") (98 file . "~/.bashrc") (107 file . "~/.emacs.d/my-config/keys.el") (105 file . "~/.emacs.d/init.el")))
-(setq file-name-history '("/home/michieljoris/www/sites/greenglass/server/sync.js" "/home/michieljoris/www/sites/greenglass/sync-to-aws.sh" "/home/michieljoris/www/sites/greenglass/server/processImages.js" "/home/michieljoris/mysrc/javascript/bb-server/lib/bb-server.js" "/home/michieljoris/mysrc/javascript/bb-server/bin/bb-server" "/home/michieljoris/www/sites/personalinfo/server/server.js" "/home/michieljoris/www/sites/greenglass/server/server.js" "/home/michieljoris/www/sites/greenglass/build/html/basicPage.html" "/home/michieljoris/mysrc/javascript/bb-server/lib/server.js" "/home/michieljoris/www/sites/greenglass/greenglass.org" "~/www/sites/firstdoor/" "~/www/sites/greenglass/" "/home/michieljoris/www/sites/greenglass/build/recipe.js" "~/www/sites/greenglass/" "~/www/greenglass" "/home/michieljoris/www/personalinfo/build/html/basicPage.html" "/home/michieljoris/www/personalinfo/build/recipe.js" "/home/michieljoris/www/firstdoor/build/markdown/aboutus.md" "/home/michieljoris/emacs/packages/my-elisp-files/modes.el" "/home/michieljoris/temp/index.html" "/home/michieljoris/temp/test.js" "/home/michieljoris/emacs/init.el" "/home/michieljoris/www/firstdoor/clarification.txt" "/home/michieljoris/www/personalinfo/personalinfo.org" "/home/michieljoris/www/personalinfo/sync-to-aws.sh" "/home/michieljoris/emacs/packages/my-elisp-files/keys.el" "/home/michieljoris/emacs/packages/my-elisp-files/modes.el" "/home/michieljoris/mysrc/javascript/html-builder/html-builder.js" "/home/michieljoris/www/personalinfo/node_modules/html-builder/package.json" "/home/michieljoris/www/personalinfo/node_modules/html-builder/node_modules/filemonitor/lib/filemonitor.js"))
+(setq regexp-search-ring '("exe" "executeFIl" "145" "200px" "145" "mouseover" "hover" "defaultFilter" "exe" "Cntl" "default" "makeFilter" "orK" "executeFil" "execute" "blogMo"))
+(setq register-alist (list (list 82 "Unprintable entity" (let ((mk (make-marker))) (add-hook 'desktop-delay-hook (list 'lambda '() (list 'set-marker mk 382 (get-buffer "sync-to-aws.sh")))) mk)) '(117 . " ") '(0) '(113) '(134217847) '(101 file . "~/emacs/init.el") '(98 file . "~/.bashrc") '(107 file . "~/.emacs.d/my-config/keys.el") '(105 file . "~/.emacs.d/init.el")))
+(setq file-name-history '("/home/michieljoris/www/sites/greenglass/build/views/view-blog.html" "/home/michieljoris/www/sites/personalinfo/www/js/controllers/mainCntl.js" "/home/michieljoris/www/sites/personalinfo/www/js/controllers/templateCntl.js" "/home/michieljoris/www/sites/personalinfo/www/js/angularModule.js" "/home/michieljoris/www/sites/greenglass/www/js/MainCntl.js" "~/www/sites/greenglass/www/js/angularModule.js" "/home/michieljoris/www/sites/greenglass/www/js/GalleryCntl.js" "/home/michieljoris/www/sites/greenglass/www/js/BlogCntl.js" "/home/michieljoris/www/sites/greenglass/build/js/router.js" "/home/michieljoris/www/sites/firstdoor/build/js/router.js" "/home/michieljoris/www/sites/greenglass/www/js/router.js" "/home/michieljoris/www/sites/greenglass/build/views/view-gallery.html" "/home/michieljoris/www/sites/greenglass/build/views/view-blog.html" "/home/michieljoris/www/sites/greenglass/build/views/view-gallery.html" "/home/michieljoris/www/sites/greenglass/build/recipe.js" "/home/michieljoris/www/sites/greenglass/.gitignore" "/home/michieljoris/www/sites/greenglass/build/html/blog.html" "/home/michieljoris/www/sites/greenglass/www/css/main.css" "/home/michieljoris/www/sites/greenglass/www/js/myangular.js" "/home/michieljoris/www/sites/greenglass/build/html/links.html" "/home/michieljoris/www/sites/greenglass/build/html/select.html" "/home/michieljoris/www/sites/firstdoor/build/editable/pd/childrent_at_risk.html" "/home/michieljoris/www/sites/greenglass/www/about.html" "/home/michieljoris/www/sites/personalinfo/www/index.html" "/home/michieljoris/www/sites/greenglass/build/markdown/contact.md" "/home/michieljoris/www/sites/greenglass/build/markdown/services.md" "/home/michieljoris/www/sites/greenglass/build/markdown/care.md" "/home/michieljoris/www/sites/greenglass/build/markdown/faq.md" "/home/michieljoris/www/sites/greenglass/build/markdown/about.md" "/home/michieljoris/www/sites/personalinfo/server/signin.js"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
 (desktop-create-buffer 206
-  "/home/michieljoris/www/sites/greenglass/server/sync.js"
-  "sync.js"
+  "/home/michieljoris/www/sites/greenglass/build/views/view-gallery.html"
+  "view-gallery.html"
+  'html-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  71
+  '(78 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/www/js/MainCntl.js"
+  "MainCntl.js"
   'js2-mode
-  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
-  9433
-  '(9109 nil)
+  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode moz-reload-on-save-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
+  2733
+  '(2457 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/html/body.html"
+  "body.html"
+  'html-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  394
+  '(377 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/www/js/GalleryCntl.js"
+  "GalleryCntl.js"
+  'js2-mode
+  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode moz-reload-on-save-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
+  27297
+  '(27474 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/recipe.js"
+  "recipe.js"
+  'js2-mode
+  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode moz-reload-on-save-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
+  5067
+  '(3526 nil)
   nil
   nil
   '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
 
 (desktop-create-buffer 206
-  "/home/michieljoris/www/sites/greenglass/server/processImages.js"
-  "processImages.js"
+  "/home/michieljoris/www/sites/greenglass/www/css/main.css"
+  "main.css"
+  'css-mode
+  '(undo-tree-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-css-mode)
+  5031
+  '(5222 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/views/view-gallery.html"
+  "view-gallery.html"
+  'html-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  27
+  '(27 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/views/view-blog.html"
+  "view-blog.html"
+  'html-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  75
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/html/links.html"
+  "links.html"
+  'html-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  1853
+  '(300 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/www/js/angularModule.js"
+  "angularModule.js"
   'js2-mode
   '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
-  765
-  '(1 nil)
+  277
+  '(1230 nil)
   nil
   nil
   '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/html/select.html"
+  "select.html"
+  'html-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  5113
+  '(1914 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/js/router.js"
+  "router.js"
+  'js2-mode
+  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
+  958
+  '(1373 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/html/basicPage.html"
+  "basicPage.html"
+  'html-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  805
+  '(890 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/html/isotope.html"
+  "isotope.html"
+  'html-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  628
+  '(308 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/.gitignore"
+  ".gitignore"
+  'fundamental-mode
+  '(window-number-mode global-auto-revert-mode)
+  130
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/html/blog.html"
+  "blog.html"
+  'html-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  1
+  '(1 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/firstdoor/build/editable/pd/childrent_at_risk.html"
+  "childrent_at_risk.html"
+  'html-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  769
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/greenglass.org"
+  "greenglass.org"
+  'org-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  479
+  '(451 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/markdown/about.md"
+  "about.md"
+  'markdown-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  228
+  '(227 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/www/about.html"
+  "about.html"
+  'html-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/personalinfo/www/index.html"
+  "index.html"
+  'html-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  3345
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/markdown/contact.md"
+  "contact.md"
+  'markdown-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  346
+  '(347 t)
+  nil
+  nil
+  '((tab-width . 4) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/markdown/care.md"
+  "care.md"
+  'markdown-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  1
+  '(2664 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/markdown/faq.md"
+  "faq.md"
+  'markdown-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  1
+  '(1062 nil)
+  nil
+  nil
+  '((tab-width . 4) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/build/markdown/services.md"
+  "services.md"
+  'markdown-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/firstdoor/www/js/angular-mobile.min.js"
+  "angular-mobile.min.js"
+  'js2-mode
+  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
+  1600
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/server/deleteImg.js"
+  "deleteImg.js"
+  'js2-mode
+  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
+  1232
+  '(1599 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . utf-8-unix)))
 
 (desktop-create-buffer 206
   "/home/michieljoris/www/sites/greenglass/server/server.js"
   "server.js"
   'js2-mode
   '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
-  1157
-  '(347 nil)
+  1033
+  '(1034 nil)
   nil
   nil
   '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
 
 (desktop-create-buffer 206
-  "/home/michieljoris/mysrc/javascript/bb-server/lib/bb-server.js"
-  "bb-server.js"
+  "/home/michieljoris/www/sites/personalinfo/server/signin.js"
+  "signin.js"
   'js2-mode
   '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
-  3291
-  '(2388 nil)
+  2156
+  '(2639 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/personalinfo/server/sendMail.js"
+  "sendMail.js"
+  'js2-mode
+  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
+  5347
+  '(5762 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/server/testSendMail.js"
+  "testSendMail.js"
+  'js2-mode
+  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
+  1594
+  '(2185 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/server/sync.js"
+  "sync.js"
+  'js2-mode
+  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
+  10601
+  '(2989 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/mysrc/org/notes.org"
+  "notes.org"
+  'org-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  1093
+  '(106 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/mysrc/org/it-notes.org"
+  "it-notes.org"
+  'org-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  164525
+  '(164631 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/sync-to-aws.sh"
+  "sync-to-aws.sh"
+  'sh-mode
+  '(undo-tree-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode)
+  382
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/www/sites/greenglass/server/processImages.js"
+  "processImages.js"
+  'js2-mode
+  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
+  2366
+  '(1435 nil)
   nil
   nil
   '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
@@ -72,46 +424,90 @@
   '((buffer-file-coding-system . undecided-unix)))
 
 (desktop-create-buffer 206
-  "/home/michieljoris/mysrc/javascript/bb-server/lib/server.js"
-  "server.js"
-  'js2-mode
-  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
-  5027
-  '(3991 nil)
+  "/home/michieljoris/.emacs.d/bookmarks"
+  "bookmarks"
+  'fundamental-mode
+  '(window-number-mode global-auto-revert-mode)
+  1
+  '(nil nil)
   nil
   nil
-  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+  '((buffer-file-coding-system . undecided-unix)))
 
 (desktop-create-buffer 206
-  "/home/michieljoris/www/sites/greenglass/greenglass.org"
-  "greenglass.org"
+  "/home/michieljoris/mysrc/org/picolisp-notes.org"
+  "picolisp-notes.org"
   'org-mode
   '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
-  480
+  3
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/mysrc/org/from-mobile.org"
+  "from-mobile.org"
+  'org-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/mysrc/org/language-ref.org"
+  "language-ref.org"
+  'org-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/mysrc/org/project-bootstrap.org"
+  "project-bootstrap.org"
+  'org-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  1
   '(nil nil)
   nil
   nil
   '((buffer-file-coding-system . undecided-unix) (truncate-lines . t)))
 
 (desktop-create-buffer 206
-  "/home/michieljoris/www/sites/greenglass/build/recipe.js"
-  "recipe.js"
-  'js2-mode
-  '(undo-tree-mode flymake-mode moz-minor-mode auto-complete-mode window-number-mode autopair-mode global-auto-revert-mode skewer-mode hs-minor-mode)
-  2653
-  '(2688 nil)
-  nil
-  nil
-  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/michieljoris/www/sites/greenglass/build/html/basicPage.html"
-  "basicPage.html"
-  'html-mode
+  "/home/michieljoris/mysrc/org/julangart.org"
+  "julangart.org"
+  'org-mode
   '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
-  765
+  1810
   '(nil nil)
   nil
   nil
-  '((buffer-file-coding-system . undecided-unix)))
+  '((buffer-file-coding-system . undecided-unix) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/mysrc/org/cs_study.org"
+  "cs_study.org"
+  'org-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix) (truncate-lines . t)))
+
+(desktop-create-buffer 206
+  "/home/michieljoris/mysrc/org/project-roster.org"
+  "project-roster.org"
+  'org-mode
+  '(auto-fill-mode undo-tree-mode window-number-mode autopair-mode global-auto-revert-mode)
+  18078
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix) (truncate-lines . t)))
 
