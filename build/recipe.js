@@ -180,6 +180,29 @@ var exports = {
                     ]
                 }
             }
+            ,{// id: 'page' 
+                pathOut: 'www/'
+                ,out: 'index.html' //optional, relative to root
+                ,src: 'html/basicPage.html'
+                //Maps tag ids to partial ids. Tag ids have to be
+                //postfixed with two dashes in the template. Partials
+                //with an extension will be loaded from the partials
+                //folder for this template. Markdown files will be
+                //converted to html. Partials in an array will be
+                //concatenated before inserted at the tag id element
+                
+                ,mapping: {
+                    head: ['title', 'meta', 'html/ieshim',  'skewer', 'uploadcare', 'headJsBlock', 'myLinkBlock' 
+                           // ,'_linkBlock'
+                          ],
+                    wrapper: [
+                        'body'
+                        ,'editMode'
+                        ,'myJsBlock'
+                        // ,'_scriptBlock'
+                    ]
+                }
+            }
             
         ] 
         

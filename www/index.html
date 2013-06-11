@@ -16,7 +16,7 @@
     </script>
     <script src="js/angular-ui-ieshiv.js"></script>
     <![endif]-->						    
-<script src="http://localhost:9090/skewer"></script>
+<script src="http://localhost:9090/skewer"></script><script> UPLOADCARE_PUBLIC_KEY = '122d4d06f195611a02bc'; </script>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css"><link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css"><link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css"><link rel="stylesheet" type="text/css" href="css/angular-ui.css"><link rel="stylesheet" type="text/css" href="css/checkboxes.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/jquery.fancybox.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-buttons.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-thumbs.css"><link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
   <body id="ng:app" ng:app="myApp" ng-cloak>
@@ -45,17 +45,22 @@
     <li class="title2">
     <span class="title">terrariums</span>
     </li>
+    
     <li>
-      <a ng-show="isCollapsed && !blogMode" class="" href="#" ng-click="selectClicked($event)">Select</a>
+      <a  href="#!/gallery" class=" link"
+	 ng-click="click('gallery')">Gallery</a>
     </li>
     <li>
-      <a ng-hide="isCollapsed || !blogMode" class="" href="#" ng-click="allClicked($event)">Show all</a>
+      <a ng-show="isCollapsed && path=='/gallery'" class="" href="#" ng-click="selectClicked($event)">Select</a>
+    </li>
+    <li>
+      <a ng-hide="isCollapsed || path!='/gallery'" class="" href="#" ng-click="allClicked($event)">Show all</a>
     </li>
     <li>
       <a  class="" href="#"> <p></p>  </a>
     </li>
     
-    <li ng-show="blogMode" style="min-height:20px;">
+    <li ng-show="path!='/gallery'" style="min-height:20px;">
       <a  class="" href="#"> <p></p>  </a>
     </li>
     
@@ -70,19 +75,19 @@
     
     <!-- </li> -->
     <li>
-      <a class="ajax fancybox.ajax" href="/md/about.md">About</a>
+      <a class="" href="#!/info#about">About</a>
     </li>
     <li>
-      <a class="ajax fancybox.ajax" href="md/faq.md">Faq</a>
+      <a class="" href="#!/info#faq">Faq</a>
     </li>
     <li>
-      <a class="ajax fancybox.ajax" href="md/care.md">Care</a>
+      <a class="" href="#!/info#care">Care</a>
     </li>
     <li>
-      <a class="ajax fancybox.ajax" href="md/services.md">Services</a>
+      <a class="" href="#!/info#services">Services</a>
     </li>
     <li>
-      <a class="ajax fancybox.ajax" href="md/contact.md">Contact</a>
+      <a class="" href="#!/info#contact">Contact</a>
     </li>
     <li>
       <a class="" href="#"> <p></p>  </a>
@@ -95,8 +100,10 @@
 	 href="#" ng-click="addingImages=false">Adding..</a>
     </li>
     
-    <a ng-hide="blogMode" href="#!/blog" class=" link" ng-click="click('blog')" >Blog</a>
-    <a ng-show="blogMode" href="#!/gallery" class=" link" ng-click="click('gallery')">Gallery</a>
+    <li>
+      <a  href="#!/blog" class=" link"
+	 ng-click="click('blog')" >Blog</a>
+    </li>
     
     
     
@@ -105,7 +112,7 @@
 </div> 
     </div>
     
-    <div ng-hide="blogMode" class="row-fluid">
+    <div ng-show="path=='/gallery'" class="row-fluid">
       <div id="isotope--"  class="span10" ng-controller="GalleryCntl"><div id="select--" ng-hide="isCollapsed" class="well"><div id="selectContainer" class="selectContainer controls"
      ng-class="mouseoverControls">
   
@@ -339,22 +346,37 @@
 </div> 
     </div>
     
-    <div ng-show="blogMode" class="row-fluid">
-      <div id="blog--"  class="span10" ng-controller="BlogCntl"><button ng-hide="editMode" class="btn btn-small btn-xprimary" ng-click="editText()">Edit</button>
-<button ng-show="editMode" class="btn btn-small btn-xprimary" ng-click="closeEditor()">Done</button>
-<button ng-show="editMode" class="btn btn-small btn-xprimary" ng-click="saveText()">Save</button>
-<button ng-show="editMode" class="btn btn-small btn-xprimary pull-right" ng-click="cancelEditor()">Cancel</button>
-<div ng-show="editMode"> 
-  <textarea  name="editor1">{{content}}</textarea>
-</div>
-<div ng-hide="editMode" ng-bind-html-unsafe="content"></div>
+    <div ng-show="path=='/blog'" class="row-fluid">
+      <div id="blog--"  class="span10" ng-controller="BlogCntl"> Hello here goes your blog!!!
 </div> 
+    </div>
+    
+    <div id="info" class="" ng-show="path=='/info'" ng-controller="InfoCntl">
+      
+      <div class="row-fluid" > 
+	<div class="span10 editButtons">
+	  <button ng-hide="editMode" class="btn btn-small btn-xprimary" ng-click="editText()">Edit</button>
+	  <button ng-show="editMode" class="btn btn-small btn-xprimary"
+		  ng-click="closeEditor()">Done</button>
+	  <button ng-show="editMode" class="btn btn-small btn-xprimary"
+		  ng-click="saveText()">Save</button>
+	  <span ng-show="saveNotify">Saved!!</span>
+	  <button ng-show="editMode" class="btn btn-small btn-xprimary pull-right" ng-click="cancelEditor()">Cancel</button>
+	</div>
+      </div>
+      
+      <div class="row-fluid" ng-show="editMode"> 
+	<div class="span10">
+	<textarea  name="editor2"></textarea>
+	</div>
+      </div>
+      <div ng-hide="editMode" ng-bind-html-unsafe="content"></div>
     </div>
     
   </div>
   
 </div>
-<script>var mode="view"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/ckeditor/ckeditor.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/angularModule.js"></script><script type="text/javascript" src="js/MainCntl.js"></script><script type="text/javascript" src="js/BlogCntl.js"></script><script type="text/javascript" src="js/GalleryCntl.js"></script><script type="text/javascript" src="js/router.js"></script>
+<script>var mode="edit"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/ckeditor/ckeditor.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/angularModule.js"></script><script type="text/javascript" src="js/MainCntl.js"></script><script type="text/javascript" src="js/BlogCntl.js"></script><script type="text/javascript" src="js/GalleryCntl.js"></script><script type="text/javascript" src="js/InfoCntl.js"></script><script type="text/javascript" src="js/router.js"></script>
 </div> 
 <div class="bottomBar">Developed by <a href="mailto:michieljoris@justemail.net">michieljoris</a></div>
     <!-- <script src="js/minicart.js"></script> -->
