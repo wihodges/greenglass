@@ -14,7 +14,8 @@
 	"bb-server": "*",
 	"html-builder": "*",
         "nodemailer": "*",
-	"dbox": "*"
+	"dbox": "*",
+	"gm": "*"
     },
     "bugs": {
 	"url": "https://github.com/michieljoris/greenglass/issues"

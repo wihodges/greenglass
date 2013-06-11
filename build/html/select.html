@@ -53,15 +53,29 @@
     <input id="v3" type="checkbox"  ng-click="executeFilter('rectangle')" ng-model="filter.rectangle" >
     <label for="v3"><span></span>Rectangle</label>
   </div>
+  
+  <div  class="selector">
+    <div class="controlHeader" style="height:20px;">
+      </div>
+    <input id="v4" type="checkbox"  ng-click="executeFilter('cylindrical')" ng-model="filter.rectangle" >
+    <label for="v4"><span></span>Cylindrical</label>
+    <input id="v5" type="checkbox"  ng-click="executeFilter('hurricane')" ng-model="filter.rectangle" >
+    <label for="v5"><span></span>Hurricane</label>
+    <input id="v6" type="checkbox"  ng-click="executeFilter('teardrop')" ng-model="filter.rectangle" >
+    <label for="v6"><span></span>Teardrop</label>
 
+  </div> 
 
   <div  class="selector">
     <div class="controlHeader">
       <a href="#" ng-click="sortBy('type')" tooltipnw="Click to sort on
 						     type" tooltipnw-placement="right" tooltipnw-animation="true">Type </a>
       {{sortOrder['type']}}</div>
-    <input id="t1" type="checkbox"  ng-click="executeFilter('standing')" ng-model="filter.standing" >
-    <label for="t1"><span></span>Standing</label>
+    <input id="t0" type="checkbox"  ng-click="executeFilter('open')" ng-model="filter.open" >
+    <label for="t0"><span></span>Open</label>
+    
+    <input id="t1" type="checkbox"  ng-click="excuteFilter('closed')" ng-model="filter.closed" >
+    <label for="t1"><span></span>Closed</label>
     <input id="t2" type="checkbox"  ng-click="executeFilter('hanging')" ng-model="filter.hanging" >
     <label for="t2"><span></span>Hanging</label>
   </div>

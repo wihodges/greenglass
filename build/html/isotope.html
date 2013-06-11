@@ -32,19 +32,36 @@
 	    </div>
 	  </div>
 	  <div class="control-group">
-	    <label class="control-label" for="price">Price</label>
+	    <label class="control-label" for="height">Height</label>
 	    <div class="controls">
-	      <input type="text" id="price" name="price" ng-model="item.price">
+	      <input type="text" id="height" name="height" ng-model="item.height">
 	    </div>
 	  </div>
 	  <div class="control-group">
-	    <label class="control-label" for="size">Size</label>
+	    <label class="control-label" for="width">Width</label>
 	    <div class="controls">
-	      <select  id="size" ng-model="item.size" >
-		<option value="small">Small</option>
-		<option value="medium">Medium</option>
-		<option value="large">Large</option>
+	      <input type="text" id="width" name="width" ng-model="item.width">
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="price">Price</label>
+	    <div class="controls">
+	      <select  id="price" ng-model="item.price" >
+		<option value="30">30.00</option>
+		<option value="40">40.00</option>
+		<option value="50">50.00</option>
+		<option value="60">60.00</option>
+		<option value="70">70.00</option>
+		<option value="80">80.00</option>
+		<option value="90">90.00</option>
+		<option value="100">100.00</option>
 	      </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="price">Price</label>
+	    <div class="controls">
+	      <input type="text" id="price" name="price" ng-model="item.price">
 	    </div>
 	  </div>
 	  <div class="control-group">
@@ -64,6 +81,9 @@
 		<option value="square">Square</option>
 		<option value="round">Round</option>
 		<option value="rectangle">Rectangle</option>
+		<option value="cylindrical">Cylindrical</option>
+		<option value="hurricane">Hurricane</option>
+		<option value="teardrop">Teardrop</option>
 	      </select>
 	    </div>
 	  </div>
@@ -71,7 +91,8 @@
 	    <label class="control-label" for="type">Type</label>
 	    <div class="controls">
 	      <select  id="type" ng-model="item.type" >
-		<option value="standing">Standing</option>
+		<option value="open">Open</option>
+		<option value="closed">Closed</option>
 		<option value="hanging">Hanging</option>
 	      </select>
 	    </div>

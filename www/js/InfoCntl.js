@@ -28,6 +28,7 @@ myApp.controller("InfoCntl", function ($scope, $http, $location, $timeout) {
     // $scope.content = "just some text";
     
     $scope.saveText = function() {
+        console.log($scope);
         var content = CKEDITOR.instances.editor2.getData();
         console.log(content);
         $http.post('save?path=' + $scope.info, content).
@@ -36,6 +37,9 @@ myApp.controller("InfoCntl", function ($scope, $http, $location, $timeout) {
                 if (!data.success) {
                     console.log('Failed to save on the server ', data.error);
                     alert('Warning: this file did not save to the server!!');
+                    // if (data.error === 'Not authorized.')
+                    //     $scope.signedIn = false;
+                    
                     return;
                 }
                 $scope.saveNotify = true;
@@ -48,7 +52,8 @@ myApp.controller("InfoCntl", function ($scope, $http, $location, $timeout) {
             }).
             error(function(data, status, headers, config) {
                 console.log('Failed to post data!!', data, status, headers, config);
-                alert('Warning: this file did not save to the server!!');
+                alert('Warning: this file did not save to the server!!\n' +
+                     'Reason:' + data.error);
                 return;
                     
             });

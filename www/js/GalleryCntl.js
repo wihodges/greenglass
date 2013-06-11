@@ -5,18 +5,22 @@
 function makeItem(item, size) {
     var imageName = "'" + item.name + "'";
     var classAttr = "item " +
-        (item.size ? item.size + ' ': '') +
+        // (item.size ? item.size + ' ': '') +
         (item.shape ? item.shape + ' ': '') +
         (item.buy ? item.buy + ' ': '') +
         (item.published ? item.published + ' ': 'no ') +
         (item.groupedWith ? 'grouped' + ' ': '') +
         (item.type ? item.type + ' ': '');
     
-    if (item.price <= 50) classAttr += "under50";
-    if (item.price > 50 && item.price <= 100) classAttr += "between50and100";
-    if (item.price > 100) classAttr += "over100";
+    if (item.price < 50) classAttr += "under50";
+    else  if(item.price < 100) classAttr += "between50and100";
+    else if (item.price >= 100) classAttr += "over100";
     
-    
+    if (item.height < 100) classAttr += " small ";
+    else if (item.height < 200) classAttr += " medium ";
+    else if (item.height < 300) classAttr += " large ";
+    // else if (item.height < 100) classAttr += "extralarge";
+  
     var datas = ''; 
     datas += 'data-id="{{getItem(\'' + item.name + '\').id}}" ';
     datas += 'data-price="{{getItem(\'' + item.name + '\').price}}" ';
@@ -42,27 +46,27 @@ function makeItem(item, size) {
         // (item.shape ? "Shape: " + '{{getItem("' + item.name + '").shape}}' + '<br>': '') +
         // (item.typ ? "Type: " + '{{getItem("' + item.name + '").type}}' + '<br>': '') +
         
-        (true ? "Size: " + '{{getItem(\'' + item.name + '\').size}}' + '<br>': '') +
+    (true ? "Size: " + '{{getItem(\'' + item.name + '\').size}}' + '<br>': '') +
         (true ? "Buy: " + '{{getItem("' + item.name + '").buy}}'  + '<br>': '') +
         (true ? "Price: $" + '{{getItem("' + item.name + '").price}}' + '<br>': '') +
-        (true .shape ? "Shape: " + '{{getItem("' + item.name + '").shape}}' + '<br>': '') +
+        (true ? "Shape: " + '{{getItem("' + item.name + '").shape}}' + '<br>': '') +
         (true ? "Type: " + '{{getItem("' + item.name + '").type}}' + '<br>': '') +
         (mode === 'edit' ?
          "Published: " + '{{getItem("' + item.name + '").published}}' + '<br>': '') +
         (mode === 'edit' ?
          "ID: " + '{{getItem("' + item.name + '").id}}' + '<br>': '') +
         
-        // "<button class='btn btn-inverse'" + viewClick + ">View</button>" +
-        // (mode === 'edit' ?
-        //  "<button class='btn btn-inverse'" + editClick + " >Edit</button>" : '') +
-        // (item.buy !== 'sold' ?
-        //  "<button ng-show=" + '"!getItem(' + "'" + item.name  + "'" + ').inCart"' +
-        //  " class='btn btn-inverse'" + buyClick + ">"+ (item.buy === 'now' ? 'Buy Now' : 'On order') +"</button>": '') +
-        // (item.buy !== 'sold' ?
-        //  "<button ng-show=" + '"getItem(' + "'" + item.name  + "'" + ').inCart"' +
-        //  " class='btn btn-inverse'" + removeFromCartClick + ">Cancel</button>": '') +
+    // "<button class='btn btn-inverse'" + viewClick + ">View</button>" +
+    // (mode === 'edit' ?
+    //  "<button class='btn btn-inverse'" + editClick + " >Edit</button>" : '') +
+    // (item.buy !== 'sold' ?
+    //  "<button ng-show=" + '"!getItem(' + "'" + item.name  + "'" + ').inCart"' +
+    //  " class='btn btn-inverse'" + buyClick + ">"+ (item.buy === 'now' ? 'Buy Now' : 'On order') +"</button>": '') +
+    // (item.buy !== 'sold' ?
+    //  "<button ng-show=" + '"getItem(' + "'" + item.name  + "'" + ').inCart"' +
+    //  " class='btn btn-inverse'" + removeFromCartClick + ">Cancel</button>": '') +
     
-        "</div>" +
+    "</div>" +
         "</div>";
     
     
@@ -211,7 +215,6 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
     var executeFilter = IsoFilter.executeFilter;
     // $("a[rel^='prettyPhoto']").prettyPhoto();
     var zoom = 200;
-    $scope.mode = mode;
     console.log('in Gallery controller');
     var getDir = function(path) {
         var deferred = $q.defer();
@@ -335,10 +338,10 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
                     // return '';
                 }
                 ,shape : function ( $elem ) {
-                    return getAttr($elem, ["square", "round", "rectangle"]);
+                    return getAttr($elem, ["square", "round", "rectangle", "cylindrical", "hurricane", "teardrop"]);
                 }
                 ,type : function ( $elem ) {
-                    return getAttr($elem, ["standing", "hanging"]);
+                    return getAttr($elem, ["open", "closed", "hanging"]);
                 }
                 ,size : function ( $elem ) {
                     return getAttr($elem, ["small", "medium", "large"]);
@@ -516,6 +519,12 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         if (item.price <= 50) classes += "under50";
         if (item.price > 50 && item.price <= 100) classes += "between50and100";
         if (item.price > 100) classes += "over100";
+        
+        if (item.height < 100) classes += " small ";
+        else if (item.height < 200) classes += " medium ";
+        else if (item.height < 300) classes += " large ";
+        // else if (item.height < 100) classes += "extralarge";
+  
         
         return classes;
         // var datas = ''; 

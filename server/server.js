@@ -8,6 +8,9 @@ var server = require('bb-server')
 // testMail = require("./testSendMail"),
 ,save = require("./save")
 
+,signin = require("./signin.js")
+,signout = require("./signout.js")
+
 ,sync = require("./sync.js")
 ,saveFile = require("./saveFile.js")
 ,dropbox_authorize = require("./dropbox_authorize.js")
@@ -31,6 +34,8 @@ var options = {
     ,postHandlers: {
         "/greenglass" : save
         ,"/save": saveFile
+        ,"/signin": signin
+        ,"/signout": signout
         // "/sendmail" : testMail
         ,"/delete": deleteImg
         }
@@ -38,6 +43,9 @@ var options = {
         "/sync": sync,
         "/dropbox_authorize": dropbox_authorize,
         "/dropbox_connect": dropbox_connect
+    }
+    ,sessions: {
+        expires: 30*24*60*60  //one month
     }
 };
 

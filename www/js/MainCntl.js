@@ -81,17 +81,67 @@ myApp.factory('IsoFilter', function() {
 
 myApp.controller("MainCntl", function ($rootScope, IsoFilter, $location, $scope, $http) {
     
-    $scope.info = "editable/care.html";
+    console.log('In MainCntl');
+    
+    console.log('-------------',$location,  $location.$$url,
+                $location.$$path, $location.$$hash, $location.$$search);
+    initPersona($scope, $http);
+    
+    //whether we're on index.html (view) or edit.html (edit)
+    //it changes the site somewhat, ultimate authority lies with the
+    //server though.
+    $scope.mode = mode;
+    
+    // $scope.info = "editable/care.html";
+    
     $rootScope.$on('$locationChangeSuccess', function(event){
         console.log('location change');
-        setView();
-        var url = $location.url(),
-            params =$location.search();
+        var path = $scope.path = $location.$$path;
+        console.log('Path:', path, ' Hash:', $location.$$hash, ' Search:', $location.$$search);
+        //edit or view mode;
+        // var query = $location.$$search;
+        // $scope.auth=query.auth;
+        // $scope.blogMode= path ==='/blog';
+        switch (path) {
+          case '/gallery':
+            setTimeout(function() {
+                $("#imageDiv").isotope("reLayout");
+                $("#selectContainer").isotope("reLayout");
+            },1);
+            break;
+          case '/blog' :
+            break;
+          case '/info' :
+            
+            $scope.info = 'editable/' + $location.$$hash + '.html';
+            $http({method: 'GET', url: $scope.info}).
+                success(function(data, status, headers, config) {
+                    console.log('received data, setting content');
+                    $scope.content = data;
+                    // $scope.$apply();
+                    CKEDITOR.instances.editor2.setData( data, function() {
+                        this.checkDirty(); // true
+                    });
+                    // $scope.$apply();
+                    // this callback will be called asynchronously
+                    // when the response is available
+                }).
+                error(function(data, status, headers, config) {
+                    
+                    $scope.content = 'Failed to get the text!!!';
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                });
+            break;
+        default:  
+        }
+        // var url = $location.url(),
+        //     params =$location.search();
     });
     
-    console.log('-------------',$location,  $location.$$url, $location.$$path, $location.$$hash, $location.$$search);
-    $scope.isCollapsed=true;
+    if (!$location.$$path) $location.$$path = '/gallery';
     
+    $scope.isCollapsed=true;
     
     $scope.enterLinkbar = function() {
         // console.log('enter linkbar');
@@ -126,7 +176,7 @@ myApp.controller("MainCntl", function ($rootScope, IsoFilter, $location, $scope,
         console.log('allClicked');
         $scope.isCollapsed = !$scope.isCollapsed;
         $scope.filter = (function() {
-                var filter = {};
+            var filter = {};
             Object.keys(IsoFilter.defaultFilter).forEach(function(k) {
                 filter[k] = IsoFilter.defaultFilter[k];
             }); 
@@ -138,48 +188,22 @@ myApp.controller("MainCntl", function ($rootScope, IsoFilter, $location, $scope,
         
     };
     
-    function setView() {
-        var path = $scope.path = $location.$$path;
-        console.log('Path:', path, ' Hash:', $location.$$hash, ' Search:', $location.$$search);
-        $scope.blogMode= path ==='/blog';
-        switch (path) {
-          case '/gallery':
-            setTimeout(function() {
-                $("#imageDiv").isotope("reLayout");
-                $("#selectContainer").isotope("reLayout");
-            },1);
-            break;
-          case '/blog' :
-            break;
-          case '/info' :
-            
-            $scope.info = 'editable/' + $location.$$hash + '.html';
-            $http({method: 'GET', url: $scope.info}).
-                success(function(data, status, headers, config) {
-                    console.log('received data, setting content');
-                    $scope.content = data;
-                    // $scope.$apply();
-                    CKEDITOR.instances.editor2.setData( data, function() {
-                        this.checkDirty(); // true
-                    });
-                    // $scope.$apply();
-                    // this callback will be called asynchronously
-                    // when the response is available
-                }).
-                error(function(data, status, headers, config) {
-                    
-                    $scope.content = 'Failed to get the text!!!';
-                    // called asynchronously if an error occurs
-                    // or server returns response with an error status.
-                });
-            break;
-        default:  
-        }
-    }
     
-    $scope.click = function(link) {
-        console.log(link);
+    $scope.signout = function($event) {
+        $event.preventDefault();
+        console.log('Logging out');
+        navigator.id.logout();
+        
+    };
+    
+    $scope.signin = function($event) {
+        $event.preventDefault();
+        console.log('Logging in');
+        navigator.id.request();
     };
     
     
+    // $scope.click = function(link) {
+    //     console.log(link);
+    // };
 }); 

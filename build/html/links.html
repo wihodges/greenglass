@@ -22,7 +22,7 @@
     </li>
     
     <li>
-      <a  href="#!/gallery" class=" link"
+      <a  ng-show="path!='/gallery'" href="#!/gallery" class=" link"
 	 ng-click="click('gallery')">Gallery</a>
     </li>
     <li>
@@ -35,7 +35,7 @@
       <a  class="" href="#"> <p></p>  </a>
     </li>
     
-    <li ng-show="path!='/gallery'" style="min-height:20px;">
+    <li ng-show="true" style="min-height:20px;">
       <a  class="" href="#"> <p></p>  </a>
     </li>
     
@@ -62,7 +62,14 @@
       <a class="" href="#!/info#services">Services</a>
     </li>
     <li>
+      <a class="" href="#!/info#stockists">Stockists</a>
+    </li>
+    <li>
       <a class="" href="#!/info#contact">Contact</a>
+    </li>
+    <li>
+      <a  href="#!/blog" class=" link"
+	 ng-click="click('blog')" >Blog</a>
     </li>
     <li>
       <a class="" href="#"> <p></p>  </a>
@@ -76,9 +83,15 @@
     </li>
     
     <li>
-      <a  href="#!/blog" class=" link"
-	 ng-click="click('blog')" >Blog</a>
+      <a class="" href="#"> <p></p>  </a>
     </li>
+    <li>
+      <div ng-show="mode=='edit'">
+	<a ng-hide="signedIn" href="#" class="persona-button blue" ng-click="signin($event)"><span>Sign in</span></a> 
+	<a ng-show="signedIn" href="#" class="persona-button blue" ng-click="signout($event)"><span>Sign out</span></a>
+      </div>      
+    </li>	
+    
     
     
     

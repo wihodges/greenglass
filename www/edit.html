@@ -1,6 +1,6 @@
 <!doctype html>
 <html xmlns:ng="http://angularjs.org" lang="en">
-  <head id="head--"><title>green glass terrariums</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'>
+  <head id="head--"><title>green glass terrariums</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'><meta http-equiv='X-UA-Compatible' content='IE=Edge'>
 <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -17,7 +17,7 @@
     <script src="js/angular-ui-ieshiv.js"></script>
     <![endif]-->						    
 <script src="http://localhost:9090/skewer"></script><script> UPLOADCARE_PUBLIC_KEY = '122d4d06f195611a02bc'; </script>
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css"><link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css"><link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css"><link rel="stylesheet" type="text/css" href="css/angular-ui.css"><link rel="stylesheet" type="text/css" href="css/checkboxes.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/jquery.fancybox.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-buttons.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-thumbs.css"><link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css"><link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css"><link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css"><link rel="stylesheet" type="text/css" href="css/angular-ui.css"><link rel="stylesheet" type="text/css" href="css/checkboxes.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/jquery.fancybox.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-buttons.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-thumbs.css"><link rel="stylesheet" type="text/css" href="css/persona-buttons.css"><link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
   <body id="ng:app" ng:app="myApp" ng-cloak>
     <div id="wrapper--"><div class="container-fluid" ng-controller="MainCntl" >
@@ -47,7 +47,7 @@
     </li>
     
     <li>
-      <a  href="#!/gallery" class=" link"
+      <a  ng-show="path!='/gallery'" href="#!/gallery" class=" link"
 	 ng-click="click('gallery')">Gallery</a>
     </li>
     <li>
@@ -60,7 +60,7 @@
       <a  class="" href="#"> <p></p>  </a>
     </li>
     
-    <li ng-show="path!='/gallery'" style="min-height:20px;">
+    <li ng-show="true" style="min-height:20px;">
       <a  class="" href="#"> <p></p>  </a>
     </li>
     
@@ -87,7 +87,14 @@
       <a class="" href="#!/info#services">Services</a>
     </li>
     <li>
+      <a class="" href="#!/info#stockists">Stockists</a>
+    </li>
+    <li>
       <a class="" href="#!/info#contact">Contact</a>
+    </li>
+    <li>
+      <a  href="#!/blog" class=" link"
+	 ng-click="click('blog')" >Blog</a>
     </li>
     <li>
       <a class="" href="#"> <p></p>  </a>
@@ -101,9 +108,15 @@
     </li>
     
     <li>
-      <a  href="#!/blog" class=" link"
-	 ng-click="click('blog')" >Blog</a>
+      <a class="" href="#"> <p></p>  </a>
     </li>
+    <li>
+      <div ng-show="mode=='edit'">
+	<a ng-hide="signedIn" href="#" class="persona-button blue" ng-click="signin($event)"><span>Sign in</span></a> 
+	<a ng-show="signedIn" href="#" class="persona-button blue" ng-click="signout($event)"><span>Sign out</span></a>
+      </div>      
+    </li>	
+    
     
     
     
@@ -168,15 +181,29 @@
     <input id="v3" type="checkbox"  ng-click="executeFilter('rectangle')" ng-model="filter.rectangle" >
     <label for="v3"><span></span>Rectangle</label>
   </div>
+  
+  <div  class="selector">
+    <div class="controlHeader" style="height:20px;">
+      </div>
+    <input id="v4" type="checkbox"  ng-click="executeFilter('cylindrical')" ng-model="filter.rectangle" >
+    <label for="v4"><span></span>Cylindrical</label>
+    <input id="v5" type="checkbox"  ng-click="executeFilter('hurricane')" ng-model="filter.rectangle" >
+    <label for="v5"><span></span>Hurricane</label>
+    <input id="v6" type="checkbox"  ng-click="executeFilter('teardrop')" ng-model="filter.rectangle" >
+    <label for="v6"><span></span>Teardrop</label>
 
+  </div> 
 
   <div  class="selector">
     <div class="controlHeader">
       <a href="#" ng-click="sortBy('type')" tooltipnw="Click to sort on
 						     type" tooltipnw-placement="right" tooltipnw-animation="true">Type </a>
       {{sortOrder['type']}}</div>
-    <input id="t1" type="checkbox"  ng-click="executeFilter('standing')" ng-model="filter.standing" >
-    <label for="t1"><span></span>Standing</label>
+    <input id="t0" type="checkbox"  ng-click="executeFilter('open')" ng-model="filter.open" >
+    <label for="t0"><span></span>Open</label>
+    
+    <input id="t1" type="checkbox"  ng-click="excuteFilter('closed')" ng-model="filter.closed" >
+    <label for="t1"><span></span>Closed</label>
     <input id="t2" type="checkbox"  ng-click="executeFilter('hanging')" ng-model="filter.hanging" >
     <label for="t2"><span></span>Hanging</label>
   </div>
@@ -260,19 +287,36 @@
 	    </div>
 	  </div>
 	  <div class="control-group">
-	    <label class="control-label" for="price">Price</label>
+	    <label class="control-label" for="height">Height</label>
 	    <div class="controls">
-	      <input type="text" id="price" name="price" ng-model="item.price">
+	      <input type="text" id="height" name="height" ng-model="item.height">
 	    </div>
 	  </div>
 	  <div class="control-group">
-	    <label class="control-label" for="size">Size</label>
+	    <label class="control-label" for="width">Width</label>
 	    <div class="controls">
-	      <select  id="size" ng-model="item.size" >
-		<option value="small">Small</option>
-		<option value="medium">Medium</option>
-		<option value="large">Large</option>
+	      <input type="text" id="width" name="width" ng-model="item.width">
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="price">Price</label>
+	    <div class="controls">
+	      <select  id="price" ng-model="item.price" >
+		<option value="30">30.00</option>
+		<option value="40">40.00</option>
+		<option value="50">50.00</option>
+		<option value="60">60.00</option>
+		<option value="70">70.00</option>
+		<option value="80">80.00</option>
+		<option value="90">90.00</option>
+		<option value="100">100.00</option>
 	      </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="price">Price</label>
+	    <div class="controls">
+	      <input type="text" id="price" name="price" ng-model="item.price">
 	    </div>
 	  </div>
 	  <div class="control-group">
@@ -292,6 +336,9 @@
 		<option value="square">Square</option>
 		<option value="round">Round</option>
 		<option value="rectangle">Rectangle</option>
+		<option value="cylindrical">Cylindrical</option>
+		<option value="hurricane">Hurricane</option>
+		<option value="teardrop">Teardrop</option>
 	      </select>
 	    </div>
 	  </div>
@@ -299,7 +346,8 @@
 	    <label class="control-label" for="type">Type</label>
 	    <div class="controls">
 	      <select  id="type" ng-model="item.type" >
-		<option value="standing">Standing</option>
+		<option value="open">Open</option>
+		<option value="closed">Closed</option>
 		<option value="hanging">Hanging</option>
 	      </select>
 	    </div>
@@ -351,10 +399,10 @@
 </div> 
     </div>
     
-    <div id="info" class="" ng-show="path=='/info'" ng-controller="InfoCntl">
+    <div id="info" class="" ng-show="mode=='edit' && path=='/info'" ng-controller="InfoCntl">
       
       <div class="row-fluid" > 
-	<div class="span10 editButtons">
+	<div ng-show="mode=='edit'" class="span10 editButtons">
 	  <button ng-hide="editMode" class="btn btn-small btn-xprimary" ng-click="editText()">Edit</button>
 	  <button ng-show="editMode" class="btn btn-small btn-xprimary"
 		  ng-click="closeEditor()">Done</button>
@@ -370,13 +418,18 @@
 	<textarea  name="editor2"></textarea>
 	</div>
       </div>
-      <div ng-hide="editMode" ng-bind-html-unsafe="content"></div>
+      
+      <div class="info-text row-fluid" ng-hide="editMode"> 
+	<div class="span9">
+	  <div  ng-bind-html-unsafe="content"></div>
+	</div>
+      </div>
     </div>
     
   </div>
   
 </div>
-<script>var mode="edit"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/ckeditor/ckeditor.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/angularModule.js"></script><script type="text/javascript" src="js/MainCntl.js"></script><script type="text/javascript" src="js/BlogCntl.js"></script><script type="text/javascript" src="js/GalleryCntl.js"></script><script type="text/javascript" src="js/InfoCntl.js"></script><script type="text/javascript" src="js/router.js"></script>
+<script>var mode="edit"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/ckeditor/ckeditor.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/cookie.js"></script><script type="text/javascript" src="js/persona_include.js"></script><script type="text/javascript" src="js/persona.js"></script><script type="text/javascript" src="js/angularModule.js"></script><script type="text/javascript" src="js/MainCntl.js"></script><script type="text/javascript" src="js/BlogCntl.js"></script><script type="text/javascript" src="js/GalleryCntl.js"></script><script type="text/javascript" src="js/InfoCntl.js"></script><script type="text/javascript" src="js/router.js"></script>
 </div> 
 <div class="bottomBar">Developed by <a href="mailto:michieljoris@justemail.net">michieljoris</a></div>
     <!-- <script src="js/minicart.js"></script> -->

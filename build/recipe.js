@@ -48,14 +48,20 @@ var exports = {
             ,skewer:'<script src="http://localhost:9090/skewer"></script>'
             ,editMode:'<script>var mode="edit"</script>'
             ,viewMode:'<script>var mode="view"</script>'
+            ,persona:'<script src="https://login.persona.org/include.js"></script>'
             ,uploadcare: "<script> UPLOADCARE_PUBLIC_KEY = '122d4d06f195611a02bc'; </script>"
+            
         }
         ,metaBlock : {
             id: 'meta',
             tags: [ { charset:'utf-8' },
                     { name: "viewport"
                       ,content: "width=device-width, initial-scale=1, maximum-scale=1"
-                    } ]
+                    } ,
+                    //stops IE using compatibility mode, important for Persona
+                    { 'http-equiv':"X-UA-Compatible", 'content':"IE=Edge"
+                    }
+                  ]
         }
         ,linkBlock:  {
             id: 'myLinkBlock',
@@ -69,6 +75,7 @@ var exports = {
                 ,'fancybox/source/jquery.fancybox'
                 ,'fancybox/source/helpers/jquery.fancybox-buttons'
                 ,'fancybox/source/helpers/jquery.fancybox-thumbs'
+                ,'persona-buttons'
                 ,'main'
             ]
             ,path: 'css/'
@@ -101,6 +108,9 @@ var exports = {
                     ,'fancybox/source/helpers/jquery.fancybox-thumbs'
                     ,"ckeditor/ckeditor"
                     ,'getpos'
+                    ,"cookie"
+                    ,'persona_include' //to be replaced by include.js from CDN
+                    ,'persona'
                     ,'angularModule'
                     ,"MainCntl"
                     ,'BlogCntl'
@@ -192,12 +202,14 @@ var exports = {
                 //concatenated before inserted at the tag id element
                 
                 ,mapping: {
-                    head: ['title', 'meta', 'html/ieshim',  'skewer', 'uploadcare', 'headJsBlock', 'myLinkBlock' 
+                    head: ['title', 'meta', 'html/ieshim',  'skewer',
+                           // ,'persona',
+                           'uploadcare', 'headJsBlock', 'myLinkBlock' 
                            // ,'_linkBlock'
                           ],
                     wrapper: [
                         'body'
-                        ,'editMode'
+                        ,'viewMode'
                         ,'myJsBlock'
                         // ,'_scriptBlock'
                     ]

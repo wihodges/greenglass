@@ -258,7 +258,7 @@ h2 {
     /* margin-left:15px;  */
 } 
 
-#id { 
+#id, #height, #width { 
     width: 85px; 
     /* margin-left:15px;  */
 } 
@@ -517,7 +517,7 @@ img {
     background:url("http://localhost:6002/css/bg/darkdenim3.png")
     color:lightgray;
     opacity:0.4;
-    position:fixed;
+    position:relative;
     bottom:0px;
     font-size:12px;
     width:100%;
@@ -581,4 +581,8 @@ img {
 
 .editButtons {
     /* padding-bottom:10px; */
+}
+
+.info-text {
+    margin-bottom:40px;
 }
