@@ -99,15 +99,15 @@ myApp.controller("MainCntl", function ($rootScope, IsoFilter, $location, $scope,
         var path = $scope.path = $location.$$path;
         console.log('Path:', path, ' Hash:', $location.$$hash, ' Search:', $location.$$search);
         //edit or view mode;
-        // var query = $location.$$search;
+       // var query = $location.$$search;
         // $scope.auth=query.auth;
         // $scope.blogMode= path ==='/blog';
         switch (path) {
           case '/gallery':
-            setTimeout(function() {
-                $("#imageDiv").isotope("reLayout");
-                $("#selectContainer").isotope("reLayout");
-            },1);
+            // setTimeout(function() {
+            //     $("#imageDiv").isotope("reLayout");
+            //     $("#selectContainer").isotope("reLayout");
+            // },1);
             break;
           case '/blog' :
             break;

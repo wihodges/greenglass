@@ -209,156 +209,35 @@ function attachDataToImages(images, data) {
     return images;
 }
 
+
+function setSelectIsotope() {
+    console.log('in select isotope');
+    var $container = $('#selectContainer');
+    $container.isotope({
+        itemSelector: '.selector'
+    });
+    setTimeout(function () {
+        $('#selectContainer').isotope('reloadItems');
+        $('#selectContainer').isotope({ filter: "*" }, function( $items ) {
+            var id = this.attr('id'),
+            len = $items.length;
+            console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
+            // $('img').hover(imageHover);
+            // $('.item').find('div').hover(descHover);
+        });
+    },100); 
+}
+    
+
 var images = {};
 myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $http) {
+    console.log('in Gallery controller');
+    
     var defaultFilter = IsoFilter.defaultFilter;
     var executeFilter = IsoFilter.executeFilter;
     // $("a[rel^='prettyPhoto']").prettyPhoto();
     var zoom = 200;
-    console.log('in Gallery controller');
-    var getDir = function(path) {
-        var deferred = $q.defer();
-        console.log('Getting path:' + path);
-        $http({method: 'GET', url: path}).
-            success(function(data, status, headers, config) {
-                var imageNames = getFileList(data);
-                var imagesOnServer = {};
-                imageNames.forEach(function(imgName) {
-                    imagesOnServer[imgName] = {
-                        name: imgName
-                        ,images: [imgName]
-                        ,mainImage: imgName
-                    };
-                });
-                deferred.resolve(imagesOnServer);
-            }).
-            error(function(data, status, headers, config) {
-                deferred.reject("Failed to get " + path);
-                console.log('Failed', status);
-            });
-        
-        return deferred.promise;
-    };
-    
-    var getImageData = function(imagesOnServer) {
-        
-        console.log('in imagesOnServer', imagesOnServer);
-        
-        var deferred = $q.defer();
-        $http({method: 'GET', url: 'terrariums.json'}).
-            success(function(data, status, headers, config) {
-                console.log('Image data', data);
-                //merge imagesOnServer and data 
-                //and resolve the result
-                deferred.resolve(attachDataToImages(imagesOnServer, data));
-            
-            }).
-            error(function(data, status, headers, config) {
-                console.log('Failed to get data on images in getImageData');
-                deferred.resolve(imagesOnServer);
-            });
-        
-        return deferred.promise;
-    };
-    function setSelectIsotope() {
-        console.log('in select isotope');
-        var $container = $('#selectContainer');
-        $container.isotope({
-            itemSelector: '.selector'
-        });
-        setTimeout(function () {
-            $('#selectContainer').isotope('reloadItems');
-            $('#selectContainer').isotope({ filter: "*" }, function( $items ) {
-                var id = this.attr('id'),
-                    len = $items.length;
-                console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
-                // $('img').hover(imageHover);
-                // $('.item').find('div').hover(descHover);
-            });
-        },100); 
-    }
-    
-    // function groupById(items) {
-    //     var grouped = {};
-    //     Object.keys(items).forEach(function(item) {
-            
-    //     });
-        
-    // }
 
-    function setIsotope(items) {
-        
-        console.log('Showing isotope images:', items);
-            var $container = $('#imageDiv');
-        $container.isotope({
-            itemSelector: '.item'
-        });
-        var itemsHtml = ''; 
-        var i = 0;
-        Object.keys(items).forEach(function(imgName) {
-            items[imgName].elId = 'img' + i++;
-            itemsHtml += makeItem(items[imgName], zoom);
-        });
-        $scope.itemsHtml = itemsHtml;
-            
-        setTimeout(function () {
-            $('#imageDiv').isotope('reloadItems');
-            executeFilter(defaultFilter);
-            // $('#imageDiv').isotope({ filter: makeFilterString() }, function( $items ) {
-            //     var id = this.attr('id'),
-            //     len = $items.length;
-            //     console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
-            //     // $('img').hover(imageHover);
-            //     // $('.item').find('div').hover(descHover);
-            // });
-        }, 1000);
-        
-        function getAttr(e, array) {
-            for (var i = 0; i < array.length; i++) {
-                // console.log(e.attr("class"));
-                // console.log('Checking: ' + array[i], e.context.className.toString());
-                if (e.context.className.toString().indexOf(array[i]) !== -1) return i;
-            }
-            return 10;
-        }
-            
-        $('#imageDiv').isotope({
-            getSortData : {
-                price : function ( $elem ) {
-                    // console.log( parseInt($elem.attr('data-price'), 10));
-                    var n = parseInt($elem.attr('data-price'), 10);
-                    if (typeof n === 'number') return n+'';
-                    return '';
-                }
-                ,id : function ( $elem ) {
-                    // console.log( parseInt($elem.attr('data-price'), 10));
-                    return $elem.attr('data-id');
-                    // var n = parseInt($elem.attr('data-id'), 10);
-                    // if (typeof n === 'number') return n+'';
-                    // return '';
-                }
-                ,shape : function ( $elem ) {
-                    return getAttr($elem, ["square", "round", "rectangle", "cylindrical", "hurricane", "teardrop"]);
-                }
-                ,type : function ( $elem ) {
-                    return getAttr($elem, ["open", "closed", "hanging"]);
-                }
-                ,size : function ( $elem ) {
-                    return getAttr($elem, ["small", "medium", "large"]);
-                }
-                ,buy : function ( $elem ) {
-                    return getAttr($elem, ["now", "order", "sold"]);
-                }
-                ,published : function ( $elem ) {
-                    // console.log($elem, getAttr($elem, ["yes", "no"]));
-                    return getAttr($elem, ["yes", "no", "archived"]);
-                }
-            }
-        });
-
-        // $('img').click(imageClicked);
-        images = items;
-    }
     //
         
     $scope.saveItems = function() {
@@ -366,7 +245,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         $scope.cart.forEach(function(c) {
             c.inCart = false;
         }); 
-        $http({method: 'POST', url: '/greenglass', data:images}).
+        $http({method: 'POST', url: '/save?terrariums.json', data:images}).
             success(function(data, status, headers, config) {
                 console.log(status, data);
                 $scope.cart.forEach(function(c) {
@@ -374,6 +253,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
                 }); 
             }).
             error(function(data, status, headers, config) {
+                alert('Failed to save data\nReason: ' + data.error);
                 console.log('Failed', status, data, headers, config);
                 console.log('Failed to post data.');
             });
@@ -408,7 +288,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
                               console.log($scope.filtered);
                               
                               executeFilter(newValue);
-                            break;
+                              break;
                           }
                       }
 
@@ -459,7 +339,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
             
         PAYPAL.apps.MiniCart.addToCart(data);
         setTimeout(function() {
-        PAYPAL.apps.MiniCart.show();
+            PAYPAL.apps.MiniCart.show();
             
         },100);
         
@@ -501,7 +381,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         item.inCart=false;
         var newCart = [];
         $scope.cart.forEach(function(c) {
-                if (c !== item) newCart.push(c);
+            if (c !== item) newCart.push(c);
         }); 
         $scope.cart = newCart;
     };
@@ -533,9 +413,8 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         
         
     };
-    $scope.okthen = true;
     
-    $scope.closeEdit = function (itemName) {
+    $scope.closeEdit = function () {
         console.log('closing');
         $scope.shouldBeOpen = false;
         $scope.addingImages = false ;
@@ -653,15 +532,15 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
             button.html('Remove from cart');
         };
         
-       window.removeFromCart = function(imageName) {
-           console.log('removing from cart: ' + imageName);
+        window.removeFromCart = function(imageName) {
+            console.log('removing from cart: ' + imageName);
             var item = images[imageName];
            
             item.inCart = false;
            
             var button =$('#cartButton');
             button.html('Add to cart');
-       };
+        };
         
     
         $.fancybox.open(
@@ -834,32 +713,6 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
 	closeEffect	: 'none'
     });
     
-    getDir('/images').
-        then(getImageData).
-        then(setIsotope
-              ,function(data, status) {
-                  console.log('Failed', status);
-                  alert('Failed to retrieve an image list!!.');
-              });
-    
-    $(function() {
-        var select = $( "#zoom" );
-        var slider = $( "<div id='slider'></div>" ).insertAfter( select ).slider({
-            min: 1,
-            max: 100,
-            range: "min",
-            value: 40,
-            slide: function( event, ui ) {
-                var width = (ui.value*4 + 40);
-                // select[ 0 ].selectedIndex = ui.value - 1;
-                $(".item img").attr("width",40 + ui.value * 4);
-                $("#imageDiv").isotope("reLayout");
-            }
-        });
-        // $( "#minbeds" ).change(function() {
-        //     slider.slider( "value", this.selectedIndex + 1 );
-        // });
-    });
     
     $scope.setLayout = function(density) {
         console.log($scope.dense);
@@ -887,7 +740,6 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         return 'More';
     };
     
-    setSelectIsotope();
     
     
     // $scope.test = ['images/2012-12-11 at 07.28.35.jpg', 'images/2012-12-11 at 07.28.35.jpg'];
@@ -900,7 +752,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         $scope.shouldBeOpen = false;
         $scope.addingImages = true;
         // $scope.addAlert("Click an image to add..", 'info', 10000);
-        };
+    };
     $scope.removeImageFromItem = function(item) {
         if (item.images.length <= 1) return;
         
@@ -909,7 +761,199 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         var loc = item.images.indexOf(item.mainImage);
         item.images = item.images.slice(0, loc ).concat(item.images.slice(loc+1));
         item.mainImage = item.images[0];
+    };
+    
+    var getDir = function(path) {
+        var vow = VOW.make();
+        console.log('Getting path:' + path);
+        $http({method: 'GET', url: path}).
+            success(function(data, status, headers, config) {
+                var imageNames = getFileList(data);
+                var imagesOnServer = {};
+                imageNames.forEach(function(imgName) {
+                    imagesOnServer[imgName] = {
+                        name: imgName
+                        ,images: [imgName]
+                        ,mainImage: imgName
+                    };
+                });
+                vow.keep(imagesOnServer);
+            }).
+            error(function(data, status, headers, config) {
+                vow['break']("Failed to get " + path);
+                console.log('Failed', status);
+            });
+    
+        return vow.promise;
+    };
+
+    var getImageData = function(imagesOnServer) {
+    
+        console.log('in imagesOnServer', imagesOnServer);
+    
+        var vow = VOW.make();
+        
+        $http({method: 'GET', url: 'terrariums.json'}).
+            success(function(data, status, headers, config) {
+                console.log('Image data', data);
+                //merge imagesOnServer and data 
+                //and resolve the result
+                vow.keep(attachDataToImages(imagesOnServer, data));
+            
+            }).
+            error(function(data, status, headers, config) {
+                console.log('Failed to get data on images in getImageData');
+                vow['break'](imagesOnServer);
+            });
+    
+        return vow.promise;
+    };
+    
+    function makeImagePromise(img) {
+        var vow = VOW.make();
+        
+        var domImage = new Image();
+        domImage.onload = function(){
+            console.log('Resolving promise for: ' + img.name);
+            vow.keep(img);
         };
+        domImage.src = 'images/' + img.name;
+        console.log('made image promise for ' + img.name);
+        return vow.promise;
+    }
+    
+    function getImages(images) {
+        var vow = VOW.make();
+        console.log('in getImages', images);
+        var imagePromises = [];
+        Object.keys(images).forEach(function(key) {
+            var img = images[key];
+            imagePromises.push(makeImagePromise(img)) ;
+        });
+        window.test = $q.all(imagePromises);
+        
+        VOW.every(imagePromises).when(
+        // makeImagePromise(images[Object.keys(images)[0]]).when(
+            function(bla) {
+                console.log('all resolved to ', bla);
+                vow.keep(images);
+            
+            },function(err) {
+                console.log('ERROR', err);
+                vow['break'](images);
+            }
+        );
+        // return $q.all(imagePromises);
+        return vow.promise;
+ 
+    }
+
+    
+
+    function setIsotope(items) {
+        
+        console.log('Showing isotope images:', items);
+        var $container = $('#imageDiv');
+        $container.isotope({
+            itemSelector: '.item'
+        });
+        var itemsHtml = ''; 
+        var i = 0;
+        Object.keys(items).forEach(function(imgName) {
+            items[imgName].elId = 'img' + i++;
+            itemsHtml += makeItem(items[imgName], zoom);
+        });
+        
+        $scope.itemsHtml = itemsHtml;
+            
+        setTimeout(function () {
+            $('#imageDiv').isotope('reloadItems');
+            executeFilter(defaultFilter);
+            // $('#imageDiv').isotope({ filter: makeFilterString() }, function( $items ) {
+            //     var id = this.attr('id'),
+            //     len = $items.length;
+            //     console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
+            //     // $('img').hover(imageHover);
+            //     // $('.item').find('div').hover(descHover);
+            // });
+        }, 1000);
+        
+        function getAttr(e, array) {
+            for (var i = 0; i < array.length; i++) {
+                // console.log(e.attr("class"));
+                // console.log('Checking: ' + array[i], e.context.className.toString());
+                if (e.context.className.toString().indexOf(array[i]) !== -1) return i;
+            }
+            return 10;
+        }
+            
+        $('#imageDiv').isotope({
+            getSortData : {
+                price : function ( $elem ) {
+                    // console.log( parseInt($elem.attr('data-price'), 10));
+                    var n = parseInt($elem.attr('data-price'), 10);
+                    if (typeof n === 'number') return n+'';
+                    return '';
+                }
+                ,id : function ( $elem ) {
+                    // console.log( parseInt($elem.attr('data-price'), 10));
+                    return $elem.attr('data-id');
+                    // var n = parseInt($elem.attr('data-id'), 10);
+                    // if (typeof n === 'number') return n+'';
+                    // return '';
+                }
+                ,shape : function ( $elem ) {
+                    return getAttr($elem, ["square", "round", "rectangle", "cylindrical", "hurricane", "teardrop"]);
+                }
+                ,type : function ( $elem ) {
+                    return getAttr($elem, ["open", "closed", "hanging"]);
+                }
+                ,size : function ( $elem ) {
+                    return getAttr($elem, ["small", "medium", "large"]);
+                }
+                ,buy : function ( $elem ) {
+                    return getAttr($elem, ["now", "order", "sold"]);
+                }
+                ,published : function ( $elem ) {
+                    // console.log($elem, getAttr($elem, ["yes", "no"]));
+                    return getAttr($elem, ["yes", "no", "archived"]);
+                }
+            }
+        });
+
+        // $('img').click(imageClicked);
+        images = items;
+    }
+    
+    // setSelectIsotope();
+    getDir('/images').
+        when(getImageData).
+        when(getImages).
+        when(setIsotope
+             ,function(data, status) {
+                 console.log('Failed', status);
+                 alert('Failed to retrieve an image list!!.');
+             });
+    
+    
+    $(function() {
+        var select = $( "#zoom" );
+        var slider = $( "<div id='slider'></div>" ).insertAfter( select ).slider({
+            min: 1,
+            max: 100,
+            range: "min",
+            value: 40,
+            slide: function( event, ui ) {
+                var width = (ui.value*4 + 40);
+                // select[ 0 ].selectedIndex = ui.value - 1;
+                $(".item img").attr("width",40 + ui.value * 4);
+                $("#imageDiv").isotope("reLayout");
+            }
+        });
+        // $( "#minbeds" ).change(function() {
+        //     slider.slider( "value", this.selectedIndex + 1 );
+        // });
+    });
 });
 
 // angular.module('myModule', [], function($provide) {

@@ -20,6 +20,10 @@ myApp.controller("InfoCntl", function ($scope, $http, $location, $timeout) {
             {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor', 'Maximize']}
         ]
         ,disableNativeSpellChecker : false
+        ,removePlugins: 'fastimage'
+        ,enterMode: CKEDITOR.ENTER_BR
+        ,extraPlugins : 'divarea' 
+            
         // toolbar: 'Basic',
         // uiColor: '#9AB8F3'
     } );

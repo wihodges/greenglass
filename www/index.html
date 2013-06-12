@@ -20,10 +20,10 @@
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css"><link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css"><link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css"><link rel="stylesheet" type="text/css" href="css/angular-ui.css"><link rel="stylesheet" type="text/css" href="css/checkboxes.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/jquery.fancybox.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-buttons.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-thumbs.css"><link rel="stylesheet" type="text/css" href="css/persona-buttons.css"><link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
   <body id="ng:app" ng:app="myApp" ng-cloak>
-    <div id="wrapper--"><div class="container-fluid" ng-controller="MainCntl" >
+    <div id="wrapper--"><div id="body" class="container-fluid" ng-controller="MainCntl" >
   <alert class=".fade .in" ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-    <div class="leftBar  ">
-      <div id="linkbar--" ng-mouseenter="enterLinkbar()"><div id="rightBlock">
+  <div class="leftBar  ">
+    <div id="linkbar--" ng-mouseenter="enterLinkbar()"><div id="rightBlock">
   
   <ul>
     <li ng-show="cart.length>0" class="cart">
@@ -123,10 +123,10 @@
   </ul> 
 </div>
 </div> 
-    </div>
-    
-    <div ng-show="path=='/gallery'" class="row-fluid">
-      <div id="isotope--"  class="span10" ng-controller="GalleryCntl"><div id="select--" ng-hide="isCollapsed" class="well"><div id="selectContainer" class="selectContainer controls"
+  </div>
+  
+  <div ng-show="path=='/gallery'" class="row-fluid">
+    <div id="isotope--"  class="span10" ng-controller="GalleryCntl"><div id="select--" ng-hide="isCollapsed" class="well"><div id="selectContainer" class="selectContainer controls"
      ng-class="mouseoverControls">
   
   <div  class="selector">
@@ -208,24 +208,31 @@
     <label for="t2"><span></span>Hanging</label>
   </div>
   
+  <div class="selector">Zoom
+    
+    <input id="rb1" type="radio"  name="rr" ng-model="wide" ng-click="setLayout('wide')"  >
+    <label id="rb1label" for="rb1"><span></span>Wide</label>
+    <input id="rb2" type="radio"  name="rr" ng-click="setLayout('dense')" ng-model="dense">
+    <label for="rb2"><span></span>Dense</label>
+    <p>
+  </div>
   
-
-  <div ng-show="mode == 'edit'"  class="selector">
+  <div ng-show="mode == 'edit'"  ng-class="{'zeroheight':mode=='view'}" class="selector">
     <div class="controlHeader">
       <a href="#" ng-click="sortBy('published')" tooltipnw="Click to sort on
 							  online status" tooltipnw-placement="right" tooltipnw-animation="true">Published </a>
       {{sortOrder['published']}}</div>
     <input id="o1" type="checkbox"  ng-click="executeFilter('yes')" ng-model="filter.yes" >
-    <label for="o1"><span></span>Online</label>
+    <label for="o1"><span></span>Yes</label>
     <input id="o2" type="checkbox"  ng-click="executeFilter('no')" ng-model="filter.no" >
-    <label for="o2"><span></span>Not online</label>
+    <label for="o2"><span></span>No</label>
     <input id="o3" type="checkbox"  ng-click="executeFilter('archived')" ng-model="filter.archived" >
     <label for="o3"><span></span>Archived</label>
     
   </div>
 
 
-  <div ng-show="mode == 'edit'"  class="selector">
+  <div ng-show="mode=='edit'"  ng-class="{'zeroheight':mode=='view'}" class="selector">
     <div class="controlHeader">
       <a href="#" ng-click="sortBy('id')" tooltipnw="Click to sort on
 						   id" tooltipnw-placement="right" tooltipnw-animation="true">Images</a>
@@ -239,14 +246,6 @@
   </div>
   
   
-  <div class="selector">Zoom
-    
-    <input id="rb1" type="radio"  name="rr" ng-model="wide" ng-click="setLayout('wide')"  >
-    <label id="rb1label" for="rb1"><span></span>Wide</label>
-    <input id="rb2" type="radio"  name="rr" ng-click="setLayout('dense')" ng-model="dense">
-    <label for="rb2"><span></span>Dense</label>
-    <p>
-  </div>
   
   
 
@@ -392,46 +391,46 @@
   </div>
 </div>
 </div> 
-    </div>
-    
-    <div ng-show="path=='/blog'" class="row-fluid">
-      <div id="blog--"  class="span10" ng-controller="BlogCntl"> Hello here goes your blog!!!
+  </div>
+  
+  <div ng-show="path=='/blog'" class="row-fluid">
+    <div id="blog--"  class="span10" ng-controller="BlogCntl"> Hello here goes your blog!!!
 </div> 
+  </div>
+  
+  <div id="info" class="" ng-show="path=='/info'" ng-controller="InfoCntl">
+    
+    <div class="row-fluid" > 
+      <div ng-show="mode=='edit'" class="span10 editButtons">
+	<button ng-hide="editMode" class="btn btn-small btn-xprimary" ng-click="editText()">Edit</button>
+	<button ng-show="editMode" class="btn btn-small btn-xprimary"
+		ng-click="closeEditor()">Done</button>
+	<button ng-show="editMode" class="btn btn-small btn-xprimary"
+		ng-click="saveText()">Save</button>
+	<span ng-show="saveNotify">Saved!!</span>
+	<button ng-show="editMode" class="btn btn-small btn-xprimary pull-right" ng-click="cancelEditor()">Cancel</button>
+      </div>
     </div>
     
-    <div id="info" class="" ng-show="mode=='edit' && path=='/info'" ng-controller="InfoCntl">
-      
-      <div class="row-fluid" > 
-	<div ng-show="mode=='edit'" class="span10 editButtons">
-	  <button ng-hide="editMode" class="btn btn-small btn-xprimary" ng-click="editText()">Edit</button>
-	  <button ng-show="editMode" class="btn btn-small btn-xprimary"
-		  ng-click="closeEditor()">Done</button>
-	  <button ng-show="editMode" class="btn btn-small btn-xprimary"
-		  ng-click="saveText()">Save</button>
-	  <span ng-show="saveNotify">Saved!!</span>
-	  <button ng-show="editMode" class="btn btn-small btn-xprimary pull-right" ng-click="cancelEditor()">Cancel</button>
-	</div>
-      </div>
-      
-      <div class="row-fluid" ng-show="editMode"> 
-	<div class="span10">
+    <div class="row-fluid" ng-show="editMode"> 
+      <div class="editcss span10">
 	<textarea  name="editor2"></textarea>
-	</div>
-      </div>
-      
-      <div class="info-text row-fluid" ng-hide="editMode"> 
-	<div class="span9">
-	  <div  ng-bind-html-unsafe="content"></div>
-	</div>
       </div>
     </div>
     
+    <div class="info-text row-fluid" ng-hide="editMode"> 
+      <div class="span9">
+	<div  ng-bind-html-unsafe="content"></div>
+      </div>
+    </div>
   </div>
   
 </div>
-<script>var mode="view"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/ckeditor/ckeditor.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/cookie.js"></script><script type="text/javascript" src="js/persona_include.js"></script><script type="text/javascript" src="js/persona.js"></script><script type="text/javascript" src="js/angularModule.js"></script><script type="text/javascript" src="js/MainCntl.js"></script><script type="text/javascript" src="js/BlogCntl.js"></script><script type="text/javascript" src="js/GalleryCntl.js"></script><script type="text/javascript" src="js/InfoCntl.js"></script><script type="text/javascript" src="js/router.js"></script>
-</div> 
+
+
 <div class="bottomBar">Developed by <a href="mailto:michieljoris@justemail.net">michieljoris</a></div>
+<script>var mode="view"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/ckeditor/ckeditor.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/cookie.js"></script><script type="text/javascript" src="js/vow.js"></script><script type="text/javascript" src="js/persona_include.js"></script><script type="text/javascript" src="js/persona.js"></script><script type="text/javascript" src="js/angularModule.js"></script><script type="text/javascript" src="js/MainCntl.js"></script><script type="text/javascript" src="js/BlogCntl.js"></script><script type="text/javascript" src="js/GalleryCntl.js"></script><script type="text/javascript" src="js/InfoCntl.js"></script><script type="text/javascript" src="js/router.js"></script>
+</div> 
     <!-- <script src="js/minicart.js"></script> -->
     <!-- <script> -->
       

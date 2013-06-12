@@ -109,6 +109,7 @@ var exports = {
                     ,"ckeditor/ckeditor"
                     ,'getpos'
                     ,"cookie"
+                    ,"vow"
                     ,'persona_include' //to be replaced by include.js from CDN
                     ,'persona'
                     ,'angularModule'

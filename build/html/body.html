@@ -1,44 +1,45 @@
-<div class="container-fluid" ng-controller="MainCntl" >
+<div id="body" class="container-fluid" ng-controller="MainCntl" >
   <alert class=".fade .in" ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{alert.msg}}</alert>
-    <div class="leftBar  ">
-      <div id="linkbar--" ng-mouseenter="enterLinkbar()"></div> 
-    </div>
+  <div class="leftBar  ">
+    <div id="linkbar--" ng-mouseenter="enterLinkbar()"></div> 
+  </div>
+  
+  <div ng-show="path=='/gallery'" class="row-fluid">
+    <div id="isotope--"  class="span10" ng-controller="GalleryCntl"></div> 
+  </div>
+  
+  <div ng-show="path=='/blog'" class="row-fluid">
+    <div id="blog--"  class="span10" ng-controller="BlogCntl"></div> 
+  </div>
+  
+  <div id="info" class="" ng-show="path=='/info'" ng-controller="InfoCntl">
     
-    <div ng-show="path=='/gallery'" class="row-fluid">
-      <div id="isotope--"  class="span10" ng-controller="GalleryCntl"></div> 
-    </div>
-    
-    <div ng-show="path=='/blog'" class="row-fluid">
-      <div id="blog--"  class="span10" ng-controller="BlogCntl"></div> 
-    </div>
-    
-    <div id="info" class="" ng-show="mode=='edit' && path=='/info'" ng-controller="InfoCntl">
-      
-      <div class="row-fluid" > 
-	<div ng-show="mode=='edit'" class="span10 editButtons">
-	  <button ng-hide="editMode" class="btn btn-small btn-xprimary" ng-click="editText()">Edit</button>
-	  <button ng-show="editMode" class="btn btn-small btn-xprimary"
-		  ng-click="closeEditor()">Done</button>
-	  <button ng-show="editMode" class="btn btn-small btn-xprimary"
-		  ng-click="saveText()">Save</button>
-	  <span ng-show="saveNotify">Saved!!</span>
-	  <button ng-show="editMode" class="btn btn-small btn-xprimary pull-right" ng-click="cancelEditor()">Cancel</button>
-	</div>
+    <div class="row-fluid" > 
+      <div ng-show="mode=='edit'" class="span10 editButtons">
+	<button ng-hide="editMode" class="btn btn-small btn-xprimary" ng-click="editText()">Edit</button>
+	<button ng-show="editMode" class="btn btn-small btn-xprimary"
+		ng-click="closeEditor()">Done</button>
+	<button ng-show="editMode" class="btn btn-small btn-xprimary"
+		ng-click="saveText()">Save</button>
+	<span ng-show="saveNotify">Saved!!</span>
+	<button ng-show="editMode" class="btn btn-small btn-xprimary pull-right" ng-click="cancelEditor()">Cancel</button>
       </div>
-      
-      <div class="row-fluid" ng-show="editMode"> 
-	<div class="span10">
+    </div>
+    
+    <div class="row-fluid" ng-show="editMode"> 
+      <div class="editcss span10">
 	<textarea  name="editor2"></textarea>
-	</div>
-      </div>
-      
-      <div class="info-text row-fluid" ng-hide="editMode"> 
-	<div class="span9">
-	  <div  ng-bind-html-unsafe="content"></div>
-	</div>
       </div>
     </div>
     
+    <div class="info-text row-fluid" ng-hide="editMode"> 
+      <div class="span9">
+	<div  ng-bind-html-unsafe="content"></div>
+      </div>
+    </div>
   </div>
   
 </div>
+
+
+<div class="bottomBar">Developed by <a href="mailto:michieljoris@justemail.net">michieljoris</a></div>

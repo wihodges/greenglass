@@ -1,17 +1,23 @@
-* checkout
+* fix up checkout
+not ideal for ipad, getting on screen when scrolling
+maybe use my own cart
  hook up with paypal , send emails to Julie and Client
-* checkout filter
-  show only ones in cart, checkbox with label 'In cart' or 'show'
-  write innerHtml for desc, update the classes and
+* add blog
+* better lightbox
   
-* fill links with data and route them as well
-* wide/dense setting
+* fix zoom slider 
+** wide/dense setting
  not finished yet, cellsbyRow needs a columnWidth bigger that image width 
   
+* fix zoom slider 
  
 * prefetch images and give hourglass and progress meter even?
-* sign in with persona
-* add blog
-  
-* upload files from dropbox
-* fix top bar and selection well ?
+* what is small, medium, large?  
+* make ckeditor proper for julie
+* disable plugins not used
+* don't load editor when in view mode
+* disable online elements in dev mode
+* proper login page that redirects to 
+edit.html, which is only shown to authorized people
+* implement login security, 
+secure the session uid!!!!

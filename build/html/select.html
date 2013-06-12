@@ -80,24 +80,31 @@
     <label for="t2"><span></span>Hanging</label>
   </div>
   
+  <div class="selector">Zoom
+    
+    <input id="rb1" type="radio"  name="rr" ng-model="wide" ng-click="setLayout('wide')"  >
+    <label id="rb1label" for="rb1"><span></span>Wide</label>
+    <input id="rb2" type="radio"  name="rr" ng-click="setLayout('dense')" ng-model="dense">
+    <label for="rb2"><span></span>Dense</label>
+    <p>
+  </div>
   
-
-  <div ng-show="mode == 'edit'"  class="selector">
+  <div ng-show="mode == 'edit'"  ng-class="{'zeroheight':mode=='view'}" class="selector">
     <div class="controlHeader">
       <a href="#" ng-click="sortBy('published')" tooltipnw="Click to sort on
 							  online status" tooltipnw-placement="right" tooltipnw-animation="true">Published </a>
       {{sortOrder['published']}}</div>
     <input id="o1" type="checkbox"  ng-click="executeFilter('yes')" ng-model="filter.yes" >
-    <label for="o1"><span></span>Online</label>
+    <label for="o1"><span></span>Yes</label>
     <input id="o2" type="checkbox"  ng-click="executeFilter('no')" ng-model="filter.no" >
-    <label for="o2"><span></span>Not online</label>
+    <label for="o2"><span></span>No</label>
     <input id="o3" type="checkbox"  ng-click="executeFilter('archived')" ng-model="filter.archived" >
     <label for="o3"><span></span>Archived</label>
     
   </div>
 
 
-  <div ng-show="mode == 'edit'"  class="selector">
+  <div ng-show="mode=='edit'"  ng-class="{'zeroheight':mode=='view'}" class="selector">
     <div class="controlHeader">
       <a href="#" ng-click="sortBy('id')" tooltipnw="Click to sort on
 						   id" tooltipnw-placement="right" tooltipnw-animation="true">Images</a>
@@ -111,14 +118,6 @@
   </div>
   
   
-  <div class="selector">Zoom
-    
-    <input id="rb1" type="radio"  name="rr" ng-model="wide" ng-click="setLayout('wide')"  >
-    <label id="rb1label" for="rb1"><span></span>Wide</label>
-    <input id="rb2" type="radio"  name="rr" ng-click="setLayout('dense')" ng-model="dense">
-    <label for="rb2"><span></span>Dense</label>
-    <p>
-  </div>
   
   
 
