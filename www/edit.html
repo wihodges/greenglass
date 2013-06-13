@@ -39,6 +39,13 @@
 	</div>
       
     </li>
+    
+    <li>
+      <div ng-show="mode=='edit'">
+	<a ng-hide="signedIn" href="#" class="persona-button blue" ng-click="signin($event)"><span>Sign in</span></a> 
+	<a ng-show="signedIn" href="#" class="persona-button blue" ng-click="signout($event)"><span>Sign out</span></a>
+      </div>      
+    </li>	
     <li class="title1">
     <span class="title">green glass</span>
     </li>
@@ -57,7 +64,7 @@
       <a ng-hide="isCollapsed || path!='/gallery'" class="" href="#" ng-click="allClicked($event)">Show all</a>
     </li>
     <li>
-      <a  class="" href="#"> <p></p>  </a>
+      <a  class="" href="#" ><p></p>  </a>
     </li>
     
     <li ng-show="true" style="min-height:20px;">
@@ -103,19 +110,13 @@
       <a class="" href="#"> <p></p>  </a>
     </li>
     <li>
-      <a style="color:red;" ng-show="addingImages" class=""
-	 href="#" ng-click="addingImages=false">Adding..</a>
+      <button class="btn btn-danger"  ng-show="addingImages" 
+	 href="#" ng-click="cancelAdding()">Cancel..</button>
     </li>
     
     <li>
       <a class="" href="#"> <p></p>  </a>
     </li>
-    <li>
-      <div ng-show="mode=='edit'">
-	<a ng-hide="signedIn" href="#" class="persona-button blue" ng-click="signin($event)"><span>Sign in</span></a> 
-	<a ng-show="signedIn" href="#" class="persona-button blue" ng-click="signout($event)"><span>Sign out</span></a>
-      </div>      
-    </li>	
     
     
     
@@ -124,6 +125,7 @@
 </div>
 </div> 
   </div>
+  
   
   <div ng-show="path=='/gallery'" class="row-fluid">
     <div id="isotope--"  class="span10" ng-controller="GalleryCntl"><div id="select--" ng-hide="isCollapsed" class="well"><div id="selectContainer" class="selectContainer controls"
@@ -166,6 +168,10 @@
     <label for="s2"><span></span>Med</label>
     <input id="s3" type="checkbox"  ng-click="executeFilter('large')" ng-model="filter.large" >
     <label for="s3"><span></span>Large</label>
+    <input id="s4" type="checkbox"  ng-click="executeFilter('x-large')" ng-model="filter.xlarge" >
+    <label for="s4"><span></span>Large</label>
+    <input id="s5" type="checkbox"  ng-click="executeFilter('tall')" ng-model="filter.tall" >
+    <label for="s5"><span></span>Large</label>
   </div>
 
 
@@ -185,13 +191,14 @@
   <div  class="selector">
     <div class="controlHeader" style="height:20px;">
       </div>
-    <input id="v4" type="checkbox"  ng-click="executeFilter('cylindrical')" ng-model="filter.rectangle" >
+    <input id="v4" type="checkbox"  ng-click="executeFilter('cylindrical')" ng-model="filter.cylindrical" >
     <label for="v4"><span></span>Cylindrical</label>
-    <input id="v5" type="checkbox"  ng-click="executeFilter('hurricane')" ng-model="filter.rectangle" >
+    <input id="v5" type="checkbox"  ng-click="executeFilter('hurricane')" ng-model="filter.hurricane" >
     <label for="v5"><span></span>Hurricane</label>
-    <input id="v6" type="checkbox"  ng-click="executeFilter('teardrop')" ng-model="filter.rectangle" >
+    <input id="v6" type="checkbox"  ng-click="executeFilter('teardrop')" ng-model="filter.teardrop" >
     <label for="v6"><span></span>Teardrop</label>
-
+    <input id="v7" type="checkbox"  ng-click="executeFilter('centerpiece')" ng-model="filter.centerpiece" >
+    <label for="v7"><span></span>Centerpiece</label>
   </div> 
 
   <div  class="selector">
@@ -209,7 +216,7 @@
   </div>
   
   <div class="selector">Zoom
-    
+    <div id="zoom"></div>
     <input id="rb1" type="radio"  name="rr" ng-model="wide" ng-click="setLayout('wide')"  >
     <label id="rb1label" for="rb1"><span></span>Wide</label>
     <input id="rb2" type="radio"  name="rr" ng-click="setLayout('dense')" ng-model="dense">
@@ -255,8 +262,26 @@
 
 </div>
 
-<div compile="itemsHtml" id="imageDiv"> 
-</div> 
+<div ng-hide="hideProgress" class="progressContainer">
+  <div class="progress progress-striped active">
+    <div class="bar" style="width: 0%;"></div>
+  </div>
+</div>
+
+<div style="display:none;" modal="viewShouldBeOpen"
+     close="closingGalleria()" options="opts">
+  <div class="container">
+  <div id="galleria"></div>
+  </div>
+  <!-- <div class="view-footer modal-footer"> -->
+  <!--     <button class="pull-right btn" ng-click="closeGalleria()">Close</button> -->
+  <!-- </div> -->
+</div>
+
+  <div id="galleria2"></div>
+<div ng-show="showIsotope">
+  <div compile="itemsHtml" id="imageDiv"> </div> 
+</div>
 
 <div style="display:none;" modal="shouldBeOpen" close="close()" options="opts">
   <div class="modal-header">
@@ -309,13 +334,21 @@
 		<option value="80">80.00</option>
 		<option value="90">90.00</option>
 		<option value="100">100.00</option>
+		<option value="110">110.00</option>
+		<option value="120">120.00</option>
 	      </select>
 	    </div>
 	  </div>
 	  <div class="control-group">
-	    <label class="control-label" for="price">Price</label>
+	    <label class="control-label" for="size">Size</label>
 	    <div class="controls">
-	      <input type="text" id="price" name="price" ng-model="item.price">
+	      <select  id="size" ng-model="item.size" >
+		<option value="small">small</option>
+		<option value="medium">medium</option>
+		<option value="large">large</option>
+		<option value="xlarge">x-large</option>
+		<option value="tall">tall</option>
+	      </select>
 	    </div>
 	  </div>
 	  <div class="control-group">
@@ -338,6 +371,7 @@
 		<option value="cylindrical">Cylindrical</option>
 		<option value="hurricane">Hurricane</option>
 		<option value="teardrop">Teardrop</option>
+		<option value="centerpiece">Centerpiece</option>
 	      </select>
 	    </div>
 	  </div>
@@ -384,17 +418,12 @@
   </div>
 </div>
 
-<div  class="galleriadiv" style="display:none;" modal="viewShouldBeOpen" close="closeGalleria()" options="opts">
-  <div id="galleria"></div>
-  <div class="view-footer">
-    <button class="" ng-click="closeGalleria()">Close</button>
-  </div>
-</div>
 </div> 
   </div>
   
   <div ng-show="path=='/blog'" class="row-fluid">
     <div id="blog--"  class="span10" ng-controller="BlogCntl"> Hello here goes your blog!!!
+
 </div> 
   </div>
   
@@ -429,36 +458,36 @@
 
 
 <div class="bottomBar">Developed by <a href="mailto:michieljoris@justemail.net">michieljoris</a></div>
-<script>var mode="edit"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/ckeditor/ckeditor.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/cookie.js"></script><script type="text/javascript" src="js/vow.js"></script><script type="text/javascript" src="js/persona_include.js"></script><script type="text/javascript" src="js/persona.js"></script><script type="text/javascript" src="js/angularModule.js"></script><script type="text/javascript" src="js/MainCntl.js"></script><script type="text/javascript" src="js/BlogCntl.js"></script><script type="text/javascript" src="js/GalleryCntl.js"></script><script type="text/javascript" src="js/InfoCntl.js"></script><script type="text/javascript" src="js/router.js"></script>
+<script>var mode="edit"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/galleria/galleria-1.2.9.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/ckeditor/ckeditor.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/cookie.js"></script><script type="text/javascript" src="js/vow.js"></script><script type="text/javascript" src="js/persona_include.js"></script><script type="text/javascript" src="js/persona.js"></script><script type="text/javascript" src="js/angularModule.js"></script><script type="text/javascript" src="js/MainCntl.js"></script><script type="text/javascript" src="js/BlogCntl.js"></script><script type="text/javascript" src="js/GalleryCntl.js"></script><script type="text/javascript" src="js/InfoCntl.js"></script><script type="text/javascript" src="js/router.js"></script>
 </div> 
-    <!-- <script src="js/minicart.js"></script> -->
-    <!-- <script> -->
+    <script src="js/minicart.js"></script> 
+    <script> 
       
-    <!--   PAYPAL.apps.MiniCart.render({ -->
+      PAYPAL.apps.MiniCart.render({ 
       
-    <!-- 			events: { -->
-    <!-- 				onAddToCart: function (data) { -->
-    <!-- 					// If the product is already in the cart then cancel the addToCart method -->
-    <!-- 					if (this.getProductAtOffset(data.offset)) { -->
-    <!-- 						return false; -->
-    <!-- 					} -->
-    <!-- 				} -->
+    			events: { 
+    				onAddToCart: function (data) { 
+    					// If the product is already in the cart then cancel the addToCart method 
+    					if (this.getProductAtOffset(data.offset)) { 
+    						return false; 
+    					} 
+    				} 
       
-    <!--    ,afterAddToCart: function () { -->
-    <!--   console.log(this.products); -->
+       ,afterAddToCart: function () { 
+      console.log(this.products); 
 
-    <!--         } -->
-    <!-- 			}, -->
+            } 
+    			}, 
       
-    <!-- 		strings: { -->
-    <!-- 			button: 'Checkout', -->
-    <!-- 			subtotal: 'Total: ', -->
-    <!-- 			discount: 'Discount: ', -->
-    <!-- 			shipping: 'Pickup only', -->
-    <!-- 			processing: 'Processing...' -->
-    <!-- 		}, -->
-    <!-- 		}); -->
-    <!-- </script> -->
+    		strings: { 
+    			button: 'Checkout', 
+    			subtotal: 'Total: ', 
+    			discount: 'Discount: ', 
+    			shipping: 'Pickup only', 
+    			processing: 'Processing...' 
+    		}, 
+    		}); 
+    </script> 
   </body>
 </html>	
 

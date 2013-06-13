@@ -2,7 +2,7 @@
 /*jshint strict:false unused:true smarttabs:true eqeqeq:true immed: true undef:true*/
 /*jshint maxparams:7 maxcomplexity:7 maxlen:150 devel:true newcap:false*/ 
 
-myApp.factory('IsoFilter', function() {
+myApp.factory('IsoFilter', function($http) {
     function orKeys(filter, keys) {
         var b = false;
         keys.forEach(function(k) {
@@ -22,7 +22,8 @@ myApp.factory('IsoFilter', function() {
         small:false, medium:false, large:false,
         under50:false, between50and100:false, over100:false,
         square:false, round:false, rectangle:false,
-        standing:false, hanging:false,
+        cylindrical:false, hurricane:false, teardrop:false, centerpiece:false,
+        hanging:false, open:false, closed:false,
         yes:true, no:false, archived:false
         ,grouped:false
     };
@@ -49,9 +50,10 @@ myApp.factory('IsoFilter', function() {
         orKeys(filter, ['now', 'order', 'sold']);  
         orKeys(filter, ['small', 'medium', 'large']); 
         orKeys(filter, ['under50', 'between50and100', 'over100']); 
-        orKeys(filter, ['square', 'round', 'rectangle']); 
+        orKeys(filter, ['square', 'round', 'rectangle',
+                        'cylindrical', 'hurricane', 'teardrop', 'centerpiece']); 
         orKeys(filter, ['yes', 'no', 'archived' ]); 
-        orKeys(filter, ['hanging', 'standing']);
+        orKeys(filter, ['hanging', 'open', 'closed']);
         // orKeys(filter, ['deleted']);
         //      )) {
         //     $scope.filter[v] = true;
@@ -73,13 +75,60 @@ myApp.factory('IsoFilter', function() {
     //   }
     // };
   // factory function body that constructs shinyNewServiceInstance
+    
+    var saveItems = function() {
+        console.log("Saving items to server");
+        // $scope.cart.forEach(function(c) {
+        //     c.inCart = false;
+        // }); 
+        $http({method: 'POST', url: '/save?path=terrariums.json', data:images}).
+            success(function(data, status, headers, config) {
+                console.log(status, data);
+                // $scope.cart.forEach(function(c) {
+                //     c.inCart = true;
+                // }); 
+            }).
+            error(function(data, status, headers, config) {
+                alert('Failed to save data\nReason: ' + data.error);
+                console.log('Failed', status, data, headers, config);
+                console.log('Failed to post data.');
+            });
+        
+    };
   return {
+      saveItems: saveItems,
       defaultFilter: defaultFilter,
       executeFilter: executeFilter
   };
+    
 });
 
 myApp.controller("MainCntl", function ($rootScope, IsoFilter, $location, $scope, $http) {
+    
+    
+    
+    // $scope.test = function($event) {
+    //     $event.preventDefault();
+    //     console.log('testing');
+        
+    //     $scope.filter = (function() {
+    //         var filter = {};
+    //         Object.keys(IsoFilter.defaultFilter).forEach(function(k) {
+    //             filter[k] = IsoFilter.defaultFilter[k];
+    //         }); 
+    //         return filter;
+    //     })();
+    //     $('#imageDiv').isotope('reloadItems');
+    //         $('#imageDiv').isotope({ filter: "*" }, function( $items ) {
+    //                 var id = this.attr('id'),
+    //             len = $items.length;
+    //             console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
+    //             // $('img').hover(imageHover);
+    //             // $('.item').find('div').hover(descHover);
+    //         });
+    //     // IsoFilter.executeFilter($scope.filter);
+        
+    // };
     
     console.log('In MainCntl');
     
@@ -99,15 +148,15 @@ myApp.controller("MainCntl", function ($rootScope, IsoFilter, $location, $scope,
         var path = $scope.path = $location.$$path;
         console.log('Path:', path, ' Hash:', $location.$$hash, ' Search:', $location.$$search);
         //edit or view mode;
-       // var query = $location.$$search;
+        // var query = $location.$$search;
         // $scope.auth=query.auth;
         // $scope.blogMode= path ==='/blog';
         switch (path) {
           case '/gallery':
-            // setTimeout(function() {
-            //     $("#imageDiv").isotope("reLayout");
-            //     $("#selectContainer").isotope("reLayout");
-            // },1);
+            setTimeout(function() {
+                $("#imageDiv").isotope("reLayout");
+                // $("#selectContainer").isotope("reLayout");
+            },1);
             break;
           case '/blog' :
             break;
@@ -202,8 +251,10 @@ myApp.controller("MainCntl", function ($rootScope, IsoFilter, $location, $scope,
         navigator.id.request();
     };
     
+    $scope.cancelAdding = function() {
+        $scope.addingImages = false;
+        IsoFilter.saveItems();
+    };
     
-    // $scope.click = function(link) {
-    //     console.log(link);
-    // };
+    
 }); 

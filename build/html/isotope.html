@@ -1,8 +1,26 @@
 <div id="select--" ng-hide="isCollapsed" class="well">
 </div>
 
-<div compile="itemsHtml" id="imageDiv"> 
-</div> 
+<div ng-hide="hideProgress" class="progressContainer">
+  <div class="progress progress-striped active">
+    <div class="bar" style="width: 0%;"></div>
+  </div>
+</div>
+
+<div style="display:none;" modal="viewShouldBeOpen"
+     close="closingGalleria()" options="opts">
+  <div class="container">
+  <div id="galleria"></div>
+  </div>
+  <!-- <div class="view-footer modal-footer"> -->
+  <!--     <button class="pull-right btn" ng-click="closeGalleria()">Close</button> -->
+  <!-- </div> -->
+</div>
+
+  <div id="galleria2"></div>
+<div ng-show="showIsotope">
+  <div compile="itemsHtml" id="imageDiv"> </div> 
+</div>
 
 <div style="display:none;" modal="shouldBeOpen" close="close()" options="opts">
   <div class="modal-header">
@@ -55,13 +73,21 @@
 		<option value="80">80.00</option>
 		<option value="90">90.00</option>
 		<option value="100">100.00</option>
+		<option value="110">110.00</option>
+		<option value="120">120.00</option>
 	      </select>
 	    </div>
 	  </div>
 	  <div class="control-group">
-	    <label class="control-label" for="price">Price</label>
+	    <label class="control-label" for="size">Size</label>
 	    <div class="controls">
-	      <input type="text" id="price" name="price" ng-model="item.price">
+	      <select  id="size" ng-model="item.size" >
+		<option value="small">small</option>
+		<option value="medium">medium</option>
+		<option value="large">large</option>
+		<option value="xlarge">x-large</option>
+		<option value="tall">tall</option>
+	      </select>
 	    </div>
 	  </div>
 	  <div class="control-group">
@@ -84,6 +110,7 @@
 		<option value="cylindrical">Cylindrical</option>
 		<option value="hurricane">Hurricane</option>
 		<option value="teardrop">Teardrop</option>
+		<option value="centerpiece">Centerpiece</option>
 	      </select>
 	    </div>
 	  </div>
@@ -130,9 +157,3 @@
   </div>
 </div>
 
-<div  class="galleriadiv" style="display:none;" modal="viewShouldBeOpen" close="closeGalleria()" options="opts">
-  <div id="galleria"></div>
-  <div class="view-footer">
-    <button class="" ng-click="closeGalleria()">Close</button>
-  </div>
-</div>

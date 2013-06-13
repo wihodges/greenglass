@@ -276,7 +276,7 @@ h2 {
 /* } */
 
 body>div.modal {
-    width:460px;
+    width:710px;
 }
 
 .modal .well {
@@ -373,27 +373,29 @@ body>div.modal {
     font-size:14px;
 }
 
-#galleria{ width: 700px; height: 400px; background: #000 }
+#galleria{ width: 700px; height: 650px;   
+	   /* background: black; */
+	   
+	 }  
 
 
 #galleria {
-    padding-left:3px;
-    padding-right:5px;
-    padding-top:8px;
-    bordern:none;
+    /* padding-left:3px; */
+    /* padding-right:5px; */
+    /* padding-top:8px; */
+    padding:5px;
     /* background: url(../images/bg/darkdenim3.png); */
-    background:gray;
-    border:none;
+    /* background:white; */
     /* margin-left:8px; */
 }
 
 
 .view-footer {
-    background:gray;
+    background:white;
     /* background: url(../images/bg/darkdenim3.png); */
     padding-left:3px; padding-right:5px;
     padding-top: 7px; padding-bottom:9px;
-    width:700px;
+    width:695px;
     border:none10;
 }
 
@@ -455,6 +457,7 @@ input[type='checkbox'] {
 
 
 img {
+    padding-top:5px;
     border-radius: 10px;
     -o-border-radius: 10px 10px 10px 10px;
     -ms-border-radius: 10px 10px 10px 10px;
@@ -587,11 +590,14 @@ img {
 }
 
 .title2 {
-    padding-bottom:5px;
+    padding-bottom:30px;
 }
 
 #select-- {
     margin-left:20px;
+    background:url("./bg/darkdenim3.png");
+    color:gray;
+    border:none;
 }
 
 .leftbarSpace {
@@ -613,4 +619,67 @@ img {
 /* temp css for editor,because editor's background is white' */
 .editcss {
     color:black;
+}
+
+.progressContainer {
+    padding-left:30px;
+}
+
+.modal {
+    margin-left: -350px;
+    background:darkgray;
+}
+
+.modal.fade.in {
+    top:1%
+}
+
+.galleria-custom {
+    background-image: url("playpause-white.png");
+    background-position: 50% 11px;
+    padding-left:15px;
+    padding-top:10px;
+    padding-right:5px;
+    border-right:1px solid #333333;
+}
+.galleria-custom {
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    border-right-color-ltr-source: physical;
+    border-right-color-rtl-source: physical;
+    border-right-color-value: #333333;
+    border-right-style-ltr-source: physical;
+    border-right-style-rtl-source: physical;
+    border-right-style-value: solid;
+    border-right-width-ltr-source: physical;
+    border-right-width-rtl-source: physical;
+    border-right-width-value: 1px;
+    cursor: pointer;
+    height: 40px;
+    left: 0px;
+    outline-color: #000000;
+    outline-style: solid;
+    outline-width: 1px;
+    position: absolute;
+    width: 40px;
+}
+
+.galleria-fullscreen {
+    left: 106px;
+}
+
+.galleria-play {
+    left: 63px;
+}
+galleria-thumbnails-list {
+    left: 70px;
+   } 
+
+#buyGalleria {
+    margin-right:20px;
+    margin-top:3px;
+}
+
+#PPMiniCart {
+    display:none;
 }

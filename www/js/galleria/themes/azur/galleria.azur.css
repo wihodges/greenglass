@@ -7,7 +7,8 @@
     overflow: hidden;
     font: 12px/1.4 arial,sans-serif;
     color: #fff;
-    background:#111 url(bg.png);
+    /* background:#111 url(bg.png); */
+    background:black;
 }
 .galleria-container img {
     -moz-user-select: none;
@@ -21,7 +22,7 @@
     left: 0;
     right: 0;
     bottom: 40px;
-    background:#000 url(bg.png);
+    /* background:#000 url(bg.png); */
 }
 .galleria-bar {
     height: 40px;

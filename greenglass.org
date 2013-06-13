@@ -1,19 +1,16 @@
+* make main image really the main image
+so in the gallery
+ 
+* prefetch fullsize images and give progress meter for startup?
+ loading too many prefetch images, unpublished, trash, grouped
+* make ckeditor proper for julie
 * fix up checkout
 not ideal for ipad, getting on screen when scrolling
 maybe use my own cart
  hook up with paypal , send emails to Julie and Client
+  
 * add blog
-* better lightbox
   
-* fix zoom slider 
-** wide/dense setting
- not finished yet, cellsbyRow needs a columnWidth bigger that image width 
-  
-* fix zoom slider 
- 
-* prefetch images and give hourglass and progress meter even?
-* what is small, medium, large?  
-* make ckeditor proper for julie
 * disable plugins not used
 * don't load editor when in view mode
 * disable online elements in dev mode
@@ -21,3 +18,5 @@ maybe use my own cart
 edit.html, which is only shown to authorized people
 * implement login security, 
 secure the session uid!!!!
+
+* optimize loading time

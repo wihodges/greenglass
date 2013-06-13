@@ -38,6 +38,10 @@
     <label for="s2"><span></span>Med</label>
     <input id="s3" type="checkbox"  ng-click="executeFilter('large')" ng-model="filter.large" >
     <label for="s3"><span></span>Large</label>
+    <input id="s4" type="checkbox"  ng-click="executeFilter('x-large')" ng-model="filter.xlarge" >
+    <label for="s4"><span></span>Large</label>
+    <input id="s5" type="checkbox"  ng-click="executeFilter('tall')" ng-model="filter.tall" >
+    <label for="s5"><span></span>Large</label>
   </div>
 
 
@@ -57,13 +61,14 @@
   <div  class="selector">
     <div class="controlHeader" style="height:20px;">
       </div>
-    <input id="v4" type="checkbox"  ng-click="executeFilter('cylindrical')" ng-model="filter.rectangle" >
+    <input id="v4" type="checkbox"  ng-click="executeFilter('cylindrical')" ng-model="filter.cylindrical" >
     <label for="v4"><span></span>Cylindrical</label>
-    <input id="v5" type="checkbox"  ng-click="executeFilter('hurricane')" ng-model="filter.rectangle" >
+    <input id="v5" type="checkbox"  ng-click="executeFilter('hurricane')" ng-model="filter.hurricane" >
     <label for="v5"><span></span>Hurricane</label>
-    <input id="v6" type="checkbox"  ng-click="executeFilter('teardrop')" ng-model="filter.rectangle" >
+    <input id="v6" type="checkbox"  ng-click="executeFilter('teardrop')" ng-model="filter.teardrop" >
     <label for="v6"><span></span>Teardrop</label>
-
+    <input id="v7" type="checkbox"  ng-click="executeFilter('centerpiece')" ng-model="filter.centerpiece" >
+    <label for="v7"><span></span>Centerpiece</label>
   </div> 
 
   <div  class="selector">
@@ -81,7 +86,7 @@
   </div>
   
   <div class="selector">Zoom
-    
+    <div id="zoom"></div>
     <input id="rb1" type="radio"  name="rr" ng-model="wide" ng-click="setLayout('wide')"  >
     <label id="rb1label" for="rb1"><span></span>Wide</label>
     <input id="rb2" type="radio"  name="rr" ng-click="setLayout('dense')" ng-model="dense">

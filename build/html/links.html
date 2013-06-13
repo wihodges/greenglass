@@ -14,6 +14,13 @@
 	</div>
       
     </li>
+    
+    <li>
+      <div ng-show="mode=='edit'">
+	<a ng-hide="signedIn" href="#" class="persona-button blue" ng-click="signin($event)"><span>Sign in</span></a> 
+	<a ng-show="signedIn" href="#" class="persona-button blue" ng-click="signout($event)"><span>Sign out</span></a>
+      </div>      
+    </li>	
     <li class="title1">
     <span class="title">green glass</span>
     </li>
@@ -32,7 +39,7 @@
       <a ng-hide="isCollapsed || path!='/gallery'" class="" href="#" ng-click="allClicked($event)">Show all</a>
     </li>
     <li>
-      <a  class="" href="#"> <p></p>  </a>
+      <a  class="" href="#" ><p></p>  </a>
     </li>
     
     <li ng-show="true" style="min-height:20px;">
@@ -78,19 +85,13 @@
       <a class="" href="#"> <p></p>  </a>
     </li>
     <li>
-      <a style="color:red;" ng-show="addingImages" class=""
-	 href="#" ng-click="addingImages=false">Adding..</a>
+      <button class="btn btn-danger"  ng-show="addingImages" 
+	 href="#" ng-click="cancelAdding()">Cancel..</button>
     </li>
     
     <li>
       <a class="" href="#"> <p></p>  </a>
     </li>
-    <li>
-      <div ng-show="mode=='edit'">
-	<a ng-hide="signedIn" href="#" class="persona-button blue" ng-click="signin($event)"><span>Sign in</span></a> 
-	<a ng-show="signedIn" href="#" class="persona-button blue" ng-click="signout($event)"><span>Sign out</span></a>
-      </div>      
-    </li>	
     
     
     

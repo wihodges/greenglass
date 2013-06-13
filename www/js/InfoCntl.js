@@ -23,6 +23,7 @@ myApp.controller("InfoCntl", function ($scope, $http, $location, $timeout) {
         ,removePlugins: 'fastimage'
         ,enterMode: CKEDITOR.ENTER_BR
         ,extraPlugins : 'divarea' 
+        ,height:400
             
         // toolbar: 'Basic',
         // uiColor: '#9AB8F3'

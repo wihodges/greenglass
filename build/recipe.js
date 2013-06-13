@@ -98,7 +98,7 @@ var exports = {
                     ,'ui-bootstrap-tpls-0.2.0'
                     ,'modernizr'
                     ,'jquery.isotope.min.js'
-                    // ,'galleria/galleria-1.2.9.min'
+                    ,'galleria/galleria-1.2.9.min'
                     // ,'jquery.prettyPhoto'
                     // ,'tinymce/js/tinymce/jquery.tinymce.min'
                     ,'fancybox/lib/jquery.mousewheel-3.0.6.pack'

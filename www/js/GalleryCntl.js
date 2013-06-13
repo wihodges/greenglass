@@ -1,25 +1,25 @@
-/*global PAYPAL:false mode:false angular:false $:false  console:false*/
+/*global VOW:false $q:false PAYPAL:false mode:false angular:false $:false  console:false*/
 /*jshint strict:false unused:true smarttabs:true eqeqeq:true immed: true undef:true*/
 /*jshint maxparams:7 maxcomplexity:7 maxlen:150 devel:true newcap:false*/ 
 
 function makeItem(item, size) {
     var imageName = "'" + item.name + "'";
-    var classAttr = "item " +
-        // (item.size ? item.size + ' ': '') +
-        (item.shape ? item.shape + ' ': '') +
-        (item.buy ? item.buy + ' ': '') +
-        (item.published ? item.published + ' ': 'no ') +
-        (item.groupedWith ? 'grouped' + ' ': '') +
-        (item.type ? item.type + ' ': '');
+    // var classAttr = "item " +
+    //     // (item.size ? item.size + ' ': '') +
+    //     (item.shape ? item.shape + ' ': '') +
+    //     (item.buy ? item.buy + ' ': '') +
+    //     (item.published ? item.published + ' ': 'no ') +
+    //     (item.groupedWith ? 'grouped' + ' ': '') +
+    //     (item.type ? item.type + ' ': '');
     
-    if (item.price < 50) classAttr += "under50";
-    else  if(item.price < 100) classAttr += "between50and100";
-    else if (item.price >= 100) classAttr += "over100";
+    // if (item.price < 50) classAttr += "under50";
+    // else  if(item.price < 100) classAttr += "between50and100";
+    // else if (item.price >= 100) classAttr += "over100";
     
-    if (item.height < 100) classAttr += " small ";
-    else if (item.height < 200) classAttr += " medium ";
-    else if (item.height < 300) classAttr += " large ";
-    // else if (item.height < 100) classAttr += "extralarge";
+    // if (item.height < 100) classAttr += " small ";
+    // else if (item.height < 200) classAttr += " medium ";
+    // else if (item.height < 300) classAttr += " large ";
+    // // else if (item.height < 100) classAttr += "extralarge";
   
     var datas = ''; 
     datas += 'data-id="{{getItem(\'' + item.name + '\').id}}" ';
@@ -27,11 +27,11 @@ function makeItem(item, size) {
     datas += 'id=' + item.elId + ' ';
     
     
-    var clickEvent= 'ng-click="imageClicked($event)"';
+    // var clickEvent= 'ng-click="imageClicked($event)"';
     var editClick= ' ng-click="editImage(' + imageName +  ')"';
     var viewClick= ' ng-click="viewImage(' + imageName +  ')"';
-    var buyClick= 'ng-click="buyItem(' + imageName +  ')"';
-    var removeFromCartClick= 'ng-click="removeFromCartByName(' + imageName +  ')"';
+    // var buyClick= 'ng-click="buyItem(' + imageName +  ')"';
+    // var removeFromCartClick= 'ng-click="removeFromCartByName(' + imageName +  ')"';
     var enterImage= 'ng-mouseover="enterImage($event)"';
     var leaveDescr= 'ng-mouseleave="leaveDescr($event)"';
     // var descrStyle = ' style="position:relative"';
@@ -51,6 +51,8 @@ function makeItem(item, size) {
         (true ? "Price: $" + '{{getItem("' + item.name + '").price}}' + '<br>': '') +
         (true ? "Shape: " + '{{getItem("' + item.name + '").shape}}' + '<br>': '') +
         (true ? "Type: " + '{{getItem("' + item.name + '").type}}' + '<br>': '') +
+        (true ? "Width: " + '{{getItem("' + item.name + '").width}}' + '<br>': '') +
+        (true ? "Height: " + '{{getItem("' + item.name + '").height}}' + '<br>': '') +
         (mode === 'edit' ?
          "Published: " + '{{getItem("' + item.name + '").published}}' + '<br>': '') +
         (mode === 'edit' ?
@@ -71,15 +73,17 @@ function makeItem(item, size) {
     
     
     
-    return '<div '+ datas +
+    var html = '<div '+ datas +
         // 'class="' + classAttr +
-        'ng-class="getItemClasses(\'' + item.name + '\')"' + 
-        '">' +
+        ' ng-class="getItemClasses(\'' + item.name + '\')"' + 
+        '>' +
         '<img  ' +  viewClick + enterImage + 
-        ' alt="" src="images/' + item.name + 
+        ' alt="" src="images/' + item.mainImage + 
         '" width="' + size + 'px;" height=auto;>' +
         description + 
         '</div>';
+    // console.log(html);
+    return html;
     
 }
 
@@ -240,25 +244,25 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
 
     //
         
-    $scope.saveItems = function() {
-        console.log("Saving items to server");
-        $scope.cart.forEach(function(c) {
-            c.inCart = false;
-        }); 
-        $http({method: 'POST', url: '/save?terrariums.json', data:images}).
-            success(function(data, status, headers, config) {
-                console.log(status, data);
-                $scope.cart.forEach(function(c) {
-                    c.inCart = true;
-                }); 
-            }).
-            error(function(data, status, headers, config) {
-                alert('Failed to save data\nReason: ' + data.error);
-                console.log('Failed', status, data, headers, config);
-                console.log('Failed to post data.');
-            });
+    // $scope.saveItems = function() {
+    //     console.log("Saving items to server");
+    //     $scope.cart.forEach(function(c) {
+    //         c.inCart = false;
+    //     }); 
+    //     $http({method: 'POST', url: '/save?path=terrariums.json', data:images}).
+    //         success(function(data, status, headers, config) {
+    //             console.log(status, data);
+    //             $scope.cart.forEach(function(c) {
+    //                 c.inCart = true;
+    //             }); 
+    //         }).
+    //         error(function(data, status, headers, config) {
+    //             alert('Failed to save data\nReason: ' + data.error);
+    //             console.log('Failed', status, data, headers, config);
+    //             console.log('Failed to post data.');
+    //         });
         
-    };
+    // };
     $scope.enterImage = imageHover;
     $scope.leaveDescr = descHover;
     
@@ -324,17 +328,19 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
             // else $scope.item = images[imageName];   
             $scope.item = images[groupedWith || imageName];
         }
-        $scope.addingImages = false;
+        console.log($scope);
+        $scope.$parent.addingImages = false;
         $scope.shouldBeOpen = true;
         
     };
     
     $scope.cart = [];
     var descrButtonClicked = false;
-    $scope.buyItem = function (imageName) {
+    $scope.buyItem = function (id, price) {
         console.log('in buy item');
-        var item = images[imageName];
-        var data ={"business":"michieljoris@gmail.com","item_name":'myitem',"amount":"45","currency_code":"AUD"};
+        // var item = images[imageName];
+        var data ={"business":"michieljoris@gmail.com","item_name": id,"amount":price,
+                   "currency_code":"AUD"};
         console.log(data);
             
         PAYPAL.apps.MiniCart.addToCart(data);
@@ -400,9 +406,9 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         if (item.price > 50 && item.price <= 100) classes += "between50and100";
         if (item.price > 100) classes += "over100";
         
-        if (item.height < 100) classes += " small ";
-        else if (item.height < 200) classes += " medium ";
-        else if (item.height < 300) classes += " large ";
+        // if (item.height < 100) classes += " small ";
+        // else if (item.height < 200) classes += " medium ";
+        // else if (item.height < 300) classes += " large ";
         // else if (item.height < 100) classes += "extralarge";
   
         
@@ -417,8 +423,9 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
     $scope.closeEdit = function () {
         console.log('closing');
         $scope.shouldBeOpen = false;
-        $scope.addingImages = false ;
-        $scope.saveItems();
+        $scope.$parent.addingImages = false;
+        // $scope.saveItems();
+        IsoFilter.saveItems();
         // setIsotope(images);
         executeFilter($scope.filter);
         // var item = images[itemName];
@@ -454,7 +461,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
             error(function(data, status, headers, config) {
                 alert('Failed to delete ' + name);
                 $scope.shouldBeOpen = false;
-                $scope.addingImages = false ;
+                $scope.$parent.addingImages = false;
                 console.log('Failed', status, data, headers, config);
                 console.log('Failed to post data.');
             });
@@ -543,49 +550,105 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         };
         
     
-        $.fancybox.open(
-            imgBox
-            , {
-                nextEffect : 'fade',
-                prevEffect : 'fade',
-                openEffect : 'elastic',
-                closeEffect : 'elastic',
-                // padding    : 0,
-                helpers    : {
-                    title : {
-                        type: 'under'  
-                    },
-                    thumbs : {
-                        width  : 75,
-                        height : 50,
-                        source : function( item ) {
-                            return item.href.replace('fullsize', 'images');
-                        }
-                    }
-                }
-            });
+        // $.fancybox.open(
+        //     imgBox
+        //     , {
+        //         nextEffect : 'fade',
+        //         prevEffect : 'fade',
+        //         openEffect : 'elastic',
+        //         closeEffect : 'elastic',
+        //         // padding    : 0,
+        //         helpers    : {
+        //             title : {
+        //                 type: 'under'  
+        //             },
+        //             thumbs : {
+        //                 width  : 75,
+        //                 height : 50,
+        //                 source : function( item ) {
+        //                     return item.href.replace('fullsize', 'images');
+        //                 }
+        //             }
+        //         }
+        //     });
         
     
-        // $scope.viewShouldBeOpen = true;
-        // $scope.item = images[imageName];
+        $scope.viewShouldBeOpen = true;
+        var item = images[imageName];
+        var data = [];
+        item.images.forEach(function(img){
+            var withCapital = {
+                now: 'Buy', order: 'Order'
+            };
+            
+            var d = {
+                image: 'fullsize/' + img,
+                thumb: 'images/' + img,
+                big: 'fullsize/' + img,
+                title:(item.buy !=='sold' ? 'Price: $' + item.price : 'Sold')  +
+                    // title: ' Price: $' + item.price +
+                    (item.buy !=='sold' ? '<button id="buyGalleria" class="btn btn-inverse pull-left">' + withCapital[item.buy] + '</button>' : ''), 
+                description: 'Size :' + item.width + 'cmx'  + item.height + 'cm'
+            };
+            data.push(d);
+        });
         
-        // var data = [
-        //     {
-        //         image: 'images/' + imageName,
-        //         // thumb: 'thumb1.jpg',
-        //         big: 'images/' + imageName,
-        //         title: 'Title',
-        //         description: 'Description'
-        //         // link: 'www.google.com'
-        //     }
-        // ];
+        // var galleria = Galleria.get(0);
+        // galleria.load(data);
+        id = item.id;
+        price = item.price;
+        Galleria.run('#galleria',{
+            dataSource: data
+        });
+    };
+    
+    var id, price;
+    Galleria.ready(function(options) {
 
-        // Galleria.run('#galleria', {
-        //     dataSource: data
-        // });
+        this.addElement('custom');
+        this.appendChild('bar','custom');
+        var a=$('.galleria-custom');
+        a.html('Close');
+        // 'this' is the gallery instance
+        // 'options' is the gallery options
+        this.bind('image', function(e) {
+            Galleria.log('Now viewing ' + e.imageTarget.src);
+            $('#buyGalleria').click(function() {
+                console.log('Buying');
+                $scope.closeGalleria();
+                $scope.$apply();
+                $scope.buyItem(id, price);
+            });
+                
+            $('.galleria-custom').click(function() {
+                console.log('Closing');
+                $scope.closeGalleria();
+                $scope.$apply();
+            });
+        });
+        
+    });
+    
+    Galleria.configure({
+        imageCrop: false,
+        transition: 'fade',
+        _toggleInfo: false
+            
+    });
+    Galleria.loadTheme('js/galleria/themes/azur/galleria.azur.min.js');
+
+    
+    $scope.testclick = function() {
+        console.log('hello');
     };
 
     $scope.closeGalleria = function () {
+        // Galleria.get(0).destroy();
+        $scope.viewShouldBeOpen = false;
+    };
+    
+    $scope.closingGalleria = function () {
+        Galleria.get(0).destroy();
         $scope.viewShouldBeOpen = false;
     };
     
@@ -714,26 +777,6 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
     });
     
     
-    $scope.setLayout = function(density) {
-        console.log($scope.dense);
-        if (density === 'wide')
-            $('#imageDiv').isotope({
-                layoutMode: 'cellsByRow',
-                cellsByRow: {
-                    columnWidth: 288,
-                    rowHeight:288
-                }
-            }); 
-        else $('#imageDiv').isotope({
-            layoutMode: 'masonry',
-            masonry: {
-                // columnWidth: 288,
-                // rowHeight:288
-            }
-  
-        });
-    };
-    
     // $scope.isCollapsed = true;
     $scope.moreless=function() {
         if ($scope.isCollapsed) return 'Less';
@@ -750,7 +793,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
             return;
         }
         $scope.shouldBeOpen = false;
-        $scope.addingImages = true;
+        $scope.$parent.addingImages = true;
         // $scope.addAlert("Click an image to add..", 'info', 10000);
     };
     $scope.removeImageFromItem = function(item) {
@@ -809,12 +852,39 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         return vow.promise;
     };
     
+    var progressMeter = (function() {
+        var $bar = $('.bar');
+        var container = $('.progressContainer');
+        // var width = container.width();
+        
+        var n=0, p = 0;
+        var api = {
+            bump: function() {
+                var width = container.width();
+                p++;
+                var percentage = (Math.floor((p/n)*100)).toFixed(0);
+                console.log(percentage);
+                $bar.width((percentage/100) * width);
+                $bar.text('Loading images: ' + percentage+ "%");
+                if (p >= n) {
+                    $bar.width(width);
+                    $('.progress').removeClass('active');
+                }
+            },
+            init: function(someN) {
+                p = 0;
+                n = someN;
+            }
+        };
+        return api;
+    })(); 
+        
     function makeImagePromise(img) {
         var vow = VOW.make();
-        
         var domImage = new Image();
         domImage.onload = function(){
             console.log('Resolving promise for: ' + img.name);
+            progressMeter.bump();
             vow.keep(img);
         };
         domImage.src = 'images/' + img.name;
@@ -822,20 +892,21 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         return vow.promise;
     }
     
+        
     function getImages(images) {
         var vow = VOW.make();
         console.log('in getImages', images);
         var imagePromises = [];
         Object.keys(images).forEach(function(key) {
             var img = images[key];
-            imagePromises.push(makeImagePromise(img)) ;
+            if (img.published && img.published==='yes')
+                imagePromises.push(makeImagePromise(img)) ;
         });
-        window.test = $q.all(imagePromises);
-        
+        progressMeter.init(imagePromises.length);
         VOW.every(imagePromises).when(
-        // makeImagePromise(images[Object.keys(images)[0]]).when(
+            // makeImagePromise(images[Object.keys(images)[0]]).when(
             function(bla) {
-                console.log('all resolved to ', bla);
+                // console.log('all resolved to ', bla);
                 vow.keep(images);
             
             },function(err) {
@@ -852,11 +923,8 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
 
     function setIsotope(items) {
         
-        console.log('Showing isotope images:', items);
-        var $container = $('#imageDiv');
-        $container.isotope({
-            itemSelector: '.item'
-        });
+        images = items;
+        
         var itemsHtml = ''; 
         var i = 0;
         Object.keys(items).forEach(function(imgName) {
@@ -865,18 +933,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         });
         
         $scope.itemsHtml = itemsHtml;
-            
-        setTimeout(function () {
-            $('#imageDiv').isotope('reloadItems');
-            executeFilter(defaultFilter);
-            // $('#imageDiv').isotope({ filter: makeFilterString() }, function( $items ) {
-            //     var id = this.attr('id'),
-            //     len = $items.length;
-            //     console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
-            //     // $('img').hover(imageHover);
-            //     // $('.item').find('div').hover(descHover);
-            // });
-        }, 1000);
+        
         
         function getAttr(e, array) {
             for (var i = 0; i < array.length; i++) {
@@ -886,46 +943,100 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
             }
             return 10;
         }
+        
+        
+        $scope.filter = (function() {
+            var filter = {};
+            Object.keys(IsoFilter.defaultFilter).forEach(function(k) {
+                filter[k] = IsoFilter.defaultFilter[k];
+            }); 
+            return filter;
+        })();
+        
+        console.log($scope.filter);
+        
+        setImmediate(function () {
+            // setTimeout(function () {
+            console.log('Showing isotope images:', items);
+            $scope.$parent.hideProgress = true;
+            $scope.$apply();
+            var $container = $('#imageDiv');
+            $container.isotope({
+                itemSelector: '.item'
+            });
             
-        $('#imageDiv').isotope({
-            getSortData : {
-                price : function ( $elem ) {
-                    // console.log( parseInt($elem.attr('data-price'), 10));
-                    var n = parseInt($elem.attr('data-price'), 10);
-                    if (typeof n === 'number') return n+'';
-                    return '';
+            // $('#imageDiv').isotope({ filter: "*" }, function( $items ) {
+            //         var id = this.attr('id'),
+            //     len = $items.length;
+            //     console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
+            //     // $('img').hover(imageHover);
+            //     // $('.item').find('div').hover(descHover);
+            // });
+            
+            // $('#imageDiv').isotope('reloadItems');
+            // return;
+            
+            $('#imageDiv').isotope({
+                getSortData : {
+                    price : function ( $elem ) {
+                        // console.log( parseInt($elem.attr('data-price'), 10));
+                        var n = parseInt($elem.attr('data-price'), 10);
+                        if (typeof n === 'number') return n+'';
+                        return '';
+                    }
+                    ,id : function ( $elem ) {
+                        // console.log( parseInt($elem.attr('data-price'), 10));
+                        return $elem.attr('data-id');
+                        // var n = parseInt($elem.attr('data-id'), 10);
+                        // if (typeof n === 'number') return n+'';
+                        // return '';
+                    }
+                    ,shape : function ( $elem ) {
+                        return getAttr($elem, ["square", "round", "rectangle",
+                                               "cylindrical", "hurricane", "teardrop", "centerpiece"]);
+                    }
+                    ,type : function ( $elem ) {
+                        return getAttr($elem, ["open", "closed", "hanging"]);
+                    }
+                    ,size : function ( $elem ) {
+                        return getAttr($elem, ["small", "medium", "large", 'xlarge']);
+                    }
+                    ,buy : function ( $elem ) {
+                        return getAttr($elem, ["now", "order", "sold"]);
+                    }
+                    ,published : function ( $elem ) {
+                        // console.log($elem, getAttr($elem, ["yes", "no"]));
+                        return getAttr($elem, ["yes", "no", "archived"]);
+                    }
                 }
-                ,id : function ( $elem ) {
-                    // console.log( parseInt($elem.attr('data-price'), 10));
-                    return $elem.attr('data-id');
-                    // var n = parseInt($elem.attr('data-id'), 10);
-                    // if (typeof n === 'number') return n+'';
-                    // return '';
-                }
-                ,shape : function ( $elem ) {
-                    return getAttr($elem, ["square", "round", "rectangle", "cylindrical", "hurricane", "teardrop"]);
-                }
-                ,type : function ( $elem ) {
-                    return getAttr($elem, ["open", "closed", "hanging"]);
-                }
-                ,size : function ( $elem ) {
-                    return getAttr($elem, ["small", "medium", "large"]);
-                }
-                ,buy : function ( $elem ) {
-                    return getAttr($elem, ["now", "order", "sold"]);
-                }
-                ,published : function ( $elem ) {
-                    // console.log($elem, getAttr($elem, ["yes", "no"]));
-                    return getAttr($elem, ["yes", "no", "archived"]);
-                }
-            }
-        });
-
-        // $('img').click(imageClicked);
-        images = items;
+            });
+        
+            
+            IsoFilter.executeFilter($scope.filter);
+            $scope.$parent.showIsotope=true;
+            $scope.$apply();
+            setTimeout(function() {
+                
+                $('#imageDiv').isotope('reLayout');
+                
+            },0);
+            // $('#imageDiv').isotope('reLayout');
+            
+            // if (density === 'wide')
+            // executeFilter(defaultFilter);
+            // $('#imageDiv').isotope({ filter: makeFilterString() }, function( $items ) {
+            //     var id = this.attr('id'),
+            //     len = $items.length;
+            //     console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
+            //     // $('img').hover(imageHover);
+            //     // $('.item').find('div').hover(descHover);
+            // });
+        },500);
+        // , 0);
+        // return images;
     }
     
-    // setSelectIsotope();
+    setSelectIsotope();
     getDir('/images').
         when(getImageData).
         when(getImages).
@@ -935,25 +1046,57 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
                  alert('Failed to retrieve an image list!!.');
              });
     
+    var density;
+        $scope.setLayout = function(someDensity) {
+            console.log($scope.dense);
+            density = someDensity;
+            if (density === 'wide')
+                $('#imageDiv').isotope({
+                    layoutMode: 'cellsByRow',
+                    cellsByRow: {
+                        columnWidth: width ? width + 80 : 288,
+                        rowHeight: width ? width*1.3+80: 288
+                    }
+                }); 
+            else $('#imageDiv').isotope({
+                layoutMode: 'masonry',
+                masonry: {
+                    // columnWidth: 288,
+                    // rowHeight:288
+                }
+  
+            });
+        };
     
-    $(function() {
-        var select = $( "#zoom" );
-        var slider = $( "<div id='slider'></div>" ).insertAfter( select ).slider({
-            min: 1,
-            max: 100,
-            range: "min",
-            value: 40,
-            slide: function( event, ui ) {
-                var width = (ui.value*4 + 40);
-                // select[ 0 ].selectedIndex = ui.value - 1;
-                $(".item img").attr("width",40 + ui.value * 4);
-                $("#imageDiv").isotope("reLayout");
-            }
+    var width;
+        $(function() {
+            var select = $( "#zoom" );
+            var slider = $( "<div id='slider'></div>" ).insertAfter( select ).slider({
+                min: 1,
+                max: 100,
+                range: "min",
+                value: 40,
+                slide: function( event, ui ) {
+                    width = (ui.value*4 + 40);
+                    // select[ 0 ].selectedIndex = ui.value - 1;
+                    console.log(width);
+                    $(".item img").attr("width",40 + ui.value * 4);
+                
+                    if (density === 'wide')
+                        $('#imageDiv').isotope({
+                            layoutMode: 'cellsByRow',
+                            cellsByRow: {
+                                columnWidth: width ? width + 80 : 288,
+                                rowHeight: width ? width*1.3+80: 288
+                            }
+                        }); 
+                    $("#imageDiv").isotope("reLayout");
+                }
+            });
+            // $( "#minbeds" ).change(function() {
+            //     slider.slider( "value", this.selectedIndex + 1 );
+            // });
         });
-        // $( "#minbeds" ).change(function() {
-        //     slider.slider( "value", this.selectedIndex + 1 );
-        // });
-    });
 });
 
 // angular.module('myModule', [], function($provide) {
