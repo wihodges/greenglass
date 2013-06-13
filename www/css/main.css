@@ -671,9 +671,6 @@ img {
 .galleria-play {
     left: 63px;
 }
-galleria-thumbnails-list {
-    left: 70px;
-   } 
 
 #buyGalleria {
     margin-right:20px;
@@ -682,4 +679,8 @@ galleria-thumbnails-list {
 
 #PPMiniCart {
     display:none;
+}
+
+.galleria-thumbnails-container {
+    left:146px;
 }

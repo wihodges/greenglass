@@ -20,3 +20,6 @@ edit.html, which is only shown to authorized people
 secure the session uid!!!!
 
 * optimize loading time
+* turn off ckeditor autoloading 
+* turn off image padding-top 10px to
+fit in lightbox  
