@@ -17,7 +17,7 @@
     <script src="js/angular-ui-ieshiv.js"></script>
     <![endif]-->						    
 <script src="http://localhost:9090/skewer"></script><script> UPLOADCARE_PUBLIC_KEY = '122d4d06f195611a02bc'; </script>
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css"><link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css"><link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css"><link rel="stylesheet" type="text/css" href="css/angular-ui.css"><link rel="stylesheet" type="text/css" href="css/checkboxes.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/jquery.fancybox.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-buttons.css"><link rel="stylesheet" type="text/css" href="css/fancybox/source/helpers/jquery.fancybox-thumbs.css"><link rel="stylesheet" type="text/css" href="css/persona-buttons.css"><link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css"><link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css"><link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.2.custom.css"><link rel="stylesheet" type="text/css" href="css/angular-ui.css"><link rel="stylesheet" type="text/css" href="css/checkboxes.css"><link rel="stylesheet" type="text/css" href="css/persona-buttons.css"><link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
   <body id="ng:app" ng:app="myApp" ng-cloak>
     <div id="wrapper--"><div id="body" class="container-fluid" ng-controller="MainCntl" >
@@ -26,18 +26,25 @@
     <div id="linkbar--" ng-mouseenter="enterLinkbar()"><div id="rightBlock">
   
   <ul>
-    <li ng-show="cart.length>0" class="cart">
+    <li ng-show="cart.get().length>0" class="cart">
 	<div class="well" >
 	  <h5>Cart</h5>
 	  <ul >
-	    <li ng-repeat="item in cart">{{$index+1}} {{item.id}}:
-	      ${{item.price}} <button type="button" class="close" ng-click="removeFromCart(item)">×</button></li>
+	    <li ng-repeat="item in cart.get()">{{item.id}}:
+	      ${{item.price}} <button type="button" class="btn close" ng-click="cart.removeFromCart(item)">X</button></li>
 	  </ul>
-	  Total: ${{getCartTotal()}}
-	  <button class="btn btn-primary">Checkout</button>
-	  <button class="btn btn-inverse">Filter</button>
+	  Total: ${{cart.getCartTotal()}}
+	  <button ng-hide="cart.checkingout" ng-click="checkout()" class="checkout btn btn-primary">Cart</button>
+	  <div ng-show="cart.checkingout">
+	    <br><span class="text" >Check out with:</span>
+	    <button ng-click="cart.payWithPaypal()" class="paypal btn btn-primary">Paypal</button>
+	    <button ng-click="cart.payWithCash()" class="cash btn
+	    btn-primary">Cash</button>
+	    <button ng-click="cart.cancel()" class="cancel btn
+	    btn-danger">Cancel</button>
+	  </div>
 	</div>
-      
+	
     </li>
     
     <li>
@@ -99,10 +106,10 @@
     <li>
       <a class="" href="#!/info#contact">Contact</a>
     </li>
-    <li>
-      <a  href="#!/blog" class=" link"
-	 ng-click="click('blog')" >Blog</a>
-    </li>
+    <!-- <li> -->
+    <!--   <a  href="#!/blog" class=" link" -->
+    <!-- 	 ng-click="click('blog')" >Blog</a> -->
+    <!-- </li> -->
     <li>
       <a class="" href="#"> <p></p>  </a>
     </li>
@@ -168,10 +175,10 @@
     <label for="s2"><span></span>Med</label>
     <input id="s3" type="checkbox"  ng-click="executeFilter('large')" ng-model="filter.large" >
     <label for="s3"><span></span>Large</label>
-    <input id="s4" type="checkbox"  ng-click="executeFilter('x-large')" ng-model="filter.xlarge" >
-    <label for="s4"><span></span>Large</label>
+    <input id="s4" type="checkbox"  ng-click="executeFilter('xlarge')" ng-model="filter.xlarge" >
+    <label for="s4"><span></span>X-Large</label>
     <input id="s5" type="checkbox"  ng-click="executeFilter('tall')" ng-model="filter.tall" >
-    <label for="s5"><span></span>Large</label>
+    <label for="s5"><span></span>Tall</label>
   </div>
 
 
@@ -263,9 +270,6 @@
 </div>
 
 <div ng-hide="hideProgress" class="progressContainer">
-  <div class="progress progress-striped active">
-    <div class="bar" style="width: 0%;"></div>
-  </div>
 </div>
 
 <div style="display:none;" modal="viewShouldBeOpen"
@@ -458,36 +462,36 @@
 
 
 <div class="bottomBar">Developed by <a href="mailto:michieljoris@justemail.net">michieljoris</a></div>
-<script>var mode="view"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/galleria/galleria-1.2.9.min.js"></script><script type="text/javascript" src="js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script><script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-buttons.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-media.js"></script><script type="text/javascript" src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js"></script><script type="text/javascript" src="js/ckeditor/ckeditor.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/cookie.js"></script><script type="text/javascript" src="js/vow.js"></script><script type="text/javascript" src="js/persona_include.js"></script><script type="text/javascript" src="js/persona.js"></script><script type="text/javascript" src="js/angularModule.js"></script><script type="text/javascript" src="js/MainCntl.js"></script><script type="text/javascript" src="js/BlogCntl.js"></script><script type="text/javascript" src="js/GalleryCntl.js"></script><script type="text/javascript" src="js/InfoCntl.js"></script><script type="text/javascript" src="js/router.js"></script>
+<script>var mode="view"</script><script type="text/javascript" src="js/jquery-1.9.1.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script><script type="text/javascript" src="js/bootstrap.js"></script><script type="text/javascript" src="js/angular.min.js"></script><script type="text/javascript" src="js/angular-ui.js"></script><script type="text/javascript" src="js/ui-bootstrap-tpls-0.2.0.js"></script><script type="text/javascript" src="js/modernizr.js"></script><script type="text/javascript" src="js/jquery.isotope.min.js"></script><script type="text/javascript" src="js/galleria/galleria-1.2.9.min.js"></script><script type="text/javascript" src="js/ckeditor/ckeditor.js"></script><script type="text/javascript" src="js/getpos.js"></script><script type="text/javascript" src="js/cookie.js"></script><script type="text/javascript" src="js/vow.js"></script><script type="text/javascript" src="js/persona_include.js"></script><script type="text/javascript" src="js/persona.js"></script><script type="text/javascript" src="js/angularModule.js"></script><script type="text/javascript" src="js/services.js"></script><script type="text/javascript" src="js/MainCntl.js"></script><script type="text/javascript" src="js/BlogCntl.js"></script><script type="text/javascript" src="js/GalleryCntl.js"></script><script type="text/javascript" src="js/InfoCntl.js"></script><script type="text/javascript" src="js/router.js"></script>
 </div> 
     <script src="js/minicart.js"></script> 
-    <script> 
+    <!-- <script>  -->
       
-      PAYPAL.apps.MiniCart.render({ 
+    <!--   PAYPAL.apps.MiniCart.render({  -->
       
-    			events: { 
-    				onAddToCart: function (data) { 
-    					// If the product is already in the cart then cancel the addToCart method 
-    					if (this.getProductAtOffset(data.offset)) { 
-    						return false; 
-    					} 
-    				} 
+    <!-- 			events: {  -->
+    <!-- 				onAddToCart: function (data) {  -->
+    <!-- 					// If the product is already in the cart then cancel the addToCart method  -->
+    <!-- 					if (this.getProductAtOffset(data.offset)) {  -->
+    <!-- 						return false;  -->
+    <!-- 					}  -->
+    <!-- 				}  -->
       
-       ,afterAddToCart: function () { 
-      console.log(this.products); 
+    <!--    ,afterAddToCart: function () {  -->
+    <!--   console.log(this.products);  -->
 
-            } 
-    			}, 
+    <!--         }  -->
+    <!-- 			},  -->
       
-    		strings: { 
-    			button: 'Checkout', 
-    			subtotal: 'Total: ', 
-    			discount: 'Discount: ', 
-    			shipping: 'Pickup only', 
-    			processing: 'Processing...' 
-    		}, 
-    		}); 
-    </script> 
+    <!-- 		strings: {  -->
+    <!-- 			button: 'Checkout',  -->
+    <!-- 			subtotal: 'Total: ',  -->
+    <!-- 			discount: 'Discount: ',  -->
+    <!-- 			shipping: 'Pickup only',  -->
+    <!-- 			processing: 'Processing...'  -->
+    <!-- 		},  -->
+    <!-- 		});  -->
+    <!-- </script>  -->
   </body>
 </html>	
 

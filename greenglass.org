@@ -1,15 +1,19 @@
-* make main image really the main image
-so in the gallery
- 
-* prefetch fullsize images and give progress meter for startup?
- loading too many prefetch images, unpublished, trash, grouped
-* make ckeditor proper for julie
+* add blog
+* optimize loading time
 * fix up checkout
 not ideal for ipad, getting on screen when scrolling
 maybe use my own cart
  hook up with paypal , send emails to Julie and Client
+offer option to cash on pickup iso payapl 
   
-* add blog
+  
+* make main image really the main image
+so in the gallery, at the moment only happening after refresh..
+ 
+
+* change zoom slider into buttons for ipad and looks
+* prefetch fullsize images 
+* make ckeditor proper for julie
   
 * disable plugins not used
 * don't load editor when in view mode
@@ -19,7 +23,10 @@ edit.html, which is only shown to authorized people
 * implement login security, 
 secure the session uid!!!!
 
-* optimize loading time
-* turn off ckeditor autoloading 
+* turn off ckeditor autosaving and loading
 * turn off image padding-top 10px to
 fit in lightbox  
+
+* paypal box, x is on the quantity
+* add favicon
+  

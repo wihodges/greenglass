@@ -2,109 +2,21 @@
 /*jshint strict:false unused:true smarttabs:true eqeqeq:true immed: true undef:true*/
 /*jshint maxparams:7 maxcomplexity:7 maxlen:150 devel:true newcap:false*/ 
 
-myApp.factory('IsoFilter', function($http) {
-    function orKeys(filter, keys) {
-        var b = false;
-        keys.forEach(function(k) {
-            b |= filter[k]; 
-        });
-        if (!b) {
-            keys.forEach(function(k) {
-                filter[k] = true;
-            });
-        }
-        // console.log('checking ', keys, b);
-        // return b; 
-    }
-    
-    var defaultFilter = {
-        now:false, order:false, sold:false,
-        small:false, medium:false, large:false,
-        under50:false, between50and100:false, over100:false,
-        square:false, round:false, rectangle:false,
-        cylindrical:false, hurricane:false, teardrop:false, centerpiece:false,
-        hanging:false, open:false, closed:false,
-        yes:true, no:false, archived:false
-        ,grouped:false
-    };
-    
-    
-    var makeFilterString = function(filter) {
-        var filterString = '.item';
-            // console.log(filter);
-        Object.keys(filter).forEach(function(f) {
-            // console.log(f + ':' + $scope.filter[f]);
-            if (!filter[f]) filterString += ':not(.' + f + ')';
-        });
-        return filterString + ':not(.undefined)';
-    };
-    
-    var executeFilter = function (aFilter) {
-        console.log('in executefilter!!!!! aFilter:', aFilter);
-        var filter = {};
-        Object.keys(aFilter).forEach(function(k) {
-            filter[k]=aFilter[k];
-        });
-        console.log('copy:', filter);
-        
-        orKeys(filter, ['now', 'order', 'sold']);  
-        orKeys(filter, ['small', 'medium', 'large']); 
-        orKeys(filter, ['under50', 'between50and100', 'over100']); 
-        orKeys(filter, ['square', 'round', 'rectangle',
-                        'cylindrical', 'hurricane', 'teardrop', 'centerpiece']); 
-        orKeys(filter, ['yes', 'no', 'archived' ]); 
-        orKeys(filter, ['hanging', 'open', 'closed']);
-        // orKeys(filter, ['deleted']);
-        //      )) {
-        //     $scope.filter[v] = true;
-        //     console.log(v);
-        //     return;
-        // }
-        
-        var filterString = makeFilterString(filter);
-        console.log(filterString);
-        $('#imageDiv').isotope({ filter: filterString});
+myApp.controller("MainCntl", function ($rootScope, IsoFilter, cart, $location, $scope, $http) {
+    $scope.cart = cart;
+    $scope.checkout = function() {
+        cart.checkout();
+        var filter = IsoFilter.defaultFilter;
+        filter.incart=true;
+        IsoFilter.executeFilter(filter);
+        setTimeout( function() {
+            $('#imageDiv').isotope('reLayout');;
+        },100);
         
     };
-    // var msgs = [];
-    // return function(msg) {
-    //   msgs.push(msg);
-    //   if (msgs.length == 3) {
-    //     win.alert(msgs.join("\n"));
-    //     msgs = [];
-    //   }
-    // };
-  // factory function body that constructs shinyNewServiceInstance
     
-    var saveItems = function() {
-        console.log("Saving items to server");
-        // $scope.cart.forEach(function(c) {
-        //     c.inCart = false;
-        // }); 
-        $http({method: 'POST', url: '/save?path=terrariums.json', data:images}).
-            success(function(data, status, headers, config) {
-                console.log(status, data);
-                // $scope.cart.forEach(function(c) {
-                //     c.inCart = true;
-                // }); 
-            }).
-            error(function(data, status, headers, config) {
-                alert('Failed to save data\nReason: ' + data.error);
-                console.log('Failed', status, data, headers, config);
-                console.log('Failed to post data.');
-            });
-        
-    };
-  return {
-      saveItems: saveItems,
-      defaultFilter: defaultFilter,
-      executeFilter: executeFilter
-  };
     
-});
-
-myApp.controller("MainCntl", function ($rootScope, IsoFilter, $location, $scope, $http) {
-    
+    var executeFilter = IsoFilter.executeFilter;
     
     
     // $scope.test = function($event) {
@@ -153,34 +65,48 @@ myApp.controller("MainCntl", function ($rootScope, IsoFilter, $location, $scope,
         // $scope.blogMode= path ==='/blog';
         switch (path) {
           case '/gallery':
-            setTimeout(function() {
-                $("#imageDiv").isotope("reLayout");
+            // setTimeout(function() {
+            //     $("#imageDiv").isotope("reLayout");
                 // $("#selectContainer").isotope("reLayout");
-            },1);
+            // },1);
             break;
           case '/blog' :
             break;
           case '/info' :
-            
-            $scope.info = 'editable/' + $location.$$hash + '.html';
-            $http({method: 'GET', url: $scope.info}).
-                success(function(data, status, headers, config) {
-                    console.log('received data, setting content');
-                    $scope.content = data;
-                    // $scope.$apply();
-                    CKEDITOR.instances.editor2.setData( data, function() {
-                        this.checkDirty(); // true
-                    });
-                    // $scope.$apply();
-                    // this callback will be called asynchronously
-                    // when the response is available
-                }).
-                error(function(data, status, headers, config) {
+            function saveDirty(cb) {
+    
+                var isDirty = CKEDITOR.instances.editor2.checkDirty();
+                console.log('isDirty', isDirty);
+                if (CKEDITOR.instances.editor2.checkDirty() &&
+                    confirm('Do you want to save the changes you have made to this text?')) {
+                    $scope.saveText(cb);
+                }
+                else cb();
+            }
+
+            saveDirty(function() {
+                $scope.info = 'editable/' + $location.$$hash + '.html';
+                $http({method: 'GET', url: $scope.info}).
+                    success(function(data, status, headers, config) {
+                        console.log('received data, setting content');
+                        $scope.content = data;
+                        // $scope.$apply();
+                        CKEDITOR.instances.editor2.setData( data, function() {
+                            // this.checkDirty(); // true
+                            this.resetDirty();
+                        });
+                        // $scope.$apply();
+                        // this callback will be called asynchronously
+                        // when the response is available
+                    }).
+                    error(function(data, status, headers, config) {
                     
-                    $scope.content = 'Failed to get the text!!!';
-                    // called asynchronously if an error occurs
-                    // or server returns response with an error status.
-                });
+                        $scope.content = 'Failed to get the text!!!';
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+                    });
+                
+            });
             break;
         default:  
         }

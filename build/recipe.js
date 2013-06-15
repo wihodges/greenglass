@@ -72,9 +72,9 @@ var exports = {
                 ,'angular-ui'
                 ,'checkboxes'
                 // ,'prettyPhoto'
-                ,'fancybox/source/jquery.fancybox'
-                ,'fancybox/source/helpers/jquery.fancybox-buttons'
-                ,'fancybox/source/helpers/jquery.fancybox-thumbs'
+                // ,'fancybox/source/jquery.fancybox'
+                // ,'fancybox/source/helpers/jquery.fancybox-buttons'
+                // ,'fancybox/source/helpers/jquery.fancybox-thumbs'
                 ,'persona-buttons'
                 ,'main'
             ]
@@ -101,11 +101,11 @@ var exports = {
                     ,'galleria/galleria-1.2.9.min'
                     // ,'jquery.prettyPhoto'
                     // ,'tinymce/js/tinymce/jquery.tinymce.min'
-                    ,'fancybox/lib/jquery.mousewheel-3.0.6.pack'
-                    ,'fancybox/source/jquery.fancybox.pack'
-                    ,'fancybox/source/helpers/jquery.fancybox-buttons'
-                    ,'fancybox/source/helpers/jquery.fancybox-media'
-                    ,'fancybox/source/helpers/jquery.fancybox-thumbs'
+                    // ,'fancybox/lib/jquery.mousewheel-3.0.6.pack'
+                    // ,'fancybox/source/jquery.fancybox.pack'
+                    // ,'fancybox/source/helpers/jquery.fancybox-buttons'
+                    // ,'fancybox/source/helpers/jquery.fancybox-media'
+                    // ,'fancybox/source/helpers/jquery.fancybox-thumbs'
                     ,"ckeditor/ckeditor"
                     ,'getpos'
                     ,"cookie"
@@ -113,6 +113,7 @@ var exports = {
                     ,'persona_include' //to be replaced by include.js from CDN
                     ,'persona'
                     ,'angularModule'
+                    ,'services'
                     ,"MainCntl"
                     ,'BlogCntl'
                     ,'GalleryCntl'

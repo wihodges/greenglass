@@ -7,7 +7,9 @@ myApp.controller("InfoCntl", function ($scope, $http, $location, $timeout) {
     CKEDITOR.replace( 'editor2',{
         toolbar : [
             // { name: 'document', items: [ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ] },
-            { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+            { name: 'clipboard', items: [
+                // 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-',
+                'Undo', 'Redo' ] },
             {name: 'letters', items: [ 'Find', 'Replace', 'SelectAll']},
             // '/',
             {name: 'styles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat']},
@@ -20,10 +22,10 @@ myApp.controller("InfoCntl", function ($scope, $http, $location, $timeout) {
             {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor', 'Maximize']}
         ]
         ,disableNativeSpellChecker : false
-        ,removePlugins: 'fastimage'
+        ,removePlugins: 'fastimage,autosave'
         ,enterMode: CKEDITOR.ENTER_BR
         ,extraPlugins : 'divarea' 
-        ,height:400
+        ,height:300
             
         // toolbar: 'Basic',
         // uiColor: '#9AB8F3'
@@ -32,7 +34,7 @@ myApp.controller("InfoCntl", function ($scope, $http, $location, $timeout) {
     // $scope.editMode = false;
     // $scope.content = "just some text";
     
-    $scope.saveText = function() {
+    $scope.$parent.saveText = function(cb) {
         console.log($scope);
         var content = CKEDITOR.instances.editor2.getData();
         console.log(content);
@@ -44,12 +46,15 @@ myApp.controller("InfoCntl", function ($scope, $http, $location, $timeout) {
                     alert('Warning: this file did not save to the server!!');
                     // if (data.error === 'Not authorized.')
                     //     $scope.signedIn = false;
-                    
+                    if (cb) cb();
                     return;
                 }
                 $scope.saveNotify = true;
                 $scope.$parent.content = content;
+                CKEDITOR.instances.editor2.resetDirty();
                 console.log($scope);
+                if (cb) cb();
+                
                 $timeout(function(){
                     $scope.saveNotify = false;
                 }, 3000);
@@ -58,7 +63,8 @@ myApp.controller("InfoCntl", function ($scope, $http, $location, $timeout) {
             error(function(data, status, headers, config) {
                 console.log('Failed to post data!!', data, status, headers, config);
                 alert('Warning: this file did not save to the server!!\n' +
-                     'Reason:' + data.error);
+                      'Reason:' + data.error);
+                if (cb) cb();
                 return;
                     
             });

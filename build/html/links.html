@@ -1,18 +1,25 @@
 <div id="rightBlock">
   
   <ul>
-    <li ng-show="cart.length>0" class="cart">
+    <li ng-show="cart.get().length>0" class="cart">
 	<div class="well" >
 	  <h5>Cart</h5>
 	  <ul >
-	    <li ng-repeat="item in cart">{{$index+1}} {{item.id}}:
-	      ${{item.price}} <button type="button" class="close" ng-click="removeFromCart(item)">×</button></li>
+	    <li ng-repeat="item in cart.get()">{{item.id}}:
+	      ${{item.price}} <button type="button" class="btn close" ng-click="cart.removeFromCart(item)">X</button></li>
 	  </ul>
-	  Total: ${{getCartTotal()}}
-	  <button class="btn btn-primary">Checkout</button>
-	  <button class="btn btn-inverse">Filter</button>
+	  Total: ${{cart.getCartTotal()}}
+	  <button ng-hide="cart.checkingout" ng-click="checkout()" class="checkout btn btn-primary">Cart</button>
+	  <div ng-show="cart.checkingout">
+	    <br><span class="text" >Check out with:</span>
+	    <button ng-click="cart.payWithPaypal()" class="paypal btn btn-primary">Paypal</button>
+	    <button ng-click="cart.payWithCash()" class="cash btn
+	    btn-primary">Cash</button>
+	    <button ng-click="cart.cancel()" class="cancel btn
+	    btn-danger">Cancel</button>
+	  </div>
 	</div>
-      
+	
     </li>
     
     <li>
@@ -74,10 +81,10 @@
     <li>
       <a class="" href="#!/info#contact">Contact</a>
     </li>
-    <li>
-      <a  href="#!/blog" class=" link"
-	 ng-click="click('blog')" >Blog</a>
-    </li>
+    <!-- <li> -->
+    <!--   <a  href="#!/blog" class=" link" -->
+    <!-- 	 ng-click="click('blog')" >Blog</a> -->
+    <!-- </li> -->
     <li>
       <a class="" href="#"> <p></p>  </a>
     </li>

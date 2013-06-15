@@ -234,11 +234,13 @@ function setSelectIsotope() {
     
 
 var images = {};
-myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $http) {
+myApp.controller("GalleryCntl", function (IsoFilter, cart, $q, $location, $scope, $http) {
     console.log('in Gallery controller');
     
     var defaultFilter = IsoFilter.defaultFilter;
     var executeFilter = IsoFilter.executeFilter;
+    
+    $scope.buyItem = cart.buyItem;   
     // $("a[rel^='prettyPhoto']").prettyPhoto();
     var zoom = 200;
 
@@ -304,10 +306,10 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
     
     
     $scope.editImage = function (imageName) {
-        if (descrButtonClicked) {
-            descrButtonClicked = false;
-            return;
-        }
+        // if (descrButtonClicked) {
+        //     descrButtonClicked = false;
+        //     return;
+        // }
         console.log('in editimage');
         if ($scope.addingImages) {
             if ($scope.item.images.indexOf(imageName) === -1) {
@@ -334,63 +336,6 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         
     };
     
-    $scope.cart = [];
-    var descrButtonClicked = false;
-    $scope.buyItem = function (id, price) {
-        console.log('in buy item');
-        // var item = images[imageName];
-        var data ={"business":"michieljoris@gmail.com","item_name": id,"amount":price,
-                   "currency_code":"AUD"};
-        console.log(data);
-            
-        PAYPAL.apps.MiniCart.addToCart(data);
-        setTimeout(function() {
-            PAYPAL.apps.MiniCart.show();
-            
-        },100);
-        
-        return;
-        
-        console.log('in buy item');
-        // var item = images[imageName];
-        if (item.inCart) {
-            $scope.addAlert('Terrarium already in cart!', 'error', 3000);
-            return;
-        }
-        $scope.cart.push(item); 
-        item.inCart = true;
-        // $scope.addAlert('Terrarium added to cart!', 'success', 3000);
-        console.log('Cart: ', $scope.cart);
-        descrButtonClicked = true;
-        
-    };
-    
-    $scope.getCartTotal = function() {
-        var total = 0;
-        $scope.cart.forEach(function(c) {
-            // console.log(c.price);
-            var n = parseInt(c.price, 10);
-            if (typeof n === 'number') 
-                total += n;
-        }); 
-        return total;
-    };
-    
-    $scope.removeFromCartByName = function(imageName) {
-        
-        descrButtonClicked = true;
-        $scope.removeFromCart(images[imageName]);
-    };
-    
-    $scope.removeFromCart = function(item) {
-        console.log(item);
-        item.inCart=false;
-        var newCart = [];
-        $scope.cart.forEach(function(c) {
-            if (c !== item) newCart.push(c);
-        }); 
-        $scope.cart = newCart;
-    };
     
     $scope.getItemClasses = function(itemName) {
         var item = images[itemName];
@@ -400,7 +345,9 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
             (item.buy ? item.buy + ' ': '') +
             (item.published ? item.published + ' ': 'no ') +
             (item.groupedWith ? 'grouped' + ' ': '') +
-            (item.type ? item.type + ' ': '');
+            (item.type ? item.type + ' ': '') +
+            (item.cart ? item.cart + ' ': 'notbuying');
+        
     
         if (item.price <= 50) classes += "under50";
         if (item.price > 50 && item.price <= 100) classes += "between50and100";
@@ -483,10 +430,10 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
     
     $scope.viewImage = function (imageName) {
         
-        if (descrButtonClicked) {
-            descrButtonClicked = false;
-            return;
-        }
+        // if (descrButtonClicked) {
+        //     descrButtonClicked = false;
+        //     return;
+        // }
         
         
         // $.fancybox([
@@ -505,30 +452,30 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
             '<button id="cartButton" class="btn btn-info pull-right" onClick="removeFromCart(\'' + imageName +'\')"> ' +
             "Remove from cart" +
             '</button>';
-        var imgBox = [];
-        images[imageName].images.forEach(function(img) {
-            img = images[img];
-            imgBox.push({
-                href : 'fullsize/' + img.name
-                ,title : "<div class='fullsize well'>" +
-                    //Size:" +
-                    // images[imageName].size +
-                    " Price: $" + 
-                    images[imageName].price +
-                    (images[imageName].inCart ? removeFromCartButton : addToCartButton) +
+        // var imgBox = [];
+        // images[imageName].images.forEach(function(img) {
+        //     img = images[img];
+        //     imgBox.push({
+        //         href : 'fullsize/' + img.name
+        //         ,title : "<div class='fullsize well'>" +
+        //             //Size:" +
+        //             // images[imageName].size +
+        //             " Price: $" + 
+        //             images[imageName].price +
+        //             (images[imageName].cart === 'buying' ? removeFromCartButton : addToCartButton) +
                 
-                "</div>" 
+        //         "</div>" 
 
-            });
+        //     });
             
-        });
+        // });
         window.addToCart = function(imageName) {
             
             var item = images[imageName];
-            // if (item.inCart) {
-            //     return;
-            // }
-            item.inCart = true;
+            if (item.cart === 'buying') {
+                return;
+            }
+            item.cart = 'buying';
             
             console.log('we\'ve added to the cart!!!' + imageName);
             var data ={"business":"michieljoris@gmail.com","item_name":'bla',"amount":item.price || "123","currency_code":"AUD"};
@@ -543,7 +490,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
             console.log('removing from cart: ' + imageName);
             var item = images[imageName];
            
-            item.inCart = false;
+            item.cart = notbuying;
            
             var button =$('#cartButton');
             button.html('Add to cart');
@@ -597,11 +544,13 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         // galleria.load(data);
         id = item.id;
         price = item.price;
+        galleriaImageName = imageName;
+        
         Galleria.run('#galleria',{
             dataSource: data
         });
     };
-    
+    var galleriaImageName;
     var id, price;
     Galleria.ready(function(options) {
 
@@ -617,7 +566,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
                 console.log('Buying');
                 $scope.closeGalleria();
                 $scope.$apply();
-                $scope.buyItem(id, price);
+                $scope.buyItem(galleriaImageName, id, price);
             });
                 
             $('.galleria-custom').click(function() {
@@ -764,17 +713,17 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         $scope.alerts.splice(index, 1);
     };
     
-    $(".ajax").fancybox({
-	maxWidth	: 800,
-	maxHeight	: 600,
-	fitToView	: false,
-	width		: '70%',
-	height		: '70%',
-	autoSize	: false,
-	closeClick	: false,
-	openEffect	: 'none',
-	closeEffect	: 'none'
-    });
+    // $(".ajax").fancybox({
+    //     maxWidth	: 800,
+    //     maxHeight	: 600,
+    //     fitToView	: false,
+    //     width		: '70%',
+    //     height		: '70%',
+    //     autoSize	: false,
+    //     closeClick	: false,
+    //     openEffect	: 'none',
+    //     closeEffect	: 'none'
+    // });
     
     
     // $scope.isCollapsed = true;
@@ -852,32 +801,41 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         return vow.promise;
     };
     
-    var progressMeter = (function() {
-        var $bar = $('.bar');
-        var container = $('.progressContainer');
-        // var width = container.width();
+    
+    // <div class="progress progress-striped active">
+    //   <div class="bar" style="width: 0%;"></div>
+    // </div>
+        var progressMeter = (function() {
+            // var $bar = $('.bar');
+            var container = $('.progressContainer');
+            // var width = container.width();
         
-        var n=0, p = 0;
-        var api = {
-            bump: function() {
-                var width = container.width();
-                p++;
-                var percentage = (Math.floor((p/n)*100)).toFixed(0);
-                console.log(percentage);
-                $bar.width((percentage/100) * width);
-                $bar.text('Loading images: ' + percentage+ "%");
-                if (p >= n) {
-                    $bar.width(width);
-                    $('.progress').removeClass('active');
+            var n=0, p = 0;
+            var api = {
+                // bump: function() {
+                //     var width = container.width();
+                //     p++;
+                //     var percentage = (Math.floor((p/n)*100)).toFixed(0);
+                //     console.log(percentage);
+                //     $bar.width((percentage/100) * width);
+                //     $bar.text('Loading images: ' + percentage+ "%");
+                //     if (p >= n) {
+                //         $bar.width(width);
+                //         $('.progress').removeClass('active');
+                //     }
+                    // },
+                bump: function(){
+                    p++;
+                    var percentage = (Math.floor((p/n)*100)).toFixed(0);
+                    container.text('Loading images: ' + percentage+ "%");
+                },
+                init: function(someN) {
+                    p = 0;
+                    n = someN;
                 }
-            },
-            init: function(someN) {
-                p = 0;
-                n = someN;
-            }
-        };
-        return api;
-    })(); 
+            };
+            return api;
+        })(); 
         
     function makeImagePromise(img) {
         var vow = VOW.make();
@@ -924,6 +882,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
     function setIsotope(items) {
         
         images = items;
+        cart.init(images);
         
         var itemsHtml = ''; 
         var i = 0;
@@ -933,6 +892,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         });
         
         $scope.itemsHtml = itemsHtml;
+        $scope.$apply();
         
         
         function getAttr(e, array) {
@@ -958,8 +918,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
         setImmediate(function () {
             // setTimeout(function () {
             console.log('Showing isotope images:', items);
-            $scope.$parent.hideProgress = true;
-            $scope.$apply();
+            // $scope.$apply();
             var $container = $('#imageDiv');
             $container.isotope({
                 itemSelector: '.item'
@@ -1012,14 +971,26 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
             });
         
             
+            // setTimeout(function() {
+            // $('#mageDiv').isotope('reloadItems');
+                
+            // $('#imageDivs').isotope({ filter: "*" }, function( $items ) {
+            //     var id = this.attr('id'),
+            //     len = $items.length;
+            //     console.log( 'Isotope has filtered for ' + len + ' items in #' + id );
+            //     // $('img').hover(imageHover);
+            //     // $('.item').find('div').hover(descHover);
+            // });
             IsoFilter.executeFilter($scope.filter);
+                
+            $scope.$parent.hideProgress = true;
             $scope.$parent.showIsotope=true;
             $scope.$apply();
+            
             setTimeout(function() {
-                
                 $('#imageDiv').isotope('reLayout');
                 
-            },0);
+            },100);
             // $('#imageDiv').isotope('reLayout');
             
             // if (density === 'wide')
@@ -1047,56 +1018,56 @@ myApp.controller("GalleryCntl", function (IsoFilter, $q, $location, $scope, $htt
              });
     
     var density;
-        $scope.setLayout = function(someDensity) {
-            console.log($scope.dense);
-            density = someDensity;
-            if (density === 'wide')
-                $('#imageDiv').isotope({
-                    layoutMode: 'cellsByRow',
-                    cellsByRow: {
-                        columnWidth: width ? width + 80 : 288,
-                        rowHeight: width ? width*1.3+80: 288
-                    }
-                }); 
-            else $('#imageDiv').isotope({
-                layoutMode: 'masonry',
-                masonry: {
-                    // columnWidth: 288,
-                    // rowHeight:288
+    $scope.setLayout = function(someDensity) {
+        console.log($scope.dense);
+        density = someDensity;
+        if (density === 'wide')
+            $('#imageDiv').isotope({
+                layoutMode: 'cellsByRow',
+                cellsByRow: {
+                    columnWidth: width ? width + 80 : 288,
+                    rowHeight: width ? width*1.3+80: 288
                 }
+            }); 
+        else $('#imageDiv').isotope({
+            layoutMode: 'masonry',
+            masonry: {
+                // columnWidth: 288,
+                // rowHeight:288
+            }
   
-            });
+        });
         };
     
     var width;
-        $(function() {
-            var select = $( "#zoom" );
-            var slider = $( "<div id='slider'></div>" ).insertAfter( select ).slider({
-                min: 1,
-                max: 100,
-                range: "min",
-                value: 40,
-                slide: function( event, ui ) {
-                    width = (ui.value*4 + 40);
-                    // select[ 0 ].selectedIndex = ui.value - 1;
-                    console.log(width);
-                    $(".item img").attr("width",40 + ui.value * 4);
+    $(function() {
+        var select = $( "#zoom" );
+        var slider = $( "<div id='slider'></div>" ).insertAfter( select ).slider({
+            min: 1,
+            max: 100,
+            range: "min",
+            value: 40,
+            slide: function( event, ui ) {
+                width = (ui.value*4 + 40);
+                // select[ 0 ].selectedIndex = ui.value - 1;
+                console.log(width);
+                $(".item img").attr("width",40 + ui.value * 4);
                 
-                    if (density === 'wide')
-                        $('#imageDiv').isotope({
-                            layoutMode: 'cellsByRow',
-                            cellsByRow: {
-                                columnWidth: width ? width + 80 : 288,
-                                rowHeight: width ? width*1.3+80: 288
-                            }
-                        }); 
-                    $("#imageDiv").isotope("reLayout");
-                }
-            });
-            // $( "#minbeds" ).change(function() {
-            //     slider.slider( "value", this.selectedIndex + 1 );
-            // });
+                if (density === 'wide')
+                    $('#imageDiv').isotope({
+                        layoutMode: 'cellsByRow',
+                        cellsByRow: {
+                            columnWidth: width ? width + 80 : 288,
+                            rowHeight: width ? width*1.3+80: 288
+                        }
+                    }); 
+                $("#imageDiv").isotope("reLayout");
+            }
         });
+        // $( "#minbeds" ).change(function() {
+        //     slider.slider( "value", this.selectedIndex + 1 );
+        // });
+    });
 });
 
 // angular.module('myModule', [], function($provide) {

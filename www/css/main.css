@@ -13,6 +13,8 @@ body {
     padding:0;
     height:100%;
     font-family: 'Love Ya Like A Sister', cursive;
+    font-size:18px;
+    line-height:1.5;
     /* position:relative; */
     /* height:100%; */
     
@@ -301,7 +303,7 @@ body>div.modal {
 #linkbar-- {
     margin-top:10px;
     margin-left:15px;
-    font-size:16px;
+    font-size:20px;
     overflow:
 }
 
@@ -353,6 +355,10 @@ body>div.modal {
 
 #linkbar-- ul {
     list-style: none;
+}
+
+#linkbar-- li {
+    padding-bottom:5px;
 }
 
 #linkbar-- {
@@ -409,8 +415,37 @@ body>div.modal {
 
 .cart {
     /* color:white; */
-    width:120px;
+   max-width:120px;
     padding-left:7px;
+    margin-left:-20px;
+}
+
+.cart .well {
+    margin-right:-30px;
+}
+.cart .checkout {
+    margin-top:20px;
+    margin-left:-3px;
+}
+.cart .paypal {
+    margin-top:5px;
+    margin-bottom:5px;
+    width:60px;
+    margin-left:-3px;
+}
+.cart .cash {
+    width:60px;
+    margin-left:-3px;
+    margin-bottom:5px;
+}
+
+.cart .cancel {
+    width:60px;
+    margin-left:-3px;
+}
+
+.cart .text {
+    font-size:16px;
 }
 
 #rightBlock {
@@ -600,6 +635,10 @@ img {
     border:none;
 }
 
+#select-- .controlHeader {
+    padding-bottom:8px;
+}
+
 .leftbarSpace {
     min-width:145px;
     min-height:220px;
@@ -678,9 +717,17 @@ img {
 }
 
 #PPMiniCart {
-    display:none;
+    /* display:none; */
 }
 
 .galleria-thumbnails-container {
     left:146px;
+}
+
+.progressContainer {
+    color:white;
+}
+
+.galleria-info-description {
+    margin-left:50px;
 }
