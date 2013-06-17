@@ -4,19 +4,41 @@
 
 myApp.controller("MainCntl", function ($rootScope, IsoFilter, cart, $location, $scope, $http) {
     $scope.cart = cart;
+    var wasCollapsed;
     $scope.checkout = function() {
         cart.checkout();
-        var filter = IsoFilter.defaultFilter;
-        filter.incart=true;
-        IsoFilter.executeFilter(filter);
+        $('#imageDiv').isotope({ filter: ".incart"});
+        wasCollapsed = $scope.isCollapsed;
+        $scope.isCollapsed = true;
+        // IsoFilter.executeFilter();
         setTimeout( function() {
             $('#imageDiv').isotope('reLayout');;
         },100);
         
     };
     
+    $scope.cancel = function() {
+        $scope.cart.checkingout = false;
+        var applyFilter;
+        if (wasCollapsed) {
+            applyFilter = (function() {
+                    var filter = {};
+                Object.keys(IsoFilter.defaultFilter).forEach(function(k) {
+                    filter[k] = IsoFilter.defaultFilter[k];
+                }); 
+                return filter;
+            })();
+            
+        }
+        else {
+            $scope.isCollapsed = false;
+            applyFilter = IsoFilter.filter;
+        }
+        IsoFilter.executeFilter(applyFilter);
+        $('#imageDiv').isotope('reloadItems');
+    };
     
-    var executeFilter = IsoFilter.executeFilter;
+    
     
     
     // $scope.test = function($event) {
@@ -127,12 +149,13 @@ myApp.controller("MainCntl", function ($rootScope, IsoFilter, cart, $location, $
     
     $scope.selectClicked = function($event) {
         $event.preventDefault();
+        $scope.cart.checkingout = false;
         console.log('in selectclicked');
         $scope.isCollapsed = !$scope.isCollapsed;
         setTimeout(function() {
             if (!$scope.isCollapsed)   {
+                IsoFilter.executeFilter(IsoFilter.filter || IsoFilter.defaultFilter);
                 $("#selectContainer").isotope("reLayout");
-                // executeFilter($scope.filter);
                 // $('#imageDiv').isotope('reloadItems');
             }
             else {
@@ -150,7 +173,7 @@ myApp.controller("MainCntl", function ($rootScope, IsoFilter, cart, $location, $
         $event.preventDefault();
         console.log('allClicked');
         $scope.isCollapsed = !$scope.isCollapsed;
-        $scope.filter = (function() {
+        var filter = (function() {
             var filter = {};
             Object.keys(IsoFilter.defaultFilter).forEach(function(k) {
                 filter[k] = IsoFilter.defaultFilter[k];
@@ -158,7 +181,7 @@ myApp.controller("MainCntl", function ($rootScope, IsoFilter, cart, $location, $
             return filter;
         })();
         $scope.filtered = 1; //one watch will be executed
-        IsoFilter.executeFilter($scope.filter);
+        IsoFilter.executeFilter(filter);
         $('#imageDiv').isotope('reloadItems');
         
     };

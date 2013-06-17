@@ -24,12 +24,14 @@ myApp.factory('cart', function($http) {
             
         // },100);
         var item = images[imageName];
-        if (item.inCart) {
-            api.addAlert('Terrarium already in cart!', 'error', 3000);
+        if (item.incart) {
+            // api.addAlert('Terrarium already in cart!', 'error', 3000);
+            console.log('item already in cart');
             return;
         }
+        
         cart.push(item); 
-        item.inCart = true;
+        item.incart = true;
         // api.addAlert('Terrarium added to cart!', 'success', 3000);
         console.log('Cart: ', cart);
         
@@ -52,7 +54,7 @@ myApp.factory('cart', function($http) {
     
     api.removeFromCart = function(item) {
         console.log(item);
-        item.inCart=false;
+        item.incart=false;
         var newCart = [];
         cart.forEach(function(c) {
             if (c !== item) newCart.push(c);
@@ -65,11 +67,14 @@ myApp.factory('cart', function($http) {
     };
     
     api.payWithCash = function() {
-        api.checkingout = false;
+        alert('On site checkout coming soon. In the meantime please contact Julie with the #id(\'s) in the cart!');
+        // api.checkingout = false;
     };
     
     api.payWithPaypal = function() {
-        api.checkingout = false;
+        
+        alert('Coming soon. In the meantime please contact Julie with the #id(\'s) in the cart!');
+        // api.checkingout = false;
     };
     
     api.cancel = function() {
@@ -104,12 +109,11 @@ myApp.factory('IsoFilter', function($http) {
         now:false, order:false, sold:false,
         small:false, medium:false, large:false,
         under50:false, between50and100:false, over100:false,
-        square:true, round:false, rectangle:false,
+        square:false, round:false, rectangle:false,
         cylindrical:false, hurricane:false, teardrop:false, centerpiece:false,
         hanging:false, open:false, closed:false,
         yes:true, no:false, archived:false
         ,grouped:false
-        ,incart: false, outcart:true
     };
     
     
@@ -163,13 +167,14 @@ myApp.factory('IsoFilter', function($http) {
     var saveItems = function() {
         console.log("Saving items to server");
         // $scope.cart.forEach(function(c) {
-        //     c.inCart = false;
+        //     c.incart = false;
         // }); 
+        
         $http({method: 'POST', url: '/save?path=terrariums.json', data:images}).
             success(function(data, status, headers, config) {
                 console.log(status, data);
-                // $scope.cart.forEach(function(c) {
-                //     c.inCart = true;
+                // cart.forEach(function(c) {
+                //     c.incart = true;
                 // }); 
             }).
             error(function(data, status, headers, config) {

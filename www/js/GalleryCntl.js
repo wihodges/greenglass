@@ -208,6 +208,7 @@ function attachDataToImages(images, data) {
                 images[d] = data[d];
                 if (!images[d].images) images[d].images = [images[d].name];
                 if (!images[d].published) images[d].published = 'no';
+                delete images[d].incart;
             }
          }); 
     return images;
@@ -294,6 +295,7 @@ myApp.controller("GalleryCntl", function (IsoFilter, cart, $q, $location, $scope
                               console.log($scope.filtered);
                               
                               executeFilter(newValue);
+                              IsoFilter.filter = newValue;
                               break;
                           }
                       }
@@ -345,8 +347,8 @@ myApp.controller("GalleryCntl", function (IsoFilter, cart, $q, $location, $scope
             (item.buy ? item.buy + ' ': '') +
             (item.published ? item.published + ' ': 'no ') +
             (item.groupedWith ? 'grouped' + ' ': '') +
-            (item.type ? item.type + ' ': '') +
-            (item.cart ? item.cart + ' ': 'notbuying');
+            (item.type ? item.type + ' ': '') + 
+            (item.incart ? item.incart + ' ': '');
         
     
         if (item.price <= 50) classes += "under50";
@@ -450,51 +452,52 @@ myApp.controller("GalleryCntl", function (IsoFilter, cart, $q, $location, $scope
         
         var removeFromCartButton =
             '<button id="cartButton" class="btn btn-info pull-right" onClick="removeFromCart(\'' + imageName +'\')"> ' +
-            "Remove from cart" +
+            "Cancel" +
             '</button>';
-        // var imgBox = [];
-        // images[imageName].images.forEach(function(img) {
-        //     img = images[img];
-        //     imgBox.push({
-        //         href : 'fullsize/' + img.name
-        //         ,title : "<div class='fullsize well'>" +
-        //             //Size:" +
-        //             // images[imageName].size +
-        //             " Price: $" + 
-        //             images[imageName].price +
-        //             (images[imageName].cart === 'buying' ? removeFromCartButton : addToCartButton) +
+        var imgBox = [];
+        images[imageName].images.forEach(function(img) {
+            img = images[img];
+            imgBox.push({
+                href : 'fullsize/' + img.name
+                ,title : "<div class='fullsize well'>" +
+                    //Size:" +
+                    // images[imageName].size +
+                    " Price: $" + 
+                    images[imageName].price +
+                    (images[imageName].incart ? removeFromCartButton : addToCartButton) +
                 
-        //         "</div>" 
+                "</div>" 
 
-        //     });
+            });
             
-        // });
-        window.addToCart = function(imageName) {
-            
-            var item = images[imageName];
-            if (item.cart === 'buying') {
-                return;
-            }
-            item.cart = 'buying';
-            
-            console.log('we\'ve added to the cart!!!' + imageName);
-            var data ={"business":"michieljoris@gmail.com","item_name":'bla',"amount":item.price || "123","currency_code":"AUD"};
-            console.log(data);
-            
-            PAYPAL.apps.MiniCart.addToCart(data);
-            var button =$('#cartButton');
-            button.html('Remove from cart');
-        };
+        });
         
-        window.removeFromCart = function(imageName) {
-            console.log('removing from cart: ' + imageName);
-            var item = images[imageName];
+        // window.addToCart = function(imageName) {
+            
+        //     var item = images[imageName];
+        //     if (item.incart) {
+        //         return;
+        //     }
+        //     item.incart = true;
+            
+        //     console.log('we\'ve added to the cart!!!' + imageName);
+        //     var data ={"business":"michieljoris@gmail.com","item_name":'bla',"amount":item.price || "123","currency_code":"AUD"};
+        //     console.log(data);
+            
+        //     PAYPAL.apps.MiniCart.addToCart(data);
+        //     var button =$('#cartButton');
+        //     button.html('Remove from cart');
+        // };
+        
+        // window.removeFromCart = function(imageName) {
+        //     console.log('removing from cart: ' + imageName);
+        //     var item = images[imageName];
            
-            item.cart = notbuying;
+        //     item.incart = false;
            
-            var button =$('#cartButton');
-            button.html('Add to cart');
-        };
+        //     var button =$('#cartButton');
+        //     button.html('Add to cart');
+        // };
         
     
         // $.fancybox.open(
@@ -534,7 +537,11 @@ myApp.controller("GalleryCntl", function (IsoFilter, cart, $q, $location, $scope
                 big: 'fullsize/' + img,
                 title:(item.buy !=='sold' ? 'Price: $' + item.price : 'Sold')  +
                     // title: ' Price: $' + item.price +
-                    (item.buy !=='sold' ? '<button id="buyGalleria" class="btn btn-inverse pull-left">' + withCapital[item.buy] + '</button>' : ''), 
+                    (item.incart ? '<button id="cancelGalleria" class="btn btn-inverse pull-left">Cancel</button' :
+                     (item.buy !=='sold' ? '<button id="buyGalleria" class="btn btn-inverse pull-left">' +
+                      withCapital[item.buy] + '</button>' :
+                      '')
+                    ), 
                 description: 'Size :' + item.width + 'cmx'  + item.height + 'cm'
             };
             data.push(d);
@@ -565,9 +572,18 @@ myApp.controller("GalleryCntl", function (IsoFilter, cart, $q, $location, $scope
             $('#buyGalleria').click(function() {
                 console.log('Buying');
                 $scope.closeGalleria();
-                $scope.$apply();
                 $scope.buyItem(galleriaImageName, id, price);
+                images[galleriaImageName].incart = 'incart';
+                $scope.$apply();
             });
+            $('#cancelGalleria').click(function() {
+                console.log('Buying');
+                $scope.closeGalleria();
+                cart.removeFromCartByName(galleriaImageName);
+                // delete images[galleriaImageName].incart;
+                $scope.$apply();
+            });
+                
                 
             $('.galleria-custom').click(function() {
                 console.log('Closing');

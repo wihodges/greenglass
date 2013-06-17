@@ -1,6 +1,6 @@
 * add blog
 * optimize loading time
-* fix up checkout
+* finish checkout
 not ideal for ipad, getting on screen when scrolling
 maybe use my own cart
  hook up with paypal , send emails to Julie and Client

@@ -357,9 +357,14 @@ body>div.modal {
     list-style: none;
 }
 
+#linkbar-- li.title2 {
+    padding-bottom:30px;
+}
+
 #linkbar-- li {
     padding-bottom:5px;
 }
+
 
 #linkbar-- {
     /* height:800px; */
@@ -423,7 +428,7 @@ body>div.modal {
 .cart .well {
     margin-right:-30px;
 }
-.cart .checkout {
+.cart .checkout, .cart .cancel {
     margin-top:20px;
     margin-left:-3px;
 }
@@ -624,10 +629,6 @@ img {
     /* padding-top:40px; */
 }
 
-.title2 {
-    padding-bottom:30px;
-}
-
 #select-- {
     margin-left:20px;
     background:url("./bg/darkdenim3.png");
@@ -711,7 +712,7 @@ img {
     left: 63px;
 }
 
-#buyGalleria {
+#buyGalleria, #cancelGalleria {
     margin-right:20px;
     margin-top:3px;
 }
@@ -729,5 +730,5 @@ img {
 }
 
 .galleria-info-description {
-    margin-left:50px;
+    margin-left:70px;
 }

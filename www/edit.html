@@ -36,12 +36,12 @@
 	  Total: ${{cart.getCartTotal()}}
 	  <button ng-hide="cart.checkingout" ng-click="checkout()" class="checkout btn btn-primary">Cart</button>
 	  <div ng-show="cart.checkingout">
+	    <button ng-click="cancel()" class="cancel btn
+	    btn-danger">Cancel</button>
 	    <br><span class="text" >Check out with:</span>
 	    <button ng-click="cart.payWithPaypal()" class="paypal btn btn-primary">Paypal</button>
 	    <button ng-click="cart.payWithCash()" class="cash btn
 	    btn-primary">Cash</button>
-	    <button ng-click="cart.cancel()" class="cancel btn
-	    btn-danger">Cancel</button>
 	  </div>
 	</div>
 	
@@ -60,18 +60,15 @@
     <span class="title">terrariums</span>
     </li>
     
-    <li>
-      <a  ng-show="path!='/gallery'" href="#!/gallery" class=" link"
+    <li ng-show="path!='/gallery'" >
+      <a  href="#!/gallery" class=" link"
 	 ng-click="click('gallery')">Gallery</a>
     </li>
-    <li>
-      <a ng-show="isCollapsed && path=='/gallery'" class="" href="#" ng-click="selectClicked($event)">Select</a>
+    <li ng-show="isCollapsed && path=='/gallery'" >
+      <a class="" href="#" ng-click="selectClicked($event)">Select</a>
     </li>
-    <li>
-      <a ng-hide="isCollapsed || path!='/gallery'" class="" href="#" ng-click="allClicked($event)">Show all</a>
-    </li>
-    <li>
-      <a  class="" href="#" ><p></p>  </a>
+    <li ng-hide="isCollapsed || path!='/gallery'" >
+      <a class="" href="#" ng-click="allClicked($event)">Show all</a>
     </li>
     
     <li ng-show="true" style="min-height:20px;">
@@ -135,7 +132,7 @@
   
   
   <div ng-show="path=='/gallery'" class="row-fluid">
-    <div id="isotope--"  class="span10" ng-controller="GalleryCntl"><div id="select--" ng-hide="isCollapsed" class="well"><div id="selectContainer" class="selectContainer controls"
+    <div id="isotope--"  class="span12" ng-controller="GalleryCntl"><div id="select--" ng-hide="isCollapsed" class="well"><div id="selectContainer" class="selectContainer controls"
      ng-class="mouseoverControls">
   
   <div  class="selector">
