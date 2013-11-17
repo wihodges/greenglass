@@ -3,6 +3,7 @@
 /*jshint maxparams:7 maxcomplexity:7 maxlen:150 devel:true newcap:false*/ 
 
 myApp.controller("MainCntl", function ($rootScope, IsoFilter, cart, $location, $scope, $http) {
+    
     $scope.cart = cart;
     var wasCollapsed;
     $scope.checkout = function() {

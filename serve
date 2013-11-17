@@ -1,1 +1,1 @@
-node server/server.js
+forever node_modules/html-builder/buildMonitor.js 
