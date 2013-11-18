@@ -1,25 +1,39 @@
 {
-    "name": "greenglass",
-    "version": "0.1.0",
-    "author": "Michiel van Oosten",
-    "description": "A website for my wife..",
-    "repository": {
-	"type": "git",
-	"url": "git://github.com/michieljoris/greenglass.git"
-    },
-    "scripts": {
-	"start": "node ./server/server.js"
-    },
-    "dependencies": {
-	"bb-server": "0.3.5",
-	"html-builder": "*",
-        "nodemailer": "*",
-	"dbox": "*",
-	"gm": "*"
-    },
-    "bugs": {
-	"url": "https://github.com/michieljoris/greenglass/issues"
-    },
-    "analyze": false,
-    "preferGlobal": "true"
+  "name": "greenglass",
+  "description": "Pass in an url and get back the html cleansed of js..",
+  "version": "0.1.0",
+  "homepage": "https://github.com/michieljoris/greenglass",
+  "keywords": [
+    "website"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/michieljoris/greenglass.git"
+  },
+  "author": {
+    "name": "Michiel van Oosten",
+    "email": "mail@axion5.net",
+    "url": "http://blog.axion5.net/"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/michieljoris/greenglass/blob/master/LICENSE.txt"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.x"
+  },
+  "dependencies": {
+    "bb-server": "0.4.*",
+    "html-builder": "*",
+    "nodemailer": "*",
+    "dbox": "*",
+    "gm": "*"
+  },
+  "devDependencies": {},
+  "private": false,
+  "scripts": {
+    "start": "node ./server/server.js"
+  }
 }

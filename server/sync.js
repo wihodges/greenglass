@@ -1,4 +1,4 @@
-/*global process:false require:false exports:false*/
+/*global module:false require:false*/
 /*jshint strict:false unused:true smarttabs:true eqeqeq:true immed: true undef:true*/
 /*jshint maxparams:7 maxcomplexity:7 maxlen:150 devel:true newcap:false*/ 
 
@@ -295,7 +295,7 @@ function sync(done) {
     
 
 var intervalID;
-exports.handleGet = function(req, res) {
+module.exports = function(req, res) {
     res.writeHead(200, {
         'Content-Type': 'text/html'
 	// 'last-modified': GMTdate
